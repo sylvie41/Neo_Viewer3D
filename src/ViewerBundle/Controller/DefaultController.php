@@ -10,4 +10,9 @@ class DefaultController extends Controller
     {
         return $this->render('ViewerBundle:Default:index.html.twig');
     }
+
+    public function viewerAction()
+    {
+        return $this->render('ViewerBundle:Default:viewer.html.twig');
+    }
 }

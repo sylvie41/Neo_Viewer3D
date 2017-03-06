@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8" />
     <title>{% block title %}Welcome!{% endblock %}</title>
-    {% block stylesheets %}{% endblock %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% block stylesheet %}{% endblock %}
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 
 
@@ -48,6 +49,6 @@
         {% block body %}{% endblock %}
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-        {% block javascripts %}{% endblock %}
+        {% block javascript %}{% endblock %}
     </body>
 </html>

@@ -1,3 +1,7 @@
 viewer_homepage:
     path:     /
     defaults: { _controller: ViewerBundle:Default:index }
+
+viewer_3D:
+    path:    /viewer
+    defaults: { _controller: ViewerBundle:Default:viewer }
