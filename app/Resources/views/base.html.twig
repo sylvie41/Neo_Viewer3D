@@ -5,6 +5,14 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+
+
+        <!-- Appel des bibliothèques Bootstrap -->
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/viewer/css/bootstrap.min.css') }}" />
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" />
+
+
     </head>
     <body>
         {% block body %}{% endblock %}

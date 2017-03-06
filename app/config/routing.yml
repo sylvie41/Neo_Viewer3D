@@ -5,3 +5,8 @@ viewer:
 app:
     resource: '@AppBundle/Controller/'
     type: annotation
+
+#Upload Images JS
+oneup_uploader:
+    resource: .
+    type: uploader
