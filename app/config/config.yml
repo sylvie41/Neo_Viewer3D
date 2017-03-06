@@ -69,10 +69,13 @@ swiftmailer:
 
 #Upload Images JS
 oneup_uploader:
+    orphanage:
+        maxage: 86400
+        directory: %kernel.cache_dir%/uploader/orphanage
     mappings:
         documents:
             frontend: dropzone # or any uploader you use in the frontend
-#            root_folder: true
+            use_orphanage: true
 fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main

@@ -2,71 +2,73 @@
 {% block body %}
     <div class="container">
         <div class="row">
-            <h1 class="text-center">Envoi de documents au préstataire exterieur</h1>
-            <h3 class="text-center"><small>Glissez autant de documents que vous le voulez dans la page pour commencer l'envoi</small></h3>
+            <h1 class="text-center">Envoi de devis</h1>
+            <h3 class="text-center"><small>Vous pouvez déposer votre pdf n'importe ou sur la page pour l'ajouter au devis</small></h3>
         </div>
         <div class="text-center alert" style="display:none;">
         </div>
-        <div id="actions" class="row">
-            <div class="col-lg-7">
-                <!-- The fileinput-button span is used to style the file input field as button -->
-                <span class="btn btn-success fileinput-button">
-					<i class="glyphicon glyphicon-plus"></i>
-					<span>Ajouter des fichiers...</span>
-				</span>
-                <button type="submit" class="btn btn-primary start">
-                    <i class="glyphicon glyphicon-upload"></i>
-                    <span>Lancer l'envoi</span>
-                </button>
-                <button type="reset" class="btn btn-warning cancel">
-                    <i class="glyphicon glyphicon-ban-circle"></i>
-                    <span>Annuler envoi</span>
-                </button>
-            </div>
-
-            <div class="col-lg-5">
-                <!-- The global file processing state -->
-                <span class="fileupload-process">
-					<div id="total-progress" class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-						<div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div>
-					</div>
-				</span>
-            </div>
-        </div>
-
-        <div class="table table-striped files" id="previews">
-            <div id="template" class="file-row">
-                <!-- This is used as the file preview template -->
-                <div>
-                    <span class="preview"><img data-dz-thumbnail /></span>
-                </div>
-                <div>
-                    <p class="name" data-dz-name></p>
-                    <strong class="error text-danger" data-dz-errormessage></strong>
-                </div>
-                <div>
-                    <p class="size" data-dz-size></p>
-                    <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-                        <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <form method="POST" action="{{ path('send_viewer') }}">
+                    <div class="form-group">
+                        <label class="text-center" for="ref-patient">Référence patient</label>
+                        <input class="form-control" id="ref-patient" name="ref-patient"/>
                     </div>
-                </div>
-                <div>
-                    <button class="btn btn-primary start">
-                        <i class="glyphicon glyphicon-upload"></i>
-                        <span>Envoyer</span>
-                    </button>
-                    <button data-dz-remove class="btn btn-warning cancel">
-                        <i class="glyphicon glyphicon-ban-circle"></i>
-                        <span>Annuler</span>
-                    </button>
-                    <button data-dz-remove class="btn btn-danger delete">
-                        <i class="glyphicon glyphicon-trash"></i>
-                        <span>Supprimer</span>
-                    </button>
-                </div>
+                    <div class="form-group">
+                        <label class="text-center" for="nom-patient">Nom patient</label>
+                        <input class="form-control" id="nom-patient" name="nom-patient"/>
+                    </div>
+                    <div id="actions" class="row">
+                        <div class="col-lg-7" style="padding-left:0px;">
+                            <!-- The fileinput-button span is used to style the file input field as button -->
+							<span class="btn btn-success fileinput-button">
+								<i class="glyphicon glyphicon-plus"></i>
+								<span>Ajouter un devis (PDF)</span>
+							</span>
+                        </div>
+
+                        <div class="col-lg-5">
+                            <!-- The global file processing state -->
+							<span class="fileupload-process">
+								<div id="total-progress" class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                                    <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div>
+                                </div>
+							</span>
+                        </div>
+                    </div>
+
+                    <div class="table table-striped files" id="previews">
+                        <div id="template" class="file-row">
+                            <!-- This is used as the file preview template -->
+                            <div>
+                                <span class="preview"><img data-dz-thumbnail /></span>
+                            </div>
+                            <div>
+                                <p class="name" data-dz-name></p>
+                                <strong class="error text-danger" data-dz-errormessage></strong>
+                            </div>
+                            <div>
+                                <p class="size" data-dz-size></p>
+                                <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                                    <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div>
+                                </div>
+                            </div>
+                            <div>
+                                <button data-dz-remove class="btn btn-warning cancel">
+                                    <i class="glyphicon glyphicon-ban-circle"></i>
+                                    <span>Annuler</span>
+                                </button>
+                                <button data-dz-remove class="btn btn-danger delete">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                    <span>Supprimer</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="btn center-block btn-default" type="submit">
+                </form>
             </div>
         </div>
-
     </div>
 {% endblock %}
 {% block javascript %}
@@ -81,16 +83,13 @@
             var myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
                 url: "{{ oneup_uploader_endpoint('documents') }}", // Set the url
                 thumbnailWidth: 80,
+                maxFiles: 2,
                 thumbnailHeight: 80,
                 parallelUploads: 20,
                 previewTemplate: previewTemplate,
-                autoQueue: false, // Make sure the files aren't queued until manually added
                 previewsContainer: "#previews", // Define the container to display the previews
-                clickable: ".fileinput-button" // Define the element that should be used as click trigger to select files.
-            });
-            myDropzone.on("addedfile", function(file) {
-                // Hookup the start button
-                file.previewElement.querySelector(".start").onclick = function() { myDropzone.enqueueFile(file); };
+                clickable: ".fileinput-button", // Define the element that should be used as click trigger to select files.
+                dictMaxFilesExceeded: 'Maximum 2 fichiers',
             });
             // Update the total progress bar
             myDropzone.on("totaluploadprogress", function(progress) {
@@ -99,26 +98,15 @@
             myDropzone.on("sending", function(file) {
                 // Show the total progress bar when upload starts
                 document.querySelector("#total-progress").style.opacity = "1";
-                // And disable the start button
-                file.previewElement.querySelector(".start").setAttribute("disabled", "disabled");
             });
             // Hide the total progress bar when nothing's uploading anymore
             myDropzone.on("queuecomplete", function(progress) {
                 document.querySelector("#total-progress").style.opacity = "0";
             });
-            // Setup the buttons for all transfers
-            // The "add files" button doesn't need to be setup because the config
-            // `clickable` has already been specified.
-            document.querySelector("#actions .start").onclick = function() {
-                myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED));
-            };
-            document.querySelector("#actions .cancel").onclick = function() {
-                myDropzone.removeAllFiles(true);
-            };
 
             myDropzone.on('success', function(file, response) {
                 $('.alert').addClass('alert-success');
-                $('.alert').text('Le fichier '+file.name+' a été envoyé avec succès');
+                $('.alert').text('Le fichier '+file.name+' a ajouté avec succès');
                 $('.alert').show();
             });
             myDropzone.on('canceled', function(file, response) {

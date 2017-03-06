@@ -5,3 +5,7 @@ viewer_homepage:
 viewer_3D:
     path:    /viewer
     defaults: { _controller: ViewerBundle:Default:viewer }
+
+send_viewer:
+    path:    /send/viewer
+    defaults: { _controller: ViewerBundle:Default:send }
