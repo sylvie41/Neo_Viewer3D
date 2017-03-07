@@ -3,7 +3,7 @@ viewer_homepage:
     defaults: { _controller: ViewerBundle:Default:index }
 
 viewer_3D:
-    path:    /viewer
+    path:    /viewer/{folder}
     defaults: { _controller: ViewerBundle:Default:viewer }
 
 send_viewer:

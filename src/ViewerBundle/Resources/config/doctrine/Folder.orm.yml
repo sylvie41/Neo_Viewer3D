@@ -12,6 +12,7 @@ ViewerBundle\Entity\Folder:
         ref:
             type: string
             length: 255
+            nullable: false
         nom:
             type: string
             length: 255
@@ -21,6 +22,14 @@ ViewerBundle\Entity\Folder:
             length: 255
             nullable: true
         path2:
+            type: string
+            length: 255
+            nullable: true
+        path3:
+            type: string
+            length: 255
+            nullable: true
+        path4:
             type: string
             length: 255
             nullable: true

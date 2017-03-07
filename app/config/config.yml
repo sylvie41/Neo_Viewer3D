@@ -70,7 +70,7 @@ swiftmailer:
 #Upload Images JS
 oneup_uploader:
     orphanage:
-        maxage: 86400
+        maxage: 2
         directory: %kernel.cache_dir%/uploader/orphanage
     mappings:
         documents:

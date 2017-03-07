@@ -6,17 +6,36 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use ViewerBundle\Entity\Folder;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\NullOutput;
 
 class DefaultController extends Controller
 {
+    public function runCommand($command, $arguments = array())
+    {
+        $kernel = $this->container->get('kernel');
+        $app = new Application($kernel);
+
+        $args = array_merge(array('command' => $command), $arguments);
+
+        $input = new ArrayInput($args);
+        $output = new NullOutput();
+
+        return $app->doRun($input, $output);
+    }
+
     public function indexAction()
     {
+        $this->runCommand('oneup:uploader:clear-orphans');
         return $this->render('ViewerBundle:Default:index.html.twig');
     }
 
-    public function viewerAction()
+    public function viewerAction(Folder $folder)
     {
-        return $this->render('ViewerBundle:Default:viewer.html.twig');
+        return $this->render('ViewerBundle:Default:viewer.html.twig',array(
+            'folder' => $folder,
+        ));
     }
 
     public function sendAction(Request $request)
@@ -56,7 +75,7 @@ class DefaultController extends Controller
 
         }
         $em->persist($folder);
-        $em->flush();
+        $em->flush();   
 
         return $this->redirectToRoute('viewer_homepage');
     }
