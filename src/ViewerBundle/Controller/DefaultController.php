@@ -9,6 +9,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class DefaultController extends Controller
 {
@@ -27,6 +28,15 @@ class DefaultController extends Controller
 
     public function indexAction()
     {
+        $em = $this->getDoctrine()->getManager();
+        $folders = $em->getRepository('ViewerBundle:Folder')->findAll();
+
+        foreach ($folders as $folder) {
+            if ($folder->getPath3() == null or $folder->getPath4() == null) {
+                $em->remove($folder);
+            }
+        }
+        $em->flush();
         $this->runCommand('oneup:uploader:clear-orphans');
         return $this->render('ViewerBundle:Default:index.html.twig');
     }
@@ -38,12 +48,12 @@ class DefaultController extends Controller
         ));
     }
 
-    public function sendAction(Request $request)
+    public function send1Action(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $ref = $request->request->get('ref-patient');
-        $nom = $request->request->get('nom-patient');
+        $ref = $request->query->get('ref');
+        $nom = $request->query->get('nom');
 
         // create folder
         $folder = new Folder;
@@ -65,7 +75,7 @@ class DefaultController extends Controller
         foreach ($files as $file) {
 
             // rename file
-            $newFileName = $folderId.'-'.$ref.'.'.$file->getExtension();
+            $newFileName = $folderId.'-malloc-'.$ref.'.'.$file->getExtension();
             $fs->rename($file->getRealPath(), $file->getPath().'/'.$newFileName);
             if ($file->getExtension() == 'obj') {
                 $folder->setPath1($newFileName);
@@ -75,8 +85,57 @@ class DefaultController extends Controller
 
         }
         $em->persist($folder);
-        $em->flush();   
+        $em->flush();
 
-        return $this->redirectToRoute('viewer_homepage');
+        $response = new JsonResponse();
+        $response->setData(array(
+            'folderId' => $folderId,
+        ));
+
+        return $response;
+    }
+    public function send2Action(Request $request, Folder $folder)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $ref = $request->query->get('ref');
+        $nom = $request->query->get('nom');
+        // create folder
+        $folder->setRef($ref);
+        $folder->setNom($nom);
+
+        $em->persist($folder);
+        $em->flush();
+
+        $folderId = $folder->getId();
+        $fs = new Filesystem();
+
+        // get files
+        $manager = $this->get('oneup_uploader.orphanage_manager')->get('documents');
+        $files = $manager->getFiles();
+        // upload orphanaged files
+        $files = $manager->uploadFiles();
+
+        foreach ($files as $file) {
+
+            // rename file
+            $newFileName = $folderId.'-setup-'.$ref.'.'.$file->getExtension();
+            $fs->rename($file->getRealPath(), $file->getPath().'/'.$newFileName);
+            if ($file->getExtension() == 'obj') {
+                $folder->setPath3($newFileName);
+            } elseif ($file->getExtension() == 'mtl') {
+                $folder->setPath4($newFileName);
+            }
+
+        }
+        $em->persist($folder);
+        $em->flush();
+
+        $response = new JsonResponse();
+        $response->setData(array(
+            'folderId' => $folderId,
+        ));
+
+        return $response;
     }
 }
