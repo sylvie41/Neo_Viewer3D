@@ -1,7 +1,13 @@
 {% extends 'base.html.twig' %}
 {% block title %}Viewer 3D{% endblock %}
 {% block body %}
+    <div id="viewerMalloc">
 
+    </div>
+
+    <div id="viewerSetup">
+
+    </div>
 {% endblock %}
 {% block stylesheet %}
     <style>
@@ -47,6 +53,120 @@
     <script src="{{ asset('bundles/viewer/js/OrbitControls.js') }}"></script>
     <script src="{{ asset('bundles/viewer/js/OBJLoader.js') }}"></script>
     <script src="{{ asset('bundles/viewer/js/MTLLoader.js') }}"></script>
+{#
+    <script>
+
+        if (!Detector.webgl) {
+            Detector.addGetWebGLMessage();
+        }
+
+        var container;
+
+        var camera, controls, scene, renderer;
+        var lighting, ambient, keyLight, fillLight, backLight;
+
+        var windowHalfX = window.innerWidth / 2;
+        var windowHalfY = window.innerHeight / 2;
+
+        init();
+        animate();
+
+        function init() {
+            container = document.getElementById('viewerMalloc');
+            document.body.appendChild(container);
+
+            /* Camera */
+            camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
+            camera.position.z = 300;
+
+            /* Scene */
+            scene = new THREE.Scene();
+            lighting = false;
+
+            light = new THREE.DirectionalLight( 0xffffff );
+            light.position.set( 1, 1, 1 );
+            scene.add( light );
+
+
+            light = new THREE.AmbientLight( 0x222222 );
+            scene.add( light );
+
+            /* Model */
+            var mtlLoader = new THREE.MTLLoader();
+            mtlLoader.setBaseUrl('../../uploads/documents/');
+            mtlLoader.setPath('../../uploads/documents/');
+            mtlLoader.load('{{ folder.path2 }}', function (materials) {
+
+                var objLoader = new THREE.OBJLoader();
+                objLoader.setMaterials(materials);
+                objLoader.setPath('../../uploads/documents/');
+                objLoader.load('{{ folder.path1 }}', function (object) {
+
+                    scene.add(object);
+                });
+            });
+
+            /* Renderer */
+            renderer = new THREE.WebGLRenderer();
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setClearColor(new THREE.Color("hsl(0, 0%, 10%)"));
+
+            container.appendChild(renderer.domElement);
+
+            /* Controls */
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.25;
+            controls.enableZoom = true;
+
+            /* Events */
+            window.addEventListener('resize', onWindowResize, false);
+            window.addEventListener('keydown', onKeyboardEvent, false);
+        }
+
+        function onWindowResize() {
+            windowHalfX = window.innerWidth / 2;
+            windowHalfY = window.innerHeight / 2;
+
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function onKeyboardEvent(e) {
+
+            if (e.code === 'KeyL') {
+
+                lighting = !lighting;
+
+                if (lighting) {
+                    ambient.intensity = 0.25;
+                    scene.add(keyLight);
+                    scene.add(fillLight);
+                    scene.add(backLight);
+
+                } else {
+                    ambient.intensity = 1.0;
+                    scene.remove(keyLight);
+                    scene.remove(fillLight);
+                    scene.remove(backLight);
+                }
+            }
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            render();
+        }
+
+        function render() {
+            renderer.render(scene, camera);
+        }
+
+    </script>#}
 
     <script>
 
@@ -66,17 +186,14 @@
         animate();
 
         function init() {
-
-            container = document.createElement('div');
+            container = document.getElementById('viewerSetup');
             document.body.appendChild(container);
 
             /* Camera */
-
             camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
             camera.position.z = 300;
 
             /* Scene */
-
             scene = new THREE.Scene();
             lighting = false;
 
@@ -89,12 +206,10 @@
             scene.add( light );
 
             /* Model */
-
             var mtlLoader = new THREE.MTLLoader();
             mtlLoader.setBaseUrl('../../uploads/documents/');
             mtlLoader.setPath('../../uploads/documents/');
             mtlLoader.load('{{ folder.path2 }}', function (materials) {
-
 
                 var objLoader = new THREE.OBJLoader();
                 objLoader.setMaterials(materials);
@@ -102,13 +217,25 @@
                 objLoader.load('{{ folder.path1 }}', function (object) {
 
                     scene.add(object);
-
                 });
+            });
 
+            /* Model */
+            var mtlLoader2 = new THREE.MTLLoader();
+            mtlLoader.setBaseUrl('../../uploads/documents/');
+            mtlLoader.setPath('../../uploads/documents/');
+            mtlLoader.load('{{ folder.path4 }}', function (materials) {
+
+                var objLoader = new THREE.OBJLoader();
+                objLoader.setMaterials(materials);
+                objLoader.setPath('../../uploads/documents/');
+                objLoader.load('{{ folder.path3 }}', function (object) {
+
+                    scene.add(object);
+                });
             });
 
             /* Renderer */
-
             renderer = new THREE.WebGLRenderer();
             renderer.setPixelRatio(window.devicePixelRatio);
             renderer.setSize(window.innerWidth, window.innerHeight);
@@ -117,21 +244,17 @@
             container.appendChild(renderer.domElement);
 
             /* Controls */
-
             controls = new THREE.OrbitControls(camera, renderer.domElement);
             controls.enableDamping = true;
             controls.dampingFactor = 0.25;
             controls.enableZoom = true;
 
             /* Events */
-
             window.addEventListener('resize', onWindowResize, false);
             window.addEventListener('keydown', onKeyboardEvent, false);
-
         }
 
         function onWindowResize() {
-
             windowHalfX = window.innerWidth / 2;
             windowHalfY = window.innerHeight / 2;
 
@@ -139,7 +262,6 @@
             camera.updateProjectionMatrix();
 
             renderer.setSize(window.innerWidth, window.innerHeight);
-
         }
 
         function onKeyboardEvent(e) {
@@ -149,40 +271,53 @@
                 lighting = !lighting;
 
                 if (lighting) {
-
                     ambient.intensity = 0.25;
                     scene.add(keyLight);
                     scene.add(fillLight);
                     scene.add(backLight);
 
                 } else {
-
                     ambient.intensity = 1.0;
                     scene.remove(keyLight);
                     scene.remove(fillLight);
                     scene.remove(backLight);
-
                 }
-
             }
-
         }
 
         function animate() {
-
             requestAnimationFrame(animate);
-
             controls.update();
-
             render();
-
         }
 
         function render() {
-
             renderer.render(scene, camera);
-
         }
+
+
+        $('#next').click(function() {
+            var ref = $('#viewerSetup').val();
+            $.ajax({
+                url: Routing.generate('viewer_setup'),
+                data: { ref : ref },
+                beforeSend: function() {
+                    $('#part1').fadeTo( "slow", 0.50 );
+                    $('.loading').fadeIn( "slow" );
+                },
+                success: function( data ) {
+                    $('.loading').hide();
+                    $('#viewerMalloc').fadeTo("slow", 1);
+                    $('#title').text('Ajout de Setup');
+                    $('#next').hide();
+                    $('#viewerSetup').show();
+                    $('#viewerSetup').data('folderId', data.folderId)
+                },
+            })
+        });
+
+
+
 
     </script>
 {% endblock %}

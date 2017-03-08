@@ -19,3 +19,16 @@ send_viewer_2:
     defaults: { _controller: ViewerBundle:Default:send2 }
     options:
         expose: true
+
+
+viewer_malloc:
+    path:    /viewer/Malloc
+    defaults: { _controller: ViewerBundle:Default:Malloc }
+    options:
+        expose: true
+
+viewer_setup:
+    path:    /viewer/Setup/{folder}
+    defaults: { _controller: ViewerBundle:Default:Setup }
+    options:
+        expose: true
