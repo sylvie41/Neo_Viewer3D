@@ -1,0 +1,36 @@
+ViewerBundle\Entity\Folder:
+    type: entity
+    table: null
+    repositoryClass: ViewerBundle\Repository\FolderRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        ref:
+            type: string
+            length: 255
+            nullable: false
+        nom:
+            type: string
+            length: 255
+            nullable: true
+        path1:
+            type: string
+            length: 255
+            nullable: true
+        path2:
+            type: string
+            length: 255
+            nullable: true
+        path3:
+            type: string
+            length: 255
+            nullable: true
+        path4:
+            type: string
+            length: 255
+            nullable: true
+    lifecycleCallbacks: {  }

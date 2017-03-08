@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new ViewerBundle\ViewerBundle(),
             new Oneup\UploaderBundle\OneupUploaderBundle(),
             new FOS\UserBundle\FOSUserBundle(),
+            new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
         );
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {
             $bundles[] = new Symfony\Bundle\DebugBundle\DebugBundle();
