@@ -3,5 +3,19 @@ viewer_homepage:
     defaults: { _controller: ViewerBundle:Default:index }
 
 viewer_3D:
-    path:    /viewer
+    path:    /viewer/{folder}
     defaults: { _controller: ViewerBundle:Default:viewer }
+    options:
+        expose: true
+
+send_viewer_1:
+    path:    /send/viewer
+    defaults: { _controller: ViewerBundle:Default:send1 }
+    options:
+        expose: true
+
+send_viewer_2:
+    path:    /send/viewer/{folder}
+    defaults: { _controller: ViewerBundle:Default:send2 }
+    options:
+        expose: true
