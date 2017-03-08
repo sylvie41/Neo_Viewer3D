@@ -56,7 +56,7 @@
 
         var container;
 
-        var camera, controls, scene, renderer;
+        var camera, controls, scene, scene2, renderer;
         var lighting, ambient, keyLight, fillLight, backLight;
 
         var windowHalfX = window.innerWidth / 2;
@@ -78,15 +78,24 @@
             /* Scene */
 
             scene = new THREE.Scene();
+            scene2 = new THREE.Scene();
+
             lighting = false;
+
+            var light = new THREE.AmbientLight( 0xffffff ); // soft white light
+            scene.add( light );
 
             light = new THREE.DirectionalLight( 0xffffff );
             light.position.set( 1, 1, 1 );
             scene.add( light );
 
+            light = new THREE.AmbientLight( 0xffffff ); // soft white light
+            scene2.add( light );
 
-            light = new THREE.AmbientLight( 0x222222 );
-            scene.add( light );
+            light = new THREE.DirectionalLight( 0xffffff );
+            light.position.set( 1, 1, 1 );
+            scene2.add( light );
+
 
             /* Model */
 
@@ -107,6 +116,23 @@
 
             });
 
+            mtlLoader = new THREE.MTLLoader();
+            mtlLoader.setBaseUrl('../../uploads/documents/');
+            mtlLoader.setPath('../../uploads/documents/');
+            mtlLoader.load('{{ folder.path4 }}', function (materials) {
+
+
+                var objLoader = new THREE.OBJLoader();
+                objLoader.setMaterials(materials);
+                objLoader.setPath('../../uploads/documents/');
+                objLoader.load('{{ folder.path3 }}', function (object) {
+
+                    scene2.add(object);
+
+                });
+
+            });
+
             /* Renderer */
 
             renderer = new THREE.WebGLRenderer();
@@ -122,6 +148,10 @@
             controls.enableDamping = true;
             controls.dampingFactor = 0.25;
             controls.enableZoom = true;
+
+            // axes
+            var axes = new THREE.AxisHelper( 100 ); // this will be on top
+            scene2.add( axes );
 
             /* Events */
 
