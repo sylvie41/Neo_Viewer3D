@@ -107,6 +107,23 @@
 
             });
 
+            var mtlLoader2 = new THREE.MTLLoader();
+            mtlLoader2.setBaseUrl('../../uploads/documents/');
+            mtlLoader2.setPath('../../uploads/documents/');
+            mtlLoader2.load('{{ folder.path4 }}', function (materials) {
+
+
+                var objLoader = new THREE.OBJLoader();
+                objLoader.setMaterials(materials);
+                objLoader.setPath('../../uploads/documents/');
+                objLoader.load('{{ folder.path3 }}', function (object) {
+
+                    scene.add(object);
+
+                });
+
+            });
+
             /* Renderer */
 
             renderer = new THREE.WebGLRenderer();
