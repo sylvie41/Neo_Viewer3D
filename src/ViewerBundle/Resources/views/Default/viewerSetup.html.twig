@@ -1,8 +1,8 @@
 {% extends 'base.html.twig' %}
 {% block title %}Viewer 3D{% endblock %}
 {% block body %}
-    <div id="viewerMalloc">
-        <a href="{{ path('viewer_Setup', {folder : folder.id}) }}" type="submit" class="btn btn-default">Setup</a>
+    <div id="viewerSetup">
+        <a href="{{ path('viewer_3D', {folder : folder.id}) }}" type="submit" class="btn btn-default">Malloc</a>
     </div>
 {% endblock %}
 
@@ -68,8 +68,10 @@
         init();
         animate();
 
+
+
         function init() {
-            container = document.getElementById('viewerMalloc');
+            container = document.getElementById('viewerSetup');
             document.body.appendChild(container);
 
             /* Camera */
@@ -92,12 +94,12 @@
             var mtlLoader = new THREE.MTLLoader();
             mtlLoader.setBaseUrl('../../uploads/documents/');
             mtlLoader.setPath('../../uploads/documents/');
-            mtlLoader.load('{{ folder.path2 }}', function (materials) {
+            mtlLoader.load('{{ folder.path4 }}', function (materials) {
 
                 var objLoader = new THREE.OBJLoader();
                 objLoader.setMaterials(materials);
                 objLoader.setPath('../../uploads/documents/');
-                objLoader.load('{{ folder.path1 }}', function (object) {
+                objLoader.load('{{ folder.path3 }}', function (object) {
 
                     scene.add(object);
                 });

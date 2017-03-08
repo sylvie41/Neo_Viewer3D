@@ -48,6 +48,13 @@ class DefaultController extends Controller
         ));
     }
 
+    public function viewerSetupAction(Folder $folder)
+    {
+        return $this->render('ViewerBundle:Default:viewerSetup.html.twig',array(
+            'folder' => $folder,
+        ));
+    }
+
     public function send1Action(Request $request)
     {
         $em = $this->getDoctrine()->getManager();

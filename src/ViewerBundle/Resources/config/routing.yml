@@ -8,6 +8,12 @@ viewer_3D:
     options:
         expose: true
 
+viewer_Setup:
+    path:    /viewerSetup/{folder}
+    defaults: { _controller: ViewerBundle:Default:viewerSetup }
+    options:
+        expose: true
+
 send_viewer_1:
     path:    /send/viewer
     defaults: { _controller: ViewerBundle:Default:send1 }
@@ -17,18 +23,5 @@ send_viewer_1:
 send_viewer_2:
     path:    /send/viewer/{folder}
     defaults: { _controller: ViewerBundle:Default:send2 }
-    options:
-        expose: true
-
-
-viewer_malloc:
-    path:    /viewer/Malloc
-    defaults: { _controller: ViewerBundle:Default:Malloc }
-    options:
-        expose: true
-
-viewer_setup:
-    path:    /viewer/Setup/{folder}
-    defaults: { _controller: ViewerBundle:Default:Setup }
     options:
         expose: true
