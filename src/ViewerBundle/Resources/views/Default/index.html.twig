@@ -23,7 +23,7 @@
                             <!-- The fileinput-button span is used to style the file input field as button -->
                             <span class="btn btn-success fileinput-button">
                                 <i class="glyphicon glyphicon-plus"></i>
-                                <span>Ajouter les malloc...</span>
+                                <span id="btn-add">Ajouter les malloc...</span>
                             </span>
                             <button type="button" style="display:none;" class="btn btn-primary start">
                                 <i class="glyphicon glyphicon-upload"></i>
@@ -34,7 +34,7 @@
                     </div>
 
                     <div class="table table-striped files" class="previews" id="previews1">
-                        <div class="template" class="file-row">
+                        <div class="template" style="display:none;" class="file-row">
                             <!-- This is used as the file preview template -->
                             <div>
                                 <span class="preview"><img data-dz-thumbnail /></span>
@@ -66,13 +66,9 @@
                     <img src="{{ asset('bundles/viewer/img/ajax-loader.gif') }}"/><br>
                     <p>Envoi en cours</p>
                 </div>
-
                 <button type="button" disabled class="btn center-block btn-default" id="next">Suivant</button>
-                <button style="display:none;" type="button" class="btn center-block btn-default" id="validate">Valider</button>
-
+                <button style="display:none;" type="button" disabled class="btn center-block btn-default" id="validate">Valider</button>
         </div>
-    </div>
-
     </div>
 {% endblock %}
 {% block javascript %}
@@ -85,6 +81,7 @@
     </script>
     <script>
         $( document ).ready(function() {
+        $('.template').show(); // J'ai caché cette div avant le chargement de la page pour ne pas qu'on la voit apparaître pendant ce dernier
             var count = 0;
             // Get the template HTML and remove it from the doumenthe template HTML and remove it from the doument
             var previewNode = document.querySelector(".template");
@@ -96,10 +93,12 @@
                 thumbnailWidth: 80,
                 thumbnailHeight: 80,
                 parallelUploads: 20,
+                maxFiles: 2,
                 previewTemplate: previewTemplate,
                 autoQueue: false, // Make sure the files aren't queued until manually added
                 previewsContainer: "#previews1", // Define the container to display the previews
-                clickable: ".fileinput-button" // Define the element that should be used as click trigger to select files.
+                clickable: ".fileinput-button", // Define the element that should be used as click trigger to select files.
+                dictMaxFilesExceeded: "Veuillez ne pas envoyer plus de deux fichiers"
             });
             myDropzone.on("addedfile", function(file) {
                 // Hookup the start button
@@ -116,14 +115,19 @@
                 count = count + 1;
                 if (count == 2 && reference != '' ) {
                     $('#next').prop( "disabled", false );
+                } else if (count == 4 && reference != '') {
+                    $('#validate').prop('disabled', false);
                 }
+
             });
             $("#ref-patient").keyup(function() {
                 var reference = $('#ref-patient').val();
                 if (count == 2 && reference != '' ) {
                     $('#next').prop( "disabled", false );
-                } else {
+                } else if (reference == '') {
                     $('#next').prop( "disabled", true );
+                } else if (count == 4 && reference != '') {
+                    $('#validate').prop('disabled', false);
                 }
             });
 
@@ -141,6 +145,7 @@
                         $('.alert').addClass('alert-success');
                         myDropzone.removeAllFiles();
                         $('.alert').text('Veuillez maintenant ajouter les setups');
+                        $('#btn-add').text('Ajouter les setups');
                         $('.loading').hide();
                         $('#part1').fadeTo("slow", 1);
                         $('#title').text('Ajout de Setup');
