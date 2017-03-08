@@ -34,5 +34,3 @@ fos_user_change_password:
 #FOSJsRouting
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
-
-
