@@ -3,9 +3,12 @@
 {% block navbar %}
 {% endblock %}
 {% block body %}
-
+<div class="no-padding col-md-12">
+    <div class="col-md-6 no-padding" id="malloc"></div>
+    <div class="col-md-6 no-padding" id="setup"></div>
+</div>
 {% endblock %}
-{% block stylesheet %}
+{% block stylesheets %}
     <style>
         body {
             overflow: hidden;
@@ -14,29 +17,14 @@
             background: hsl(0, 0%, 10%);
         }
 
+        .no-padding {
+            padding:0!important;
+        }
         p {
             margin: 0;
             padding: 0;
         }
 
-        .left,
-        .right {
-            position: absolute;
-            color: #fff;
-            font-family: Geneva, sans-serif;
-        }
-
-        .left {
-            bottom: 1em;
-            left: 1em;
-            text-align: left;
-        }
-
-        .right {
-            top: 0;
-            right: 0;
-            text-align: right;
-        }
 
         a {
             color: #f58231;
@@ -58,7 +46,7 @@
 
         var container;
 
-        var camera, controls, scene, scene2, renderer, renderer2;
+        var camera, controls, controls2, scene, scene2, renderer, renderer2;
         var lighting, ambient, keyLight, fillLight, backLight;
 
         var windowHalfX = window.innerWidth / 2;
@@ -69,12 +57,12 @@
 
         function init() {
 
-            container = document.createElement('div');
-            document.body.appendChild(container);
+            containerMalloc = document.getElementById('malloc');
+            containerSetup = document.getElementById('setup');
 
             /* Camera */
 
-            camera = new THREE.PerspectiveCamera(30, (window.innerWidth / 2) / window.innerHeight, 1, 10000);
+            camera = new THREE.PerspectiveCamera(30, (window.innerWidth / 2) / window.innerHeight , 1, 10000);
             camera.position.z = 300;
 
             /* Scene */
@@ -137,18 +125,18 @@
 
             /* Renderer */
 
-            renderer = new THREE.WebGLRenderer( {antialias: true } );
-            renderer.setPixelRatio(window.devicePixelRatio);
-            renderer.setSize(window.innerWidth, window.innerHeight/2);
+            renderer = new THREE.WebGLRenderer({ antialias: true});
+            renderer.setSize(containerMalloc.offsetWidth , window.innerHeight);
+            renderer.setPixelRatio( window.devicePixelRatio );
             renderer.setClearColor(new THREE.Color("hsl(0, 0%, 10%)"));
 
             renderer2 = new THREE.WebGLRenderer( { antialias: true});
             renderer2.setPixelRatio(window.devicePixelRatio);
-            renderer2.setSize(window.innerWidth, window.innerHeight/2);
+            renderer2.setSize(containerSetup.offsetWidth , window.innerHeight);
             renderer2.setClearColor( new THREE.Color("hsl(0, 0%, 10%)") );
 
-            container.appendChild(renderer.domElement);
-            container.appendChild(renderer2.domElement);
+            containerMalloc.appendChild(renderer.domElement);
+            containerSetup.appendChild(renderer2.domElement);
 
             /* Controls */
 
@@ -163,46 +151,15 @@
             controls2.enableZoom = true;
 
 
-
-            /* Events */
-
-            window.addEventListener('keydown', onKeyboardEvent, false);
-
         }
 
-
-
-        function onKeyboardEvent(e) {
-
-            if (e.code === 'KeyL') {
-
-                lighting = !lighting;
-
-                if (lighting) {
-
-                    ambient.intensity = 0.25;
-                    scene.add(keyLight);
-                    scene.add(fillLight);
-                    scene.add(backLight);
-
-                } else {
-
-                    ambient.intensity = 1.0;
-                    scene.remove(keyLight);
-                    scene.remove(fillLight);
-                    scene.remove(backLight);
-
-                }
-
-            }
-
-        }
 
         function animate() {
 
             requestAnimationFrame(animate);
 
             controls.update();
+            controls2.update();
 
             render();
 
@@ -211,7 +168,7 @@
         function render() {
 
             renderer.render(scene, camera);
-            renderer2.render(scene, camera);
+            renderer2.render(scene2, camera);
 
         }
 
