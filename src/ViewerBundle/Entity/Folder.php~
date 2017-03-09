@@ -138,4 +138,62 @@ class Folder
     {
         return $this->path2;
     }
+    /**
+     * @var string
+     */
+    private $path3;
+
+    /**
+     * @var string
+     */
+    private $path4;
+
+
+    /**
+     * Set path3
+     *
+     * @param string $path3
+     *
+     * @return Folder
+     */
+    public function setPath3($path3)
+    {
+        $this->path3 = $path3;
+
+        return $this;
+    }
+
+    /**
+     * Get path3
+     *
+     * @return string
+     */
+    public function getPath3()
+    {
+        return $this->path3;
+    }
+
+    /**
+     * Set path4
+     *
+     * @param string $path4
+     *
+     * @return Folder
+     */
+    public function setPath4($path4)
+    {
+        $this->path4 = $path4;
+
+        return $this;
+    }
+
+    /**
+     * Get path4
+     *
+     * @return string
+     */
+    public function getPath4()
+    {
+        return $this->path4;
+    }
 }

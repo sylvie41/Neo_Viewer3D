@@ -196,4 +196,33 @@ class Folder
     {
         return $this->path4;
     }
+    /**
+     * @var string
+     */
+    private $md5;
+
+
+    /**
+     * Set md5
+     *
+     * @param string $md5
+     *
+     * @return Folder
+     */
+    public function setMd5($md5)
+    {
+        $this->md5 = $md5;
+
+        return $this;
+    }
+
+    /**
+     * Get md5
+     *
+     * @return string
+     */
+    public function getMd5()
+    {
+        return $this->md5;
+    }
 }

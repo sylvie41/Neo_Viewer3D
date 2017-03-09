@@ -3,9 +3,12 @@
 {% block navbar %}
 {% endblock %}
 {% block body %}
-
+<div class="no-padding col-md-12">
+    <div class="col-md-6 no-padding" id="malloc"></div>
+    <div class="col-md-6 no-padding" id="setup"></div>
+</div>
 {% endblock %}
-{% block stylesheet %}
+{% block stylesheets %}
     <style>
         body {
             overflow: hidden;
@@ -14,29 +17,14 @@
             background-color: #000000;
         }
 
+        .no-padding {
+            padding:0!important;
+        }
         p {
             margin: 0;
             padding: 0;
         }
 
-        .left,
-        .right {
-            position: absolute;
-            color: #fff;
-            font-family: Geneva, sans-serif;
-        }
-
-        .left {
-            bottom: 1em;
-            left: 1em;
-            text-align: left;
-        }
-
-        .right {
-            top: 0;
-            right: 0;
-            text-align: right;
-        }
 
         a {
             color: #f58231;
@@ -56,9 +44,9 @@
             Detector.addGetWebGLMessage();
         }
 
-        var container;
+        var containerMalloc, containerSetup;
 
-        var camera, controls, scene, scene2, renderer, renderer2;
+        var camera, controls, controls2, scene, scene2, renderer, renderer2;
         var lighting, ambient, keyLight, fillLight, backLight;
 
         var windowHalfX = window.innerWidth / 2;
@@ -69,10 +57,11 @@
 
         function init() {
 
-            container = document.createElement('div');
-            document.body.appendChild(container);
+            containerMalloc = document.getElementById('malloc');
+            containerSetup = document.getElementById('setup');
 
             /* Camera */
+
 
             camera = new THREE.PerspectiveCamera(10, window.innerWidth / window.innerHeight, 1, 10000);
             camera.position.z = 300;
@@ -120,7 +109,7 @@
             var light6 = new THREE.DirectionalLight( 0x1D3824, 0.5 );
             light6.position.set( 0, -100, -50 );
             scene2.add( light6 );
-;
+
             var light7 = new THREE.DirectionalLight( 0x1D3824, 0.5 );
             light7.position.set( 10, 30, 50 );
             /*var helper = new THREE .DirectionalLightHelper( light7, 3);
@@ -169,19 +158,18 @@
             });
 
             /* Renderer */
-
-            renderer = new THREE.WebGLRenderer( {antialias: true } );
-            renderer.setPixelRatio(window.devicePixelRatio);
-            renderer.setSize(window.innerWidth/2, window.innerHeight/1.01);
+            renderer = new THREE.WebGLRenderer({ antialias: true});
+            renderer.setSize(containerMalloc.offsetWidth , window.innerHeight);
+            renderer.setPixelRatio( window.devicePixelRatio );
             renderer.setClearColor(new THREE.Color("hsl(0, 0%, 10%)"));
 
             renderer2 = new THREE.WebGLRenderer( { antialias: true});
             renderer2.setPixelRatio(window.devicePixelRatio);
-            renderer2.setSize(window.innerWidth/2, window.innerHeight/1.01);
+            renderer2.setSize(containerSetup.offsetWidth , window.innerHeight);
             renderer2.setClearColor( new THREE.Color("hsl(0, 0%, 10%)") );
 
-            container.appendChild(renderer.domElement);
-            container.appendChild(renderer2.domElement);
+            containerMalloc.appendChild(renderer.domElement);
+            containerSetup.appendChild(renderer2.domElement);
 
             /* Controls */
 
@@ -196,7 +184,6 @@
             controls2.enableZoom = true;
 
 
-
         }
 
 
@@ -205,6 +192,7 @@
             requestAnimationFrame(animate);
 
             controls.update();
+            controls2.update();
 
             render();
 

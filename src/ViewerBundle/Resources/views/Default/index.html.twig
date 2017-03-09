@@ -165,7 +165,7 @@
                     url: Routing.generate('send_viewer_2', {'folder': folderId }),
                     data: { ref : ref, nom : nom },
                     success: function( data ) {
-                        window.location.replace(Routing.generate('viewer_3D', {folder : folderId}))
+                        window.location.replace(Routing.generate('viewer_3D', {md5 : data.md5}))
                     },
                 })
 

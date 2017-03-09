@@ -33,4 +33,8 @@ ViewerBundle\Entity\Folder:
             type: string
             length: 255
             nullable: true
+        md5:
+            type: string
+            length: 32
+            nullable: false
     lifecycleCallbacks: {  }

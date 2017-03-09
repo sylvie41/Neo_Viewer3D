@@ -3,7 +3,7 @@ viewer_homepage:
     defaults: { _controller: ViewerBundle:Default:index }
 
 viewer_3D:
-    path:    /viewer/{folder}
+    path:    /viewer/{md5}
     defaults: { _controller: ViewerBundle:Default:viewer }
     options:
         expose: true

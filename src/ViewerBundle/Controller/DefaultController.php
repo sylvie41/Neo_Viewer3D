@@ -41,11 +41,18 @@ class DefaultController extends Controller
         return $this->render('ViewerBundle:Default:index.html.twig');
     }
 
-    public function viewerAction(Folder $folder)
+    public function viewerAction($md5)
     {
-        return $this->render('ViewerBundle:Default:viewer.html.twig',array(
-            'folder' => $folder,
-        ));
+        $em= $this->getDoctrine()->getManager();
+        $folder = $em->getRepository('ViewerBundle:Folder')->findOneByMd5($md5);
+        if ($folder != null) {
+            return $this->render('ViewerBundle:Default:viewer.html.twig',array(
+                'folder' => $folder,
+            ));
+        } else {
+            return $this->redirectToRoute('viewer_homepage');
+        }
+
     }
 
     public function send1Action(Request $request)
@@ -59,6 +66,7 @@ class DefaultController extends Controller
         $folder = new Folder;
         $folder->setRef($ref);
         $folder->setNom($nom);
+        $folder->setMd5(md5($ref));
 
         $em->persist($folder);
         $em->flush();
@@ -103,6 +111,7 @@ class DefaultController extends Controller
         // create folder
         $folder->setRef($ref);
         $folder->setNom($nom);
+        $folder->setMd5(md5($ref.$folder->getId()));
 
         $em->persist($folder);
         $em->flush();
@@ -133,7 +142,7 @@ class DefaultController extends Controller
 
         $response = new JsonResponse();
         $response->setData(array(
-            'folderId' => $folderId,
+            'md5' => $folder->getMd5(),
         ));
 
         return $response;
