@@ -3,12 +3,14 @@
 {% block navbar %}
 {% endblock %}
 {% block body %}
+<div class="loader"><img style="width:100px" class="text-center img center-block img-responsive" src="{{ asset('bundles/viewer/img/loader.gif') }}"/></div>
 <div class="no-padding col-md-12">
     <div class="col-md-6 no-padding" id="malloc"></div>
     <div class="col-md-6 no-padding" id="setup"></div>
 </div>
 {% endblock %}
 {% block stylesheets %}
+
     <style>
         body {
             overflow: hidden;
@@ -16,7 +18,14 @@
             padding: 0;
             background-color: #000000;
         }
-
+        .img {
+            margin-top: 50vh; /* poussé de la moitié de hauteur de viewport */
+            transform: translateY(-50%); /* tiré de la moitié de sa propre hauteur */
+        }
+        .loader {
+            width:100vw;
+            height:100vh;
+        }
         .no-padding {
             padding:0!important;
         }
@@ -60,11 +69,28 @@
             containerMalloc = document.getElementById('malloc');
             containerSetup = document.getElementById('setup');
 
+            /* Loader */
+            var manager = new THREE.LoadingManager();
+            manager.onProgress = function( item, loaded, total ) {
+                console.log( item, loaded, total );
+                if (loaded == total) {
+                    $('.loader').fadeOut( "slow", function() {
+                    });
+                }
+            };
+            var onProgress = function( xhr ) {
+                if ( xhr.lengthComputable ) {
+                    var percentComplete = xhr.loaded / xhr.total * 100;
+                    console.log( Math.round( percentComplete, 2 ) + '% downloaded' );
+                }
+            };
+            var onError = function( xhr ) {
+            };
+
             /* Camera */
-
-
             camera = new THREE.PerspectiveCamera(20, (window.innerWidth / 2) / window.innerHeight, 1, 10000);
             camera.position.z = 300;
+
 
             /* Scene */
 
@@ -123,7 +149,7 @@
 
             /* Model */
 
-            var mtlLoader = new THREE.MTLLoader();
+            var mtlLoader = new THREE.MTLLoader( manager );
             mtlLoader.setBaseUrl('../../uploads/documents/');
             mtlLoader.setPath('../../uploads/documents/');
             mtlLoader.load('{{ folder.path2 }}', function (materials) {
@@ -138,9 +164,9 @@
 
                 });
 
-            });
+            },onProgress, onError);
 
-            mtlLoader = new THREE.MTLLoader();
+            mtlLoader = new THREE.MTLLoader(manager);
             mtlLoader.setBaseUrl('../../uploads/documents/');
             mtlLoader.setPath('../../uploads/documents/');
             mtlLoader.load('{{ folder.path4 }}', function (materials) {
@@ -153,7 +179,7 @@
 
                     scene2.add(object);
 
-                });
+                },onProgress, onError);
 
             });
 
