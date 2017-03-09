@@ -11,7 +11,7 @@
             overflow: hidden;
             margin: 0;
             padding: 0;
-            background: hsl(0, 0%, 10%);
+            background-color: #000000;
         }
 
         p {
@@ -74,7 +74,7 @@
 
             /* Camera */
 
-            camera = new THREE.PerspectiveCamera(30, (window.innerWidth / 2) / window.innerHeight, 1, 10000);
+            camera = new THREE.PerspectiveCamera(10, window.innerWidth / window.innerHeight, 1, 10000);
             camera.position.z = 300;
 
             /* Scene */
@@ -84,19 +84,52 @@
 
             lighting = false;
 
-            var light = new THREE.AmbientLight( 0xffffff ); // soft white light
+            var light = new THREE.AmbientLight( 0xcccccc ); // soft white light
             scene.add( light );
 
-            light = new THREE.DirectionalLight( 0xffffff );
-            light.position.set( 1, 1, 1 );
-            scene.add( light );
+            var light2 = new THREE.SpotLight( 0xffffff );
+            light2.position.set( 0, 100, 100 );
+            light2.castShadow = true;
+            light2.shadow.mapSize.width = 500;
+            light2.shadow.mapSize.height = 500;
+            light2.shadow.camera.near = 500;
+            light2.shadow.camera.far = 400;
+            light2.shadow.camera.fov = 30;
+            scene.add( light2 );
 
-            light = new THREE.AmbientLight( 0xffffff ); // soft white light
-            scene2.add( light );
+            var light3 = new THREE.DirectionalLight( 0x999999 );
+            light3.position.set( 0, -100, -50 );
+            scene.add( light3 );
 
-            light = new THREE.DirectionalLight( 0xffffff );
-            light.position.set( 1, 1, 1 );
-            scene2.add( light );
+
+            var light4 = new THREE.AmbientLight( 0xffffff ); // soft white light
+            scene2.add( light4 );
+
+
+
+            var light5 = new THREE.SpotLight( 0xffffff, 1, 186, 1, 0, 2);
+            light5.position.set( 0, 100, 100 );
+            light5.castShadow = true;
+            light5.shadow.mapSize.width = 500;
+            light5.shadow.mapSize.height = 500;
+            light5.shadow.camera.near = 500;
+            light5.shadow.camera.far = 400;
+            light5.shadow.camera.fov = 30;
+            scene2.add( light5 );
+
+            var light6 = new THREE.DirectionalLight( 0x1D3824, 0.5 );
+            light6.position.set( 0, -100, -50 );
+            scene2.add( light6 );
+;
+            var light7 = new THREE.DirectionalLight( 0x1D3824, 0.5 );
+            light7.position.set( 10, 30, 50 );
+            /*var helper = new THREE .DirectionalLightHelper( light7, 3);
+            scene2.add(helper);*/
+            scene2.add( light7 );
+
+            var light8 = new THREE.DirectionalLight( 0x4ABD6A, 0.5 );
+            light8.position.set( -50, 100, 50 );
+            scene2.add( light8 );
 
 
             /* Model */
@@ -139,12 +172,12 @@
 
             renderer = new THREE.WebGLRenderer( {antialias: true } );
             renderer.setPixelRatio(window.devicePixelRatio);
-            renderer.setSize(window.innerWidth, window.innerHeight/2);
+            renderer.setSize(window.innerWidth/2, window.innerHeight/1.01);
             renderer.setClearColor(new THREE.Color("hsl(0, 0%, 10%)"));
 
             renderer2 = new THREE.WebGLRenderer( { antialias: true});
             renderer2.setPixelRatio(window.devicePixelRatio);
-            renderer2.setSize(window.innerWidth, window.innerHeight/2);
+            renderer2.setSize(window.innerWidth/2, window.innerHeight/1.01);
             renderer2.setClearColor( new THREE.Color("hsl(0, 0%, 10%)") );
 
             container.appendChild(renderer.domElement);
@@ -164,43 +197,8 @@
 
 
 
-            /* Events */
-
-            window.addEventListener('keydown', onKeyboardEvent, false);
-
         }
 
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-
-            renderer.setSize(window.innerWidth, window.innerHeight);
-
-
-        function onKeyboardEvent(e) {
-
-            if (e.code === 'KeyL') {
-
-                lighting = !lighting;
-
-                if (lighting) {
-
-                    ambient.intensity = 0.25;
-                    scene.add(keyLight);
-                    scene.add(fillLight);
-                    scene.add(backLight);
-
-                } else {
-
-                    ambient.intensity = 1.0;
-                    scene.remove(keyLight);
-                    scene.remove(fillLight);
-                    scene.remove(backLight);
-
-                }
-
-            }
-
-        }
 
         function animate() {
 
