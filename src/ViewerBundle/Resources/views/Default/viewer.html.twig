@@ -39,6 +39,9 @@
     <script src="{{ asset('bundles/viewer/js/MTLLoader.js') }}"></script>
 
     <script>
+        $( document ).ready(){
+            alert('toto');
+        }
 
         if (!Detector.webgl) {
             Detector.addGetWebGLMessage();
