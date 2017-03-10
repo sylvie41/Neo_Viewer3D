@@ -4,43 +4,56 @@
 {% endblock %}
 {% block body %}
 <div class="loader"><img style="width:100px" class="text-center img center-block img-responsive" src="{{ asset('bundles/viewer/img/loader.gif') }}"/></div>
-<div class="no-padding col-md-12">
-    <div class="col-md-5 no-padding" id="malloc"></div>
-    <div class="col-md-5 no-padding" id="setup"></div>
-    <div class="col-md-2 no-padding" id="infos">
-        <div class="infos-head">
-            <h1 class="text-center"><u>Infos</u></h1>
-            <ul class="list-group">
-                {% if folder.ref != '' %}
-                    <li class="text-center list-group-item">
-                        <b>Ref patient</b><br>
-                        {{ folder.ref }}
-                    </li>
-                {% endif  %}
-                {% if folder.nom != '' %}
-                    <li class="text-center list-group-item">
-                        <b>Nom patient</b><br>
-                        {{ folder.nom }}
-                    </li>
-                {% endif  %}
-                {% if folder.nbGtS!= '' %}
-                    <li class="text-center list-group-item">
-                        <b>Gouttières sup. nécéssaires</b><br>
-                        {{ folder.nbGtS }}
-                    </li>
-                {% endif  %}
-                {% if folder.nbGtI != '' %}<li class="text-center list-group-item"> <b>Gouttières inf. nécéssaires</b><br>
-                    {{ folder.nbGtI }}</li>{% endif  %}
-                {% if folder.estimationTraitement != '' %}<li class="text-center list-group-item"> <b>Temps de traitement estimé</b><br>
-                    {{ folder.estimationTraitement }} Semaines</li>{% endif  %}
-            </ul>
-        </div>
+        <div class="no-padding col-md-12 col-xs-12 col-lg-12">
+            <div class="col-md-5 col-xs-12 no-padding" id="malloc"></div>
+            <div class="col-md-5 col-xs-12 no-padding" id="setup"></div>
+            <div class="col-md-2 col-xs-12 no-padding" id="infos">
+
+                <h1 class="text-center"><u>Infos</u></h1>
+                <ul class="list-group">
+
+                    {% if folder.ref != '' %}
+                        <li class="text-center list-group-item">
+                            <b>Ref patient</b><br>
+                            {{ folder.ref }}
+                        </li>
+                    {% endif  %}
+                    {% if folder.nom != '' %}
+                        <li class="text-center list-group-item">
+                            <b>Nom patient</b><br>
+                            {{ folder.nom }}
+                        </li>
+                    {% endif  %}
+                    {% if folder.nbGtS!= '' %}
+                        <li class="text-center list-group-item">
+                            <b>Gouttières sup. nécéssaires</b><br>
+                            {{ folder.nbGtS }}
+                        </li>
+                    {% endif  %}
+                    {% if folder.nbGtI != '' %}<li class="text-center list-group-item"> <b>Gouttières inf. nécéssaires</b><br>
+                        {{ folder.nbGtI }}</li>{% endif  %}
+                    {% if folder.estimationTraitement != '' %}<li class="text-center list-group-item"> <b>Temps de traitement estimé</b><br>
+                        {{ folder.estimationTraitement }} Semaines</li>{% endif  %}
+                </ul>
+            </div>
+
     </div>
-</div>
 {% endblock %}
 {% block stylesheets %}
 
     <style>
+        @media screen and (min-width: 200px) and (max-width: 700px) {
+            #setup, #malloc {
+                height:50vh!important;
+            }
+            #infos {
+                display:none;
+            }
+        }
+
+        #setup, #malloc {
+            height:100vh;
+        }
         body {
             overflow: hidden;
             margin: 0;
@@ -118,7 +131,7 @@
             };
 
             /* Camera */
-            camera = new THREE.PerspectiveCamera(20, (window.innerWidth / 2) / window.innerHeight, 1, 10000);
+            camera = new THREE.PerspectiveCamera(20, containerMalloc.offsetWidth / containerMalloc.offsetHeight, 1, 10000);
             camera.position.z = 300;
 
 
@@ -211,17 +224,20 @@
 
             /* Renderer */
             renderer = new THREE.WebGLRenderer({ antialias: true});
-            renderer.setSize(containerMalloc.offsetWidth , window.innerHeight);
+            renderer.setSize(containerMalloc.offsetWidth , containerMalloc.offsetHeight);
             renderer.setPixelRatio( window.devicePixelRatio );
             renderer.setClearColor(new THREE.Color("hsl(0, 0%, 10%)"));
 
             renderer2 = new THREE.WebGLRenderer( { antialias: true});
             renderer2.setPixelRatio(window.devicePixelRatio);
-            renderer2.setSize(containerSetup.offsetWidth , window.innerHeight);
+            renderer2.setSize(containerSetup.offsetWidth , containerSetup.offsetHeight);
             renderer2.setClearColor( new THREE.Color("hsl(0, 0%, 10%)") );
 
             containerMalloc.appendChild(renderer.domElement);
             containerSetup.appendChild(renderer2.domElement);
+
+            console.log('taille hauteur '+containerSetup.offsetHeight);
+            console.log('taille largeur '+containerSetup.offsetWidth);
 
             /* Controls */
 
@@ -236,8 +252,19 @@
             controls2.enableZoom = true;
 
 
+            /* Event */
+
+            window.addEventListener('resize', onWindowResize, false);
         }
 
+        function onWindowResize() {
+            windowHalfX = window.innerWidth / 2;
+            windowHalfY = window.innerHeight / 2;
+            camera.aspect = containerMalloc.offsetWidth / containerMalloc.offsetHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(containerMalloc.offsetWidth, containerMalloc.offsetHeight);
+            renderer2.setSize(containerSetup.offsetWidth, containerSetup.offsetHeight);
+        }
 
         function animate() {
 

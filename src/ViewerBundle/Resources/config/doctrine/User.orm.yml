@@ -1,6 +1,7 @@
 ViewerBundle\Entity\User:
     type:  entity
     table: fos_user
+    repositoryClass: ViewerBundle\Repository\UserRepository
     id:
         id:
             type: integer
