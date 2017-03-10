@@ -1,0 +1,26 @@
+// Pas encore utilisé
+
+folder_index:
+    path:     /
+    defaults: { _controller: "ViewerBundle:Folder:index" }
+    methods:  GET
+
+folder_show:
+    path:     /{id}/show
+    defaults: { _controller: "ViewerBundle:Folder:show" }
+    methods:  GET
+
+folder_new:
+    path:     /new
+    defaults: { _controller: "ViewerBundle:Folder:new" }
+    methods:  [GET, POST]
+
+folder_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "ViewerBundle:Folder:edit" }
+    methods:  [GET, POST]
+
+folder_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "ViewerBundle:Folder:delete" }
+    methods:  DELETE

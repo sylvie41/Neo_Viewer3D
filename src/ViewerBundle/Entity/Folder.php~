@@ -196,4 +196,236 @@ class Folder
     {
         return $this->path4;
     }
+    /**
+     * @var string
+     */
+    private $md5;
+
+
+    /**
+     * Set md5
+     *
+     * @param string $md5
+     *
+     * @return Folder
+     */
+    public function setMd5($md5)
+    {
+        $this->md5 = $md5;
+
+        return $this;
+    }
+
+    /**
+     * Get md5
+     *
+     * @return string
+     */
+    public function getMd5()
+    {
+        return $this->md5;
+    }
+    /**
+     * @var string
+     */
+    private $mallocObj;
+
+    /**
+     * @var string
+     */
+    private $mallocMtl;
+
+    /**
+     * @var string
+     */
+    private $setupObj;
+
+    /**
+     * @var string
+     */
+    private $setupMtl;
+
+    /**
+     * @var integer
+     */
+    private $nbGtS;
+
+    /**
+     * @var integer
+     */
+    private $nbGtI;
+
+    /**
+     * @var integer
+     */
+    private $estimationTraitement;
+
+
+    /**
+     * Set mallocObj
+     *
+     * @param string $mallocObj
+     *
+     * @return Folder
+     */
+    public function setMallocObj($mallocObj)
+    {
+        $this->mallocObj = $mallocObj;
+
+        return $this;
+    }
+
+    /**
+     * Get mallocObj
+     *
+     * @return string
+     */
+    public function getMallocObj()
+    {
+        return $this->mallocObj;
+    }
+
+    /**
+     * Set mallocMtl
+     *
+     * @param string $mallocMtl
+     *
+     * @return Folder
+     */
+    public function setMallocMtl($mallocMtl)
+    {
+        $this->mallocMtl = $mallocMtl;
+
+        return $this;
+    }
+
+    /**
+     * Get mallocMtl
+     *
+     * @return string
+     */
+    public function getMallocMtl()
+    {
+        return $this->mallocMtl;
+    }
+
+    /**
+     * Set setupObj
+     *
+     * @param string $setupObj
+     *
+     * @return Folder
+     */
+    public function setSetupObj($setupObj)
+    {
+        $this->setupObj = $setupObj;
+
+        return $this;
+    }
+
+    /**
+     * Get setupObj
+     *
+     * @return string
+     */
+    public function getSetupObj()
+    {
+        return $this->setupObj;
+    }
+
+    /**
+     * Set setupMtl
+     *
+     * @param string $setupMtl
+     *
+     * @return Folder
+     */
+    public function setSetupMtl($setupMtl)
+    {
+        $this->setupMtl = $setupMtl;
+
+        return $this;
+    }
+
+    /**
+     * Get setupMtl
+     *
+     * @return string
+     */
+    public function getSetupMtl()
+    {
+        return $this->setupMtl;
+    }
+
+    /**
+     * Set nbGtS
+     *
+     * @param integer $nbGtS
+     *
+     * @return Folder
+     */
+    public function setNbGtS($nbGtS)
+    {
+        $this->nbGtS = $nbGtS;
+
+        return $this;
+    }
+
+    /**
+     * Get nbGtS
+     *
+     * @return integer
+     */
+    public function getNbGtS()
+    {
+        return $this->nbGtS;
+    }
+
+    /**
+     * Set nbGtI
+     *
+     * @param integer $nbGtI
+     *
+     * @return Folder
+     */
+    public function setNbGtI($nbGtI)
+    {
+        $this->nbGtI = $nbGtI;
+
+        return $this;
+    }
+
+    /**
+     * Get nbGtI
+     *
+     * @return integer
+     */
+    public function getNbGtI()
+    {
+        return $this->nbGtI;
+    }
+
+    /**
+     * Set estimationTraitement
+     *
+     * @param integer $estimationTraitement
+     *
+     * @return Folder
+     */
+    public function setEstimationTraitement($estimationTraitement)
+    {
+        $this->estimationTraitement = $estimationTraitement;
+
+        return $this;
+    }
+
+    /**
+     * Get estimationTraitement
+     *
+     * @return integer
+     */
+    public function getEstimationTraitement()
+    {
+        return $this->estimationTraitement;
+    }
 }

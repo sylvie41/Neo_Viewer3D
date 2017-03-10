@@ -1,246 +1,297 @@
 {% extends '::base.html.twig' %}
 {% block body %}
-    <div class="container">
-        <div class="row">
-            <h1 id="title" class="text-center">Ajout de Malloc</h1>
-            <h3 class="text-center"><small>Vous pouvez déposer vos fichiers n'importe où sur la page pour les ajouter au formulaire</small></h3>
-        </div>
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <div class="form-group">
-                    <label class="text-center" for="ref-patient">Référence patient</label>
-                    <input class="form-control" id="ref-patient" />
-                </div>
-                <div class="form-group">
-                    <label class="text-center" for="nom-patient">Nom patient</label>
-                    <input class="form-control" id="nom-patient" />
-                </div>
-                <div class="text-center alert" style="display:none;">
-                </div>
-                <div id="part1">
-                    <div class="actions" class="row">
-                        <div class="col-lg-12">
-                            <!-- The fileinput-button span is used to style the file input field as button -->
-                            <span class="btn btn-success fileinput-button">
-                                <i class="glyphicon glyphicon-plus"></i>
-                                <span id="btn-add">Ajouter les malloc...</span>
-                            </span>
-                            <button type="button" style="display:none;" class="btn btn-primary start">
-                                <i class="glyphicon glyphicon-upload"></i>
-                                <span>Envoyer les fichiers</span>
-                            </button>
-                        </div>
+	<div class="container">
+		<div class="row">
+			<h1 id="title" class="text-center">Ajout de Malloc</h1>
+			<h3 class="text-center"><small>Vous pouvez déposer vos fichiers n'importe où sur la page pour les ajouter au formulaire</small></h3>
+		</div>
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<div class="row">
+					<div class="text-center alert" style="display:none;"></div>
+					{{ form_start(form) }}
+						<div class="col-md-6 form-group">
+							{{ form_errors(form.ref) }}
+							{{ form_label(form.ref, 'Référence Patient', { 'label_attr': {'class': 'text-center'} }) }}
+							{{ form_widget(form.ref, { 'attr': {'class': 'form-control'}, 'id': 'ref-patient' }) }}
+						</div>
 
-                    </div>
+						<div class="col-md-6 form-group">
+							{{ form_errors(form.nom) }}
+							{{ form_label(form.nom, 'Nom Patient', { 'label_attr': {'class': 'text-center'} }) }}
+							{{ form_widget(form.nom, { 'attr': {'class': 'form-control'}, 'id': 'nom-patient' }) }}
+						</div>
 
-                    <div class="table table-striped files" class="previews" id="previews1">
-                        <div class="template" style="display:none;" class="file-row">
-                            <!-- This is used as the file preview template -->
-                            <div>
-                                <span class="preview"><img data-dz-thumbnail /></span>
-                            </div>
-                            <div>
-                                <p class="name" data-dz-name></p>
-                                <strong class="error text-danger" data-dz-errormessage></strong>
-                            </div>
-                            <div>
-                                <p class="size" data-dz-size></p>
-                                <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-                                    <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div>
-                                </div>
-                            </div>
-                            <div>
-                                <button type="button" class="btn btn-primary start">
-                                    <i class="glyphicon glyphicon-upload"></i>
-                                    <span>Envoyer</span>
-                                </button>
-                                <button type="button" data-dz-remove class="btn btn-warning cancel">
-                                    <i class="glyphicon glyphicon-ban-circle"></i>
-                                    <span>Annuler</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="loading">
-                    <img src="{{ asset('bundles/viewer/img/ajax-loader.gif') }}"/><br>
-                    <p>Envoi en cours</p>
-                </div>
-                <button type="button" disabled class="btn center-block btn-default" id="next">Suivant</button>
-                <button style="display:none;" type="button" disabled class="btn center-block btn-default" id="validate">Valider</button>
-        </div>
-    </div>
+						<div class="col-md-6 form-group">
+							{{ form_errors(form.nbGtS) }}
+							{{ form_label(form.nbGtS, 'Nombre Gouttières Supérieur', { 'label_attr': {'class': 'text-center'} }) }}
+							{{ form_widget(form.nbGtS, {'value' : '12', 'attr': {'class': 'form-control'}, 'id': 'nb-gt-s' }) }}
+						</div>
+
+
+						<div class="col-md-6 form-group">
+							{{ form_errors(form.nbGtI) }}
+							{{ form_label(form.nbGtI, 'Nombre Gouttières Inférieur', { 'label_attr': {'class': 'text-center'} }) }}
+							{{ form_widget(form.nbGtI, {'value' : '12', 'attr': {'class': 'form-control'}, 'id': 'nb-gt-i' }) }}
+						</div>
+
+						<div class="col-md-offset-3 col-md-6 form-group">
+							{{ form_errors(form.estimationTraitement) }}
+							{{ form_label(form.estimationTraitement, 'Estimation durée traitement', { 'label_attr': {'class': 'text-center'} }) }}
+							<div class="input-group">
+								{{ form_widget(form.estimationTraitement, {'value' : '24 à 36', 'attr': {'class': 'form-control', 'disabled' : 'disabled'}, 'id': 'estimation-traitement' }) }}
+								<div class="input-group-addon">Semaine(s)</div>
+							</div>
+						</div>
+					{{ form_end(form) }}
+				</div>
+				<div id="part1">
+					<div class="actions" class="row">
+						<!-- The fileinput-button span is used to style the file input field as button -->
+						<span class="btn btn-success fileinput-button">
+							<i class="glyphicon glyphicon-plus"></i>
+							<span id="btn-add">Ajouter les malloc...</span>
+						</span>
+						<button type="button" style="display:none;" class="btn btn-primary start">
+							<i class="glyphicon glyphicon-upload"></i>
+							<span>Envoyer les fichiers</span>
+						</button>
+
+					</div>
+
+					<div class="table table-striped files" class="previews" id="previews1">
+						<div class="template" style="display:none;" class="file-row">
+							<!-- This is used as the file preview template -->
+							<div>
+								<span class="preview"><img data-dz-thumbnail /></span>
+							</div>
+							<div>
+								<p class="name" data-dz-name></p>
+								<strong class="error text-danger" data-dz-errormessage></strong>
+							</div>
+							<div>
+								<p class="size" data-dz-size></p>
+								<div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+									<div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div>
+								</div>
+							</div>
+							<div>
+								<button type="button" class="btn btn-primary start">
+									<i class="glyphicon glyphicon-upload"></i>
+									<span>Envoyer</span>
+								</button>
+								<button type="button" data-dz-remove class="btn btn-warning cancel">
+									<i class="glyphicon glyphicon-ban-circle"></i>
+									<span>Annuler</span>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="loading">
+					<img src="{{ asset('bundles/viewer/img/ajax-loader.gif') }}"/><br>
+					<p>Envoi en cours</p>
+				</div>
+				<button type="button" disabled class="btn center-block btn-default" id="next">Suivant</button>
+				<button style="display:none;" type="button" disabled class="btn center-block btn-default" id="validate">Valider</button>
+		</div>
+	</div>
+
 {% endblock %}
 {% block javascript %}
-    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/viewer/js/dropzone.js')}}"></script>
-    <script>
+	<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+	<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+	<script type="text/javascript" src="{{ asset('bundles/viewer/js/dropzone.js')}}"></script>
+	<script>
 
 
-    </script>
-    <script>
-        $( document ).ready(function() {
-        $('.template').show(); // J'ai caché cette div avant le chargement de la page pour ne pas qu'on la voit apparaître pendant ce dernier
-            var count = 0;
-            // Get the template HTML and remove it from the doumenthe template HTML and remove it from the doument
-            var previewNode = document.querySelector(".template");
-            previewNode.id = "";
-            var previewTemplate = previewNode.parentNode.innerHTML;
-            previewNode.parentNode.removeChild(previewNode);
-            var myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
-                url: "{{ oneup_uploader_endpoint('documents') }}", // Set the url
-                thumbnailWidth: 80,
-                thumbnailHeight: 80,
-                parallelUploads: 20,
-                maxFiles: 2,
-                previewTemplate: previewTemplate,
-                autoQueue: false, // Make sure the files aren't queued until manually added
-                previewsContainer: "#previews1", // Define the container to display the previews
-                clickable: ".fileinput-button", // Define the element that should be used as click trigger to select files.
-                dictMaxFilesExceeded: "Veuillez ne pas envoyer plus de deux fichiers"
-            });
-            myDropzone.on("addedfile", function(file) {
-                // Hookup the start button
-                file.previewElement.querySelector(".start").onclick = function() { myDropzone.enqueueFile(file); };
-                $('.actions .start').show();
-            });
-            myDropzone.on("sending", function(file) {
-                // And disable the start button
-                file.previewElement.querySelector(".start").setAttribute("disabled", "disabled");
-            });
-            myDropzone.on("success", function(file) {
-                var reference = $('#ref-patient').val();
-                file.previewElement.querySelector(".progress").setAttribute("class", "progress active");
-                count = count + 1;
-                if (count == 2 && reference != '' ) {
-                    $('#next').prop( "disabled", false );
-                } else if (count == 4 && reference != '') {
-                    $('#validate').prop('disabled', false);
+	</script>
+	<script>
+		$( document ).ready(function() {
+		$('.template').show(); // J'ai caché cette div avant le chargement de la page pour ne pas qu'on la voit apparaître pendant ce dernier
+			var count = 0;
+			// Get the template HTML and remove it from the doumenthe template HTML and remove it from the doument
+			var previewNode = document.querySelector(".template");
+			previewNode.id = "";
+			var previewTemplate = previewNode.parentNode.innerHTML;
+			previewNode.parentNode.removeChild(previewNode);
+			var myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
+				url: "{{ oneup_uploader_endpoint('documents') }}", // Set the url
+				thumbnailWidth: 80,
+				thumbnailHeight: 80,
+				parallelUploads: 20,
+				maxFiles: 2,
+				previewTemplate: previewTemplate,
+				autoQueue: false, // Make sure the files aren't queued until manually added
+				previewsContainer: "#previews1", // Define the container to display the previews
+				clickable: ".fileinput-button", // Define the element that should be used as click trigger to select files.
+				dictMaxFilesExceeded: "Veuillez ne pas envoyer plus de deux fichiers"
+			});
+			myDropzone.on("addedfile", function(file) {
+				// Hookup the start button
+				file.previewElement.querySelector(".start").onclick = function() { myDropzone.enqueueFile(file); };
+				$('.actions .start').show();
+			});
+			myDropzone.on("sending", function(file) {
+				// And disable the start button
+				file.previewElement.querySelector(".start").setAttribute("disabled", "disabled");
+			});
+			myDropzone.on("success", function(file) {
+				var reference = $('#ref-patient').val();
+				file.previewElement.querySelector(".progress").setAttribute("class", "progress active");
+				count = count + 1;
+				if (count == 2 && reference != '' ) {
+					$('#next').prop( "disabled", false );
+				} else if (count == 4 && reference != '') {
+				    $('#validate').prop('disabled', false);
+				}
+
+			});
+			$("#ref-patient").keyup(function() {
+				var reference = $('#ref-patient').val();
+				if (count == 2 && reference != '' ) {
+					$('#next').prop( "disabled", false );
+				} else if (reference == '') {
+					$('#next').prop( "disabled", true );
+				} else if (count == 4 && reference != '') {
+					$('#validate').prop('disabled', false);
+				}
+			});
+			var estimationMin, estimationMax;
+			$('#nb-gt-s, #nb-gt-i').on('input', function() {
+                var nbrGtI = $('#nb-gt-i').val();
+                var nbrGtS = $('#nb-gt-s').val();
+                if (nbrGtI > nbrGtS) {
+                    console.log('I > S');
+                    estimationMin = nbrGtI*2;
+                    estimationMax = nbrGtI*3;
+                } else if (nbrGtS > nbrGtI) {
+                    estimationMin = nbrGtS*2;
+                    estimationMax = nbrGtS*3;
+                } else {
+                    estimationMin = nbrGtS*2;
+                    estimationMax = nbrGtI*3;
                 }
+                $('#estimation-traitement').val(estimationMin+' à '+estimationMax);
+			});
+			$('#next').click(function() {
+				var ref = $('#ref-patient').val();
+				var nom = $('#nom-patient').val();
+				var nbrGtI = $('#nb-gt-i').val();
+				var nbrGtS = $('#nb-gt-s').val();
+				var estimation = $('#estimation-traitement').val();
 
-            });
-            $("#ref-patient").keyup(function() {
-                var reference = $('#ref-patient').val();
-                if (count == 2 && reference != '' ) {
-                    $('#next').prop( "disabled", false );
-                } else if (reference == '') {
-                    $('#next').prop( "disabled", true );
-                } else if (count == 4 && reference != '') {
-                    $('#validate').prop('disabled', false);
-                }
-            });
+				$.ajax({
+					url: Routing.generate('send_viewer_1'),
+					data: { ref : ref, nom : nom, estimation : estimation, nbrGtI : nbrGtI, nbrGtS : nbrGtS },
+					beforeSend: function() {
+						$('#part1').fadeTo( "slow", 0.50 );
+						$('.loading').fadeIn( "slow" );
+					},
+					success: function( data ) {
+						$('.alert').removeClass();
+						$('.alert').addClass('text-center alert alert-success');
+						myDropzone.removeAllFiles();
+						$('.alert').text('Veuillez maintenant ajouter les setups');
+						$('#btn-add').text('Ajouter les setups');
+						$('.loading').hide();
+						$('#part1').fadeTo("slow", 1);
+						$('#title').text('Ajout de Setup');
+						$('#next').hide();
+						$('#validate').show();
+						$('#validate').data('folderId', data.folderId)
+					},
+				})
+			});
+			$('#validate').click(function() {
+				var folderId = $('#validate').data('folderId');
+				var ref = $('#ref-patient').val();
+				var nom = $('#nom-patient').val();
+				var nbrGtI = $('#nb-gt-i').val();
+				var nbrGtS = $('#nb-gt-s').val();
+				var estimation = $('#estimation-traitement').val();
+				$.ajax({
+					url: Routing.generate('send_viewer_2', {'folder': folderId }),
+					data: { ref : ref, nom : nom, estimation : estimation, nbrGtI : nbrGtI, nbrGtS : nbrGtS },
+					success: function( data ) {
+						window.location.replace(Routing.generate('viewer_3D', {md5 : data.md5}))
+					},
+				})
 
-            $('#next').click(function() {
-                var ref = $('#ref-patient').val();
-                var nom = $('#nom-patient').val();
-                $.ajax({
-                    url: Routing.generate('send_viewer_1'),
-                    data: { ref : ref, nom : nom },
-                    beforeSend: function() {
-                        $('#part1').fadeTo( "slow", 0.50 );
-                        $('.loading').fadeIn( "slow" );
-                    },
-                    success: function( data ) {
-                        $('.alert').addClass('alert-success');
-                        myDropzone.removeAllFiles();
-                        $('.alert').text('Veuillez maintenant ajouter les setups');
-                        $('#btn-add').text('Ajouter les setups');
-                        $('.loading').hide();
-                        $('#part1').fadeTo("slow", 1);
-                        $('#title').text('Ajout de Setup');
-                        $('#next').hide();
-                        $('#validate').show();
-                        $('#validate').data('folderId', data.folderId)
-                    },
-                })
-            });
-            $('#validate').click(function() {
-                var folderId = $('#validate').data('folderId');
+			});
 
+			// Setup the buttons for all transfers
+			// The "add files" button doesn't need to be setup because the config
+			// `clickable` has already been specified.
+			document.querySelector(".actions .start").onclick = function() {
+				myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED));
+			};
 
-                var ref = $('#ref-patient').val();
-                var nom = $('#nom-patient').val();
-                $.ajax({
-                    url: Routing.generate('send_viewer_2', {'folder': folderId }),
-                    data: { ref : ref, nom : nom },
-                    success: function( data ) {
-                        window.location.replace(Routing.generate('viewer_3D', {md5 : data.md5}))
-                    },
-                })
-
-            });
-
-            // Setup the buttons for all transfers
-            // The "add files" button doesn't need to be setup because the config
-            // `clickable` has already been specified.
-            document.querySelector(".actions .start").onclick = function() {
-                myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED));
-            };
-
-            myDropzone.on('success', function(file, response) {
-                $('.alert').addClass('alert-success');
-                $('.alert').text('Le fichier '+file.name+' a été ajouté avec succès');
-                $('.alert').show();
-            });
-            myDropzone.on('canceled', function(file, response) {
-                $('.alert').addClass('alert-warning');
-                $('.alert').text('L\'envoi du fichier '+file.name+' a été annulé');
-                $('.alert').show();
-            });
-        });
-    </script>
+			myDropzone.on('success', function(file, response) {
+				$('.alert').removeClass();
+				$('.alert').addClass('text-center alert alert-success');
+				$('.alert').text('Le fichier '+file.name+' a été ajouté avec succès');
+				$('.alert').show();
+			});
+			myDropzone.on('canceled', function(file, response) {
+				$('.alert').removeClass();
+				$('.alert').addClass('alert text-center alert-warning');
+				$('.alert').text('L\'envoi du fichier '+file.name+' a été annulé');
+				$('.alert').show();
+			});
+		});
+	</script>
 {% endblock %}
 
 {% block stylesheets %}
-    <style>
-        html, body {
-            height: 100%;
-        }
-        .actions {
-            margin: 2em 0;
-        }
-        /* Mimic table appearance */
-        div.table {
-            display: table;
-        }
-        div.table .file-row {
-            display: table-row;
-        }
-        div.table .file-row > div {
-            display: table-cell;
-            vertical-align: top;
-            border-top: 1px solid #ddd;
-            padding: 8px;
-        }
-        div.table .file-row:nth-child(odd) {
-            background: #f9f9f9;
-        }
-        /* Hide the progress bar when finished */
-        .previews .file-row.dz-success .progress {
-            opacity: 0;
-            transition: opacity 0.3s linear;
-        }
-        /* Hide the delete button initially */
-        .previews .file-row .delete {
-            display: none;
-        }
-        /* Hide the start and cancel buttons and show the delete button */
-        .previews .file-row.dz-success .start,
-        .previews .file-row.dz-success .cancel {
-            display: none;
-        }
-        .previews .file-row.dz-success .delete {
-            display: block;
-        }
-        .loading {
-            padding-top:300px;
-            width:100%;
-            top:0;
-            left:0;
-            text-align: center;
-            position: absolute;
-            display:none;
-        }
-    </style>
+	<style>
+		html, body {
+			height: 100%;
+		}
+		.actions {
+			margin: 2em 0;
+		}
+		/* Mimic table appearance */
+		div.table {
+			display: table;
+		}
+		div.table .file-row {
+			display: table-row;
+		}
+		div.table .file-row > div {
+			display: table-cell;
+			vertical-align: top;
+			border-top: 1px solid #ddd;
+			padding: 8px;
+		}
+		div.table .file-row:nth-child(odd) {
+			background: #f9f9f9;
+		}
+		/* Hide the progress bar when finished */
+		.previews .file-row.dz-success .progress {
+			opacity: 0;
+			transition: opacity 0.3s linear;
+		}
+		/* Hide the delete button initially */
+		.previews .file-row .delete {
+			display: none;
+		}
+		/* Hide the start and cancel buttons and show the delete button */
+		.previews .file-row.dz-success .start,
+		.previews .file-row.dz-success .cancel {
+			display: none;
+		}
+		.previews .file-row.dz-success .delete {
+			display: block;
+		}
+		.loading {
+			padding-top:300px;
+			width:100%;
+			top:0;
+			left:0;
+			text-align: center;
+			position: absolute;
+			display:none;
+		}
+	</style>
 {% endblock %}

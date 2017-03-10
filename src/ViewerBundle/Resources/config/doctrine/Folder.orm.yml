@@ -17,19 +17,19 @@ ViewerBundle\Entity\Folder:
             type: string
             length: 255
             nullable: true
-        path1:
+        mallocObj:
             type: string
             length: 255
             nullable: true
-        path2:
+        mallocMtl:
             type: string
             length: 255
             nullable: true
-        path3:
+        setupObj:
             type: string
             length: 255
             nullable: true
-        path4:
+        setupMtl:
             type: string
             length: 255
             nullable: true
@@ -37,4 +37,15 @@ ViewerBundle\Entity\Folder:
             type: string
             length: 32
             nullable: false
+        nbGtS:
+            type: integer
+            nullable: false
+        nbGtI:
+            type: integer
+            nullable: false
+        estimationTraitement:
+            type: string
+            nullable: false
+
+
     lifecycleCallbacks: {  }

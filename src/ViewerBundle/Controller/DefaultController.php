@@ -30,15 +30,20 @@ class DefaultController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $folders = $em->getRepository('ViewerBundle:Folder')->findAll();
+        $folder = new Folder();
+        $form = $this->createForm('ViewerBundle\Form\FolderType', $folder);
+
 
         foreach ($folders as $folder) {
-            if ($folder->getPath3() == null or $folder->getPath4() == null) {
+            if ($folder->getSetupObj() == null or $folder->getSetupMtl() == null) {
                 $em->remove($folder);
             }
         }
         $em->flush();
         $this->runCommand('oneup:uploader:clear-orphans');
-        return $this->render('ViewerBundle:Default:index.html.twig');
+        return $this->render('ViewerBundle:Default:index.html.twig', array(
+            'form' => $form->createView(),
+        ));
     }
 
     public function viewerAction($md5)
@@ -61,11 +66,17 @@ class DefaultController extends Controller
 
         $ref = $request->query->get('ref');
         $nom = $request->query->get('nom');
+        $nbrGtS = $request->query->get('nbrGtS');
+        $nbrGtI = $request->query->get('nbrGtI');
+        $estimation = $request->query->get('estimation');
 
         // create folder
         $folder = new Folder;
         $folder->setRef($ref);
         $folder->setNom($nom);
+        $folder->setNbGtS($nbrGtS);
+        $folder->setNbGtI($nbrGtI);
+        $folder->setEstimationTraitement($estimation);
         $folder->setMd5(md5($ref));
 
         $em->persist($folder);
@@ -86,9 +97,9 @@ class DefaultController extends Controller
             $newFileName = $folderId.'-malloc-'.$ref.'.'.$file->getExtension();
             $fs->rename($file->getRealPath(), $file->getPath().'/'.$newFileName);
             if ($file->getExtension() == 'obj') {
-                $folder->setPath1($newFileName);
+                $folder->setMallocObj($newFileName);
             } elseif ($file->getExtension() == 'mtl') {
-                $folder->setPath2($newFileName);
+                $folder->setMallocMtl($newFileName);
             }
 
         }
@@ -108,9 +119,16 @@ class DefaultController extends Controller
 
         $ref = $request->query->get('ref');
         $nom = $request->query->get('nom');
-        // create folder
+        $nbrGtS = $request->query->get('nbrGtS');
+        $nbrGtI = $request->query->get('nbrGtI');
+        $estimation = $request->query->get('estimation');
+
+        // update folder
         $folder->setRef($ref);
         $folder->setNom($nom);
+        $folder->setNbGtS($nbrGtS);
+        $folder->setNbGtI($nbrGtI);
+        $folder->setEstimationTraitement($estimation);
         $folder->setMd5(md5($ref.$folder->getId()));
 
         $em->persist($folder);
@@ -131,9 +149,9 @@ class DefaultController extends Controller
             $newFileName = $folderId.'-setup-'.$ref.'.'.$file->getExtension();
             $fs->rename($file->getRealPath(), $file->getPath().'/'.$newFileName);
             if ($file->getExtension() == 'obj') {
-                $folder->setPath3($newFileName);
+                $folder->setSetupObj($newFileName);
             } elseif ($file->getExtension() == 'mtl') {
-                $folder->setPath4($newFileName);
+                $folder->setSetupMtl($newFileName);
             }
 
         }

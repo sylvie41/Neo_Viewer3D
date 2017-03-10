@@ -5,8 +5,20 @@
 {% block body %}
 <div class="loader"><img style="width:100px" class="text-center img center-block img-responsive" src="{{ asset('bundles/viewer/img/loader.gif') }}"/></div>
 <div class="no-padding col-md-12">
-    <div class="col-md-6 no-padding" id="malloc"></div>
-    <div class="col-md-6 no-padding" id="setup"></div>
+    <div class="col-md-5 no-padding" id="malloc"></div>
+    <div class="col-md-5 no-padding" id="setup"></div>
+    <div class="col-md-2 no-padding" id="infos">
+        <div class="infos-head">
+            <h1 class="text-center"><u>Infos</u></h1>
+            <ul class="list-group">
+                {% if folder.ref != '' %}<li class="list-group-item"> <b>Ref patient</b> : {{ folder.ref }}</li>{% endif  %}
+                {% if folder.nom != '' %}<li class="list-group-item"> <b>Nom patient</b> : {{ folder.nom }}</li>{% endif  %}
+                {% if folder.nbGtS!= '' %}<li class="list-group-item"> <b>Gouttières sup. nécéssaires</b> : {{ folder.nbGtS }}</li>{% endif  %}
+                {% if folder.nbGtI != '' %}<li class="list-group-item"> <b>Gouttières inf. nécéssaires</b> : {{ folder.nbGtI }}</li>{% endif  %}
+                {% if folder.estimationTraitement != '' %}<li class="list-group-item"> <b>Temps de traitement estimé</b> : {{ folder.estimationTraitement }}</li>{% endif  %}
+            </ul>
+        </div>
+    </div>
 </div>
 {% endblock %}
 {% block stylesheets %}
@@ -153,30 +165,26 @@
             var mtlLoader = new THREE.MTLLoader( manager );
             mtlLoader.setBaseUrl('../../uploads/documents/');
             mtlLoader.setPath('../../uploads/documents/');
-            mtlLoader.load('{{ folder.path2 }}', function (materials) {
+            mtlLoader.load('{{ folder.mallocMtl }}', function (materials) {
 
 
                 var objLoader = new THREE.OBJLoader();
                 objLoader.setMaterials(materials);
                 objLoader.setPath('../../uploads/documents/');
-                objLoader.load('{{ folder.path1 }}', function (object) {
+                objLoader.load('{{ folder.mallocObj }}', function (object) {
 
                     scene.add(object);
 
                 });
 
             },onProgress, onError);
-
-            mtlLoader = new THREE.MTLLoader(manager);
-            mtlLoader.setBaseUrl('../../uploads/documents/');
-            mtlLoader.setPath('../../uploads/documents/');
-            mtlLoader.load('{{ folder.path4 }}', function (materials) {
+            mtlLoader.load('{{ folder.setupMtl }}', function (materials) {
 
 
                 var objLoader = new THREE.OBJLoader();
                 objLoader.setMaterials(materials);
                 objLoader.setPath('../../uploads/documents/');
-                objLoader.load('{{ folder.path3 }}', function (object) {
+                objLoader.load('{{ folder.setupObj }}', function (object) {
 
                     scene2.add(object);
 
