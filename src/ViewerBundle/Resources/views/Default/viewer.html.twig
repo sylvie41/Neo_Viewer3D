@@ -11,11 +11,28 @@
         <div class="infos-head">
             <h1 class="text-center"><u>Infos</u></h1>
             <ul class="list-group">
-                {% if folder.ref != '' %}<li class="list-group-item"> <b>Ref patient</b> : {{ folder.ref }}</li>{% endif  %}
-                {% if folder.nom != '' %}<li class="list-group-item"> <b>Nom patient</b> : {{ folder.nom }}</li>{% endif  %}
-                {% if folder.nbGtS!= '' %}<li class="list-group-item"> <b>Gouttières sup. nécéssaires</b> : {{ folder.nbGtS }}</li>{% endif  %}
-                {% if folder.nbGtI != '' %}<li class="list-group-item"> <b>Gouttières inf. nécéssaires</b> : {{ folder.nbGtI }}</li>{% endif  %}
-                {% if folder.estimationTraitement != '' %}<li class="list-group-item"> <b>Temps de traitement estimé</b> : {{ folder.estimationTraitement }}</li>{% endif  %}
+                {% if folder.ref != '' %}
+                    <li class="text-center list-group-item">
+                        <b>Ref patient</b><br>
+                        {{ folder.ref }}
+                    </li>
+                {% endif  %}
+                {% if folder.nom != '' %}
+                    <li class="text-center list-group-item">
+                        <b>Nom patient</b><br>
+                        {{ folder.nom }}
+                    </li>
+                {% endif  %}
+                {% if folder.nbGtS!= '' %}
+                    <li class="text-center list-group-item">
+                        <b>Gouttières sup. nécéssaires</b><br>
+                        {{ folder.nbGtS }}
+                    </li>
+                {% endif  %}
+                {% if folder.nbGtI != '' %}<li class="text-center list-group-item"> <b>Gouttières inf. nécéssaires</b><br>
+                    {{ folder.nbGtI }}</li>{% endif  %}
+                {% if folder.estimationTraitement != '' %}<li class="text-center list-group-item"> <b>Temps de traitement estimé</b><br>
+                    {{ folder.estimationTraitement }} Semaines</li>{% endif  %}
             </ul>
         </div>
     </div>
