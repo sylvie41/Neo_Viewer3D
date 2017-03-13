@@ -28,22 +28,29 @@ class DefaultController extends Controller
 
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
-        $folders = $em->getRepository('ViewerBundle:Folder')->findAll();
-        $folder = new Folder();
-        $form = $this->createForm('ViewerBundle\Form\FolderType', $folder);
+
+        $user = $this->getUser();
+        if ($user->hasRole('TEAMNEO')){
+            $em = $this->getDoctrine()->getManager();
+            $folders = $em->getRepository('ViewerBundle:Folder')->findAll();
+            $folder = new Folder();
+            $form = $this->createForm('ViewerBundle\Form\FolderType', $folder);
 
 
-        foreach ($folders as $folder) {
-            if ($folder->getSetupObj() == null or $folder->getSetupMtl() == null) {
-                $em->remove($folder);
+            foreach ($folders as $folder) {
+                if ($folder->getSetupObj() == null or $folder->getSetupMtl() == null) {
+                    $em->remove($folder);
+                }
             }
+            $em->flush();
+            $this->runCommand('oneup:uploader:clear-orphans');
+            return $this->render('ViewerBundle:Default:index.html.twig', array(
+                'form' => $form->createView(),
+            ));
+        } else {
+            return $this->redirectToRoute('cabinet_index');
         }
-        $em->flush();
-        $this->runCommand('oneup:uploader:clear-orphans');
-        return $this->render('ViewerBundle:Default:index.html.twig', array(
-            'form' => $form->createView(),
-        ));
+
     }
 
     public function viewerAction($md5)

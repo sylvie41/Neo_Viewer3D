@@ -1,3 +1,7 @@
+gestion:
+    prefix: /gestion
+    resource: "@ViewerBundle/Resources/config/routing/gestion.yml"
+
 viewer_homepage:
     path:     /
     defaults: { _controller: ViewerBundle:Default:index }
@@ -19,3 +23,7 @@ send_viewer_2:
     defaults: { _controller: ViewerBundle:Default:send2 }
     options:
         expose: true
+
+index_cabinet:
+    path:     /indexCabinet
+    defaults: { _controller: ViewerBundle:Gestion:indexCabinet }

@@ -1,0 +1,3 @@
+cabinet_index:
+    path:     /
+    defaults: { _controller: ViewerBundle:Gestion:indexCabinet }

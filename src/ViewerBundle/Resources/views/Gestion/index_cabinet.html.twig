@@ -1,0 +1,67 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}ViewerBundle:Gestion:indexCabinet{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="text-center">Liste des patients</h1>
+        <table class="text-center table table-striped">
+            <thead>
+            <tr>
+                <th class="text-center">Référence Patient</th>
+                <th class="text-center">Nom Patient</th>
+                <th class="text-center">Nombre de gouttières sup.</th>
+                <th class="text-center">Nombre de gouttières inf.</th>
+                <th class="text-center">Durée estimée</th>
+                <th class="text-center">Vue 3D</th>
+                <th class="text-center">État</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for folder in folders %}
+                <tr>
+                    <td>{{ folder.ref }}</td>
+                    <td>{{ folder.nom }}</td>
+                    <td>{{ folder.nbGtS }}</td>
+                    <td>{{ folder.nbGtI }}</td>
+                    <td>{{ folder.estimationTraitement }} semaines</td>
+                    <td>
+                        <div class="input-group">
+                            <input class="form-control" id="url-{{ folder.id }}" value="{{ path('viewer_3D', {md5 : folder.md5}) }}" readonly>
+                            <span class="input-group-btn">
+                                <button data-target="url-{{ folder.id }}" title="Copier" class="copy btn btn-default">
+                                    <span class="glyphicon glyphicon-paperclip"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </td>
+                    <td><span class="glyphicon glyphicon-ok"></span></td>
+{#
+                    <td>{{ if folder.validated == true }}</td>
+#}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/jq-2.2.4/dt-1.10.13/datatables.min.css"/>
+    <style>
+        table.table>tbody>tr>td {
+            vertical-align: middle;
+        }
+    </style>
+{% endblock %}
+{% block javascript %}
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs/jq-2.2.4/dt-1.10.13/datatables.min.js"></script>
+    <script>
+        $('table.table').DataTable( {
+            'paging' :false,
+            "info": false,
+            "language": {
+                "search": "Rechercher"
+            }
+        });
+    </script>
+{% endblock %}
