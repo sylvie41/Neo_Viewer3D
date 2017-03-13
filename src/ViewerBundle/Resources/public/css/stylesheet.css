@@ -115,11 +115,11 @@ body{
     border-radius: 0;
 }
 
-.btn,
-.btn:link,
-.btn:visited,
-.btn:focus,
-.btn:hover
+.bouton,
+.bouton:link,
+.bouton:visited,
+.bouton:focus,
+.bouton:hover
 {
     background-color: #2980b9;
     color: #fff;
@@ -131,11 +131,11 @@ body{
 
 
 
-.btn-success,
-.btn-success:link,
-.btn-success:visited,
-.btn-success:focus,
-.btn-success:hover
+.bouton-success,
+.bouton-success:link,
+.bouton-success:visited,
+.bouton-success:focus,
+.bouton-success:hover
 {
     background-color: #2980b9;
     color: #fff;

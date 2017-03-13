@@ -428,4 +428,33 @@ class Folder
     {
         return $this->estimationTraitement;
     }
+    /**
+     * @var boolean
+     */
+    private $accepted;
+
+
+    /**
+     * Set accepted
+     *
+     * @param boolean $accepted
+     *
+     * @return Folder
+     */
+    public function setAccepted($accepted)
+    {
+        $this->accepted = $accepted;
+
+        return $this;
+    }
+
+    /**
+     * Get accepted
+     *
+     * @return boolean
+     */
+    public function getAccepted()
+    {
+        return $this->accepted;
+    }
 }
