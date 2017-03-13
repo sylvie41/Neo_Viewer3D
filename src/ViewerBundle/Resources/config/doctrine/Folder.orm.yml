@@ -46,6 +46,9 @@ ViewerBundle\Entity\Folder:
         estimationTraitement:
             type: string
             nullable: false
+        accepted:
+            type: boolean
+            nullable: true
 
 
     lifecycleCallbacks: {  }

@@ -1,3 +1,9 @@
 cabinet_index:
     path:     /
     defaults: { _controller: ViewerBundle:Gestion:indexCabinet }
+
+validate_folder:
+    path:    /validate/{folder}
+    defaults: { _controller: ViewerBundle:Gestion:validateFolder }
+    options:
+        expose: true

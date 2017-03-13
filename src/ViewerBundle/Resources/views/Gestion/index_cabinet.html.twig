@@ -14,17 +14,17 @@
                 <th class="text-center">Nombre de gouttières inf.</th>
                 <th class="text-center">Durée estimée</th>
                 <th class="text-center">Vue 3D</th>
-                <th class="text-center">État</th>
+                <th class="text-center">Accepter</th>
             </tr>
             </thead>
             <tbody>
             {% for folder in folders %}
                 <tr>
-                    <td>{{ folder.ref }}</td>
-                    <td>{{ folder.nom }}</td>
-                    <td>{{ folder.nbGtS }}</td>
-                    <td>{{ folder.nbGtI }}</td>
-                    <td>{{ folder.estimationTraitement }} semaines</td>
+                    <td>{% if folder.ref is not null %} {{ folder.ref }} {% endif %}</td>
+                    <td>{% if folder.nom is not null %} {{ folder.nom }}{% endif %}</td>
+                    <td>{% if folder.nbGtS is not null %} {{ folder.nbGtS }}{% endif %}</td>
+                    <td>{% if folder.nbGtI is not null %} {{ folder.nbGtI }}{% endif %}</td>
+                    <td>{% if folder.estimationTraitement is not null %} {{ folder.estimationTraitement }} semaines{% endif %}</td>
                     <td>
                         <div class="input-group">
                             <input class="form-control" id="url-{{ folder.id }}" value="{{ path('viewer_3D', {md5 : folder.md5}) }}" readonly>
@@ -35,10 +35,13 @@
                             </span>
                         </div>
                     </td>
-                    <td><span class="glyphicon glyphicon-ok"></span></td>
-{#
-                    <td>{{ if folder.validated == true }}</td>
-#}
+                    <td class="text-center">
+                        {% if folder.accepted == true %}
+                            <input data-folder="{{ folder.id }}" class="checkbox-validate" value="checked" checked type="checkbox"/>
+                        {% else %}
+                            <input data-folder="{{ folder.id }}" class="checkbox-validate" value="checked" type="checkbox"/>
+                        {% endif %}
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>
@@ -54,14 +57,34 @@
     </style>
 {% endblock %}
 {% block javascript %}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs/jq-2.2.4/dt-1.10.13/datatables.min.js"></script>
     <script>
         $('table#liste-patients').DataTable( {
-            'paging' :false,
-            "info": false,
-            "language": {
-                "search": "Rechercher"
+                'paging' :false,
+                "info": false,
+                "language": {
+                    "search": "Rechercher"
             }
         });
+        $('.checkbox-validate').change(function () {
+            var state;
+            var folderId = $(this).data('folder');
+            if($(this).is(":checked")) {
+                state = 'checked';
+            } else {
+                state = 'unchecked';
+            }
+            $.ajax({
+                url: Routing.generate('validate_folder', {folder : folderId}),
+                data: { state },
+                beforeSend: function() {},
+                success: function( data ) {
+
+                }
+            })
+        });
+
     </script>
 {% endblock %}
