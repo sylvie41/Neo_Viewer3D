@@ -5,7 +5,7 @@
 {% block body %}
     <div class="container">
         <h1 class="text-center">Liste des patients</h1>
-        <table class="text-center table table-striped">
+        <table id="liste-patients" class="text-center table table-striped">
             <thead>
             <tr>
                 <th class="text-center">Référence Patient</th>
@@ -56,7 +56,7 @@
 {% block javascript %}
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs/jq-2.2.4/dt-1.10.13/datatables.min.js"></script>
     <script>
-        $('table.table').DataTable( {
+        $('table#liste-patients').DataTable( {
             'paging' :false,
             "info": false,
             "language": {
