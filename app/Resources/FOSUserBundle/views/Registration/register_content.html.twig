@@ -17,7 +17,7 @@
 				{{ form_errors(form.email) }}
 				{{ form_label(form.email) }}
 				<div class="input-group">
-					{{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+					{{ form_widget(form.email, {'attr': {'class': 'test form-control'}}) }}
 					<div class="input-group-addon">@</div>
 				</div>
 			</div>
@@ -43,3 +43,11 @@
 		{{ form_end(form) }}
 	</div>
 </div>
+
+{% block stylesheets %}
+<style>
+	div.input-group > input.test {
+		display:none;
+	}
+</style>
+{% endblock %}
