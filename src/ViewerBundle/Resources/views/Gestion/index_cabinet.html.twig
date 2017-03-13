@@ -3,56 +3,91 @@
 {% block title %}ViewerBundle:Gestion:indexCabinet{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <h1 class="text-center">Liste des patients</h1>
-        <table id="liste-patients" class="text-center table table-striped">
-            <thead>
-            <tr>
-                <th class="text-center">Référence Patient</th>
-                <th class="text-center">Nom Patient</th>
-                <th class="text-center">Nombre de gouttières sup.</th>
-                <th class="text-center">Nombre de gouttières inf.</th>
-                <th class="text-center">Durée estimée</th>
-                <th class="text-center">Vue 3D</th>
-                <th class="text-center">État</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for folder in folders %}
-                <tr>
-                    <td>{{ folder.ref }}</td>
-                    <td>{{ folder.nom }}</td>
-                    <td>{{ folder.nbGtS }}</td>
-                    <td>{{ folder.nbGtI }}</td>
-                    <td>{{ folder.estimationTraitement }} semaines</td>
-                    <td>
-                        <div class="input-group">
-                            <input class="form-control" id="url-{{ folder.id }}" value="{{ path('viewer_3D', {md5 : folder.md5}) }}" readonly>
-                            <span class="input-group-btn">
+
+            <div class="container fondblanc">
+                <h1 class="title"><a class="title1">Liste des</a><a class="title2">patients</a></h1>
+                <table id="liste-patients" class="table table-striped">
+                    <thead>
+                    <tr class="categorie">
+                        <th class="text-center">Référence Patient</th>
+                        <th class="text-center">Nom Patient</th>
+                        <th class="text-center">Nombre de gouttières sup.</th>
+                        <th class="text-center">Nombre de gouttières inf.</th>
+                        <th class="text-center">Durée estimée</th>
+                        <th class="text-center">Vue 3D</th>
+                        <th class="text-center">État</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for folder in folders %}
+                        <tr>
+                            <td>{{ folder.ref }}</td>
+                            <td>{{ folder.nom }}</td>
+                            <td>{{ folder.nbGtS }}</td>
+                            <td>{{ folder.nbGtI }}</td>
+                            <td>{{ folder.estimationTraitement }} semaines</td>
+                            <td>
+                                <div class="input-group">
+                                    <input class="form-control" id="url-{{ folder.id }}" value="{{ path('viewer_3D', {md5 : folder.md5}) }}" readonly style="border-radius: 0; background-color: #ffffff; color: #2980b9;">
+                                    <span class="input-group-btn">
                                 <button data-target="url-{{ folder.id }}" title="Copier" class="copy btn btn-default">
                                     <span class="glyphicon glyphicon-paperclip"></span>
                                 </button>
                             </span>
-                        </div>
-                    </td>
-                    <td><span class="glyphicon glyphicon-ok"></span></td>
-{#
-                    <td>{{ if folder.validated == true }}</td>
-#}
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
+                                </div>
+                            </td>
+                            <td><span class="glyphicon glyphicon-ok"></span></td>
+                            {#
+                                                <td>{{ if folder.validated == true }}</td>
+                            #}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
 {% endblock %}
+
+
 {% block stylesheets %}
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/jq-2.2.4/dt-1.10.13/datatables.min.css"/>
-    <style>
-        table.table>tbody>tr>td {
-            vertical-align: middle;
-        }
-    </style>
+<style>
+    .categorie{
+        background-color: #2980b9;
+        color: #FFFFFF;
+    }
+
+    .table{
+        text-align: center;
+        border: 2px solid #2980b9;
+    }
+
+    /* Couleur de fond de chaque cellule */
+    td{
+        background-color:#fbfbfb;
+    }
+
+    /*Survol*/
+    tr:hover td{
+        background-color:#D2EAFB;
+    }
+
+
+    .input-group{
+        border-radius: 0;
+    }
+
+    table.table>tbody>tr>td {
+        vertical-align: middle;
+    }
+
+    label{
+        background-color: #2980b9;
+        color: #fff;
+        padding:4px 4px 4px 10px;
+    }
+</style>
 {% endblock %}
+
 {% block javascript %}
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs/jq-2.2.4/dt-1.10.13/datatables.min.js"></script>
     <script>
@@ -60,7 +95,8 @@
             'paging' :false,
             "info": false,
             "language": {
-                "search": "Rechercher"
+                "search": "Rechercher",
+                "placeholder": "Rechercher"
             }
         });
     </script>

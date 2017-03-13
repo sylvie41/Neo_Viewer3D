@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8" />
-    <title>{% block title %}Welcome!{% endblock %}</title>
+    <title>{% block title %}Viewer Neo 3D!{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% block stylesheets %}{% endblock %}
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
@@ -11,6 +11,10 @@
     <!-- Appel des bibliothèques Bootstrap -->
     <link rel="stylesheet" type="text/css" href="{{ asset('bundles/viewer/css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" />
+
+    <!-- Appel au css -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/viewer/css/stylesheet.css') }}" />
+
 
 
 </head>
@@ -26,13 +30,13 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="#">Viewer Neo3D</a>
+                        <a class="navbar-brand" style="color: #2980b9;" href="#">Viewer Neo3D</a>
                     </div>
                     <div id="navbar" class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
-                            <li class="active"><a href="#">Accueil</a></li>
+                            {#<li class="active"><a href="#">Accueil</a></li>
                             <li><a href="#">About</a></li>
-                            <li><a href="#">Contact</a></li>
+                            <li><a href="#">Contact</a></li>#}
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}

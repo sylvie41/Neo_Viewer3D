@@ -1,5 +1,10 @@
 {% extends "FOSUserBundle::layout.html.twig" %}
 
 {% block body %}
-    {{ include('FOSUserBundle:Security:login_content.html.twig') }}
+    <div class="container fondblanc">
+        <h1 class="title"><a class="title1">Bienvenue sur</a><a class="title2">NeoViewer3D</a></h1>
+        {{ include('FOSUserBundle:Security:login_content.html.twig') }}
+    </div>
 {% endblock %}
+
+

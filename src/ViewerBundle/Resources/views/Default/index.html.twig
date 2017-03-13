@@ -1,14 +1,16 @@
 {% extends '::base.html.twig' %}
 {% block body %}
-	<div class="container">
+
+	<div class="container fondblanc">
 		<div class="row">
-			<h1 id="title" class="text-center">Ajout de Malloc</h1>
+			<h1 class="title"><a class="title1">Ajout de</a><a class="title2">Malloc</a></h1>
 			<h3 class="text-center"><small>Vous pouvez déposer vos fichiers n'importe où sur la page pour les ajouter au formulaire</small></h3>
 		</div>
-		<div class="row">
-			<div class="col-md-6 col-md-offset-3">
+
+		<div class="row fondgris1">
+			<div class="col-md-8 col-md-offset-2">
 				<div class="row">
-					<div class="text-center alert" style="display:none;"></div>
+					<div class="alert" style="display:none;"></div>
 					{{ form_start(form) }}
 						<div class="col-md-6 form-group">
 							{{ form_errors(form.ref) }}
@@ -35,7 +37,7 @@
 							{{ form_widget(form.nbGtI, {'value' : '12', 'attr': {'class': 'form-control'}, 'id': 'nb-gt-i' }) }}
 						</div>
 
-						<div class="col-md-offset-3 col-md-6 form-group">
+						<div class="col-md-offset-3 col-md-6 form-group"><br>
 							{{ form_errors(form.estimationTraitement) }}
 							{{ form_label(form.estimationTraitement, 'Estimation durée traitement', { 'label_attr': {'class': 'text-center'} }) }}
 							<div class="input-group">
@@ -46,13 +48,13 @@
 					{{ form_end(form) }}
 				</div>
 				<div id="part1">
-					<div class="actions" class="row">
+					<div class="actions row text-center">
 						<!-- The fileinput-button span is used to style the file input field as button -->
 						<span class="btn btn-success fileinput-button">
 							<i class="glyphicon glyphicon-plus"></i>
 							<span id="btn-add">Ajouter les malloc...</span>
 						</span>
-						<button type="button" style="display:none;" class="btn btn-primary start">
+						<button type="button" style="display:none;" class="btn1 btn btn-primary start btnfichier">
 							<i class="glyphicon glyphicon-upload"></i>
 							<span>Envoyer les fichiers</span>
 						</button>
@@ -76,11 +78,11 @@
 								</div>
 							</div>
 							<div>
-								<button type="button" class="btn btn-primary start">
+								<button type="button" class="btn1 btn btn-primary start">
 									<i class="glyphicon glyphicon-upload"></i>
 									<span>Envoyer</span>
 								</button>
-								<button type="button" data-dz-remove class="btn btn-warning cancel">
+								<button type="button" data-dz-remove class="btn btn2 btn-warning cancel">
 									<i class="glyphicon glyphicon-ban-circle"></i>
 									<span>Annuler</span>
 								</button>
@@ -159,10 +161,10 @@
 			});
 			var estimationMin, estimationMax;
 			$('#nb-gt-s, #nb-gt-i').on('input', function() {
-                var nbrGtI = $('#nb-gt-i').val();
-                var nbrGtS = $('#nb-gt-s').val();
+                var nbrGtI = parseInt($('#nb-gt-i').val(), 10);
+                var nbrGtS = parseInt($('#nb-gt-s').val(), 10);
                 if (nbrGtI > nbrGtS) {
-                    console.log('I > S');
+                    console.log(nbrGtI);
                     estimationMin = nbrGtI*2;
                     estimationMax = nbrGtI*3;
                 } else if (nbrGtS > nbrGtI) {
@@ -293,5 +295,6 @@
 			position: absolute;
 			display:none;
 		}
+
 	</style>
 {% endblock %}
