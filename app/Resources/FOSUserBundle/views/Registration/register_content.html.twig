@@ -1,7 +1,7 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
 	<div class="container fondgris">
-		<div class="col-md-6 col-md-offset-3">
+		<div class="col-md-10 col-md-offset-1">
 			{{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register text-center'}}) }}
 			<div class="form-group">
 				{{ form_errors(form.username) }}
@@ -15,7 +15,7 @@
 				{{ form_errors(form.email) }}
 				{{ form_label(form.email) }}
 				<div class="input-group">
-					{{ form_widget(form.email, {'attr': {'class': 'test groupe form-control'}}) }}
+					{{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
 					<div class="input-group-addon">@</div>
 				</div>
 			</div>
@@ -48,8 +48,14 @@
 {% block stylesheets %}
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/jq-2.2.4/dt-1.10.13/datatables.min.css"/>
     <style>
-        imput.test{
-            display:none!important;
+        .form-group{
+            max-width: 600px
+        }
+
+
+        input.form-control{
+            border-radius: 0;
+
         }
     </style>
 {% endblock %}
