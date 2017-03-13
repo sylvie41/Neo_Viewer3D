@@ -75,6 +75,10 @@
     <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs/jq-2.2.4/dt-1.10.13/datatables.min.js"></script>
     <script>
+        $(document).ready(function() {
+            $('.loading').fadeOut();
+            $('#liste-patients').fadeTo('slow', 1 );
+        });
         $('table#liste-patients').DataTable( {
                 'paging' :false,
                 "info": false,
