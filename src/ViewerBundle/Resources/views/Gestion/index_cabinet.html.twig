@@ -4,7 +4,7 @@
 
 {% block body %}
 
-    <div class="container fondblanc">
+    <div class="container fondblanc" xmlns:data-title="http://www.w3.org/1999/xhtml">
         <h1 class="title"><a class="title1">Liste des</a><a class="title2">patients</a></h1>
         <table id="liste-patients" class="table table-striped">
             <thead>
@@ -30,7 +30,7 @@
                         <div class="input-group">
                             <input class="form-control" id="url-{{ folder.id }}" value="{{ path('viewer_3D', {md5 : folder.md5}) }}" readonly>
                             <span class="input-group-btn">
-                                <button data-target="url-{{ folder.id }}" title="Copier" class="copy btn btn-default">
+                                <button data-target="url-{{ folder.id }}" data-title="copié!" class="copy btn btn-default">
                                     <span class="glyphicon glyphicon-paperclip"></span>
                                 </button>
                             </span>
@@ -99,12 +99,16 @@
         .loading {
             padding-top:220px;
             z-index: 9999;
-            opacity:1!important;
+            opacity:1;
             width:100%;
-            top:0;
+            top:80px;
             left:0;
             text-align: center;
             position: absolute;
+        }
+
+        #liste-patients {
+            opacity:0;
         }
     </style>
 {% endblock %}
@@ -113,36 +117,49 @@
 
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/v/bs/jq-2.2.4/dt-1.10.13/datatables.min.js"></script>
     <script>
         $(document).ready(function() {
             $('.loading').fadeOut();
             $('#liste-patients').fadeTo('slow', 1 );
-        });
-        $('table#liste-patients').DataTable( {
-            'paging' :false,
-            "info": false,
-            "language": {
-                "search": "Rechercher",
 
-            }
-        });
-        $('.checkbox-validate').change(function () {
-            var state;
-            var folderId = $(this).data('folder');
-            if($(this).is(":checked")) {
-                state = 'checked';
-            } else {
-                state = 'unchecked';
-            }
-            $.ajax({
-                url: Routing.generate('validate_folder', {folder : folderId}),
-                data: { state },
-                beforeSend: function() {},
-                success: function( data ) {
+            $('table#liste-patients').DataTable( {
+                'paging' :false,
+                "info": false,
+                "language": {
+                    "search": "Rechercher",
 
                 }
-            })
+            });
+
+            $('.checkbox-validate').change(function () {
+                var state;
+                var folderId = $(this).data('folder');
+                if($(this).is(":checked")) {
+                    state = 'checked';
+                } else {
+                    state = 'unchecked';
+                }
+                $.ajax({
+                    url: Routing.generate('validate_folder', {folder : folderId}),
+                    data: { state },
+                    beforeSend: function() {},
+                    success: function( data ) {
+
+                    }
+                })
+
+            });
+
+            $('.copy').tooltip({
+                trigger : 'clic',
+                delay: { "show": 100, "hide": 1000 }
+            });
+
+            $('.copy').click(function() {
+                $(this).tooltip('show');
+                var target = $(this).data('target');
+                document.execCommand('copy', false, $('#'+target).select());
+            });
         });
 
     </script>
