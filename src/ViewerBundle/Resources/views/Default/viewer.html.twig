@@ -7,6 +7,7 @@
         <div class="no-padding col-md-12 col-xs-12 col-lg-12">
             <div class="col-md-5 col-xs-12 no-padding" id="malloc"></div>
             <div class="col-md-5 col-xs-12 no-padding" id="setup"></div>
+            <div class="col-md-10 col-xs-12 no-padding" id="combined"></div>
             <div class="col-md-2 col-xs-12 no-padding" id="infos">
 
                 <h1 class="text-center"><u>Infos</u></h1>
@@ -36,7 +37,13 @@
                         {{ folder.estimationTraitement }} Semaines</li>{% endif  %}
                 </ul>
             </div>
-
+            <div class="hud">
+                <span id="left" class="glyphicon glyphicon-menu-left btn-hud"></span>
+                <span id="face" class="glyphicon glyphicon-menu-down btn-hud"></span>
+                <span id="right" class="glyphicon glyphicon-menu-right btn-hud"></span>
+                <span id="display_combined" class="glyphicon glyphicon-menu-right btn-hud"></span>
+            </div>
+        </div>
     </div>
 {% endblock %}
 {% block stylesheets %}
@@ -51,7 +58,7 @@
             }
         }
 
-        #setup, #malloc {
+        #setup, #malloc, #combined {
             height:100vh;
         }
         body {
@@ -67,6 +74,7 @@
         .loader {
             width:100vw;
             height:100vh;
+            z-index: 1000;
         }
         .no-padding {
             padding:0!important;
@@ -75,10 +83,22 @@
             margin: 0;
             padding: 0;
         }
-
-
+        #combined {
+            display:none;
+        }
         a {
             color: #f58231;
+        }
+        .hud {
+            position:fixed;
+            bottom:0;
+            display:none;
+        }
+        .btn-hud {
+            color:white;
+
+            font-size:40px;
+            cursor:pointer;
         }
     </style>
 {% endblock %}
@@ -95,10 +115,11 @@
             Detector.addGetWebGLMessage();
         }
 
-        var containerMalloc, containerSetup;
+        var containerMalloc, containerSetup, containerCombined;
 
-        var camera, controls, controls2, scene, scene2, renderer, renderer2;
+        var camera, cameraCombined, controls, controls2, controlsCombined, scene, scene2, sceneCombined, rendererMalloc, rendererSetup, rendererCombined;
         var lighting, ambient, keyLight, fillLight, backLight;
+        var firstAnimationRequest;
 
         var windowHalfX = window.innerWidth / 2;
         var windowHalfY = window.innerHeight / 2;
@@ -110,14 +131,15 @@
 
             containerMalloc = document.getElementById('malloc');
             containerSetup = document.getElementById('setup');
+            containerCombined = document.getElementById('combined');
 
             /* Loader */
             var manager = new THREE.LoadingManager();
             manager.onProgress = function( item, loaded, total ) {
                 console.log( item, loaded, total );
                 if (loaded == 4) { // Quand 4 fichiers ont été chargés, le loader s'enlève
-                    console.log('maintenant');
                     $('.loader').fadeOut( "slow", function() {
+                        $('.hud').show();
                     });
                 }
             };
@@ -130,7 +152,7 @@
             var onError = function( xhr ) {
             };
 
-            /* Camera */
+            /* Cameras */
             camera = new THREE.PerspectiveCamera(20, containerMalloc.offsetWidth / containerMalloc.offsetHeight, 1, 10000);
             camera.position.z = 300;
 
@@ -208,6 +230,7 @@
                 });
 
             },onProgress, onError);
+
             mtlLoader.load('{{ folder.setupMtl }}', function (materials) {
 
 
@@ -223,38 +246,85 @@
             });
 
             /* Renderer */
-            renderer = new THREE.WebGLRenderer({ antialias: true});
-            renderer.setSize(containerMalloc.offsetWidth , containerMalloc.offsetHeight);
-            renderer.setPixelRatio( window.devicePixelRatio );
-            renderer.setClearColor(new THREE.Color("hsl(0, 0%, 10%)"));
 
-            renderer2 = new THREE.WebGLRenderer( { antialias: true});
-            renderer2.setPixelRatio(window.devicePixelRatio);
-            renderer2.setSize(containerSetup.offsetWidth , containerSetup.offsetHeight);
-            renderer2.setClearColor( new THREE.Color("hsl(0, 0%, 10%)") );
+            // Display des malloc //
+            rendererMalloc = new THREE.WebGLRenderer({ antialias: true});
+            rendererMalloc.setSize(containerMalloc.offsetWidth , containerMalloc.offsetHeight);
+            rendererMalloc.setPixelRatio( window.devicePixelRatio );
+            rendererMalloc.setClearColor(new THREE.Color("hsl(0, 0%, 10%)"));
 
-            containerMalloc.appendChild(renderer.domElement);
-            containerSetup.appendChild(renderer2.domElement);
+            // Display des setup //
+            rendererSetup = new THREE.WebGLRenderer( { antialias: true});
+            rendererSetup.setPixelRatio(window.devicePixelRatio);
+            rendererSetup.setSize(containerSetup.offsetWidth , containerSetup.offsetHeight);
+            rendererSetup.setClearColor( new THREE.Color("hsl(0, 0%, 10%)") );
 
-            console.log('taille hauteur '+containerSetup.offsetHeight);
-            console.log('taille largeur '+containerSetup.offsetWidth);
+            containerMalloc.appendChild(rendererMalloc.domElement);
+            containerSetup.appendChild(rendererSetup.domElement);
+
 
             /* Controls */
 
-            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls = new THREE.OrbitControls(camera, rendererMalloc.domElement);
             controls.enableDamping = true;
             controls.dampingFactor = 0.25;
             controls.enableZoom = true;
 
-            controls2 = new THREE.OrbitControls(camera, renderer2.domElement);
+            controls2 = new THREE.OrbitControls(camera, rendererSetup.domElement);
             controls2.enableDamping = true;
             controls2.dampingFactor = 0.25;
             controls2.enableZoom = true;
 
-
             /* Event */
 
             window.addEventListener('resize', onWindowResize, false);
+
+
+            /* Display combined View */
+
+            cameraCombined = new THREE.PerspectiveCamera(20, containerCombined.offsetWidth / containerCombined.offsetHeight,1, 10000);
+            cameraCombined.position.z = 300;
+
+            sceneCombined = new THREE.Scene();
+
+            mtlLoader = new THREE.MTLLoader( manager );
+            mtlLoader.setBaseUrl('../../uploads/documents/');
+            mtlLoader.setPath('../../uploads/documents/');
+            mtlLoader.load('{{ folder.mallocMtl }}', function (materials) {
+
+
+                var objLoader = new THREE.OBJLoader();
+                objLoader.setMaterials(materials);
+                objLoader.setPath('../../uploads/documents/');
+                objLoader.load('{{ folder.mallocObj }}', function (object) {
+
+                    sceneCombined.add(object);
+
+                });
+
+            },onProgress, onError);
+
+            mtlLoader.load('{{ folder.setupMtl }}', function (materials) {
+
+
+                var objLoader = new THREE.OBJLoader();
+                objLoader.setMaterials(materials);
+                objLoader.setPath('../../uploads/documents/');
+                objLoader.load('{{ folder.setupObj }}', function (object) {
+
+                    sceneCombined.add(object);
+
+                },onProgress, onError);
+
+            });
+
+            // Display de la vue avec malloc + setup
+            rendererCombined = new THREE.WebGLRenderer( { antialias: true});
+            rendererCombined.setPixelRatio(window.devicePixelRatio);
+            rendererCombined.setSize(containerCombined.offsetWidth , containerCombined.offsetHeight);
+            rendererCombined.setClearColor( new THREE.Color("hsl(0, 0%, 10%)") );
+
+            containerCombined.appendChild(rendererCombined.domElement);
         }
 
         function onWindowResize() {
@@ -262,27 +332,63 @@
             windowHalfY = window.innerHeight / 2;
             camera.aspect = containerMalloc.offsetWidth / containerMalloc.offsetHeight;
             camera.updateProjectionMatrix();
-            renderer.setSize(containerMalloc.offsetWidth, containerMalloc.offsetHeight);
-            renderer2.setSize(containerSetup.offsetWidth, containerSetup.offsetHeight);
+            rendererMalloc.setSize(containerMalloc.offsetWidth, containerMalloc.offsetHeight);
+            rendererSetup.setSize(containerSetup.offsetWidth, containerSetup.offsetHeight);
+
+            cameraCombined.aspect = containerCombined.offsetWidth / containerCombined.offsetHeight;
+            cameraCombined.updateProjectionMatrix();
+            rendererCombined.setSize(containerCombined.offsetWidth, containerCombined.offsetHeight);
         }
 
         function animate() {
 
-            requestAnimationFrame(animate);
-
+            firstAnimationRequest = requestAnimationFrame(animate);
             controls.update();
             controls2.update();
 
-            render();
+            firstRender();
 
         }
 
-        function render() {
+        function animateCombined() {
+            animationRequestCombined = requestAnimationFrame(animateCombined);
+            controls.update();
+            controls2.update();
 
-            renderer.render(scene, camera);
-            renderer2.render(scene2, camera);
-
+            renderCombined();
         }
+
+        function firstRender() {
+            rendererMalloc.render(scene, camera);
+            rendererSetup.render(scene2, camera);
+        }
+
+        function renderCombined() {
+            rendererCombined.render(sceneCombined, cameraCombined);
+        }
+        $('#face').click(function() {
+            camera.position.x = -15;
+            camera.position.y = 92;
+            camera.position.z = 239;
+        });
+        $('#right').click(function() {
+            camera.position.x = -256;
+            camera.position.y = -5;
+            camera.position.z = -8;
+        });
+        $('#left').click(function() {
+            camera.position.x = 256;
+            camera.position.y = -5;
+            camera.position.z = -8;
+        });
+        $('#display_combined').click(function() {
+            cancelAnimationFrame( firstAnimationRequest );
+            $('#setup,#malloc').hide();
+            $('#combined').show();
+            onWindowResize();
+            requestAnimationFrame(animateCombined);
+
+        });
 
     </script>
 {% endblock %}
