@@ -41,7 +41,9 @@
                 <span id="left" class="glyphicon glyphicon-menu-left btn-hud"></span>
                 <span id="face" class="glyphicon glyphicon-menu-down btn-hud"></span>
                 <span id="right" class="glyphicon glyphicon-menu-right btn-hud"></span>
-                <span id="display_combined" class="glyphicon glyphicon-menu-right btn-hud"></span>
+            </div>
+            <div class="hud2">
+                <input max="3" min="0" name="choice_view" id="choice_view" type="range" value="2">
             </div>
         </div>
     </div>
@@ -94,6 +96,11 @@
             bottom:0;
             display:none;
         }
+        .hud2 {
+            position:fixed;
+            bottom:0;
+            left:200px;
+        }
         .btn-hud {
             color:white;
 
@@ -119,13 +126,13 @@
 
         var camera, cameraCombined, controls, controls2, controlsCombined, scene, scene2, sceneCombined, rendererMalloc, rendererSetup, rendererCombined;
         var lighting, ambient, keyLight, fillLight, backLight;
-        var firstAnimationRequest;
+        var firstAnimationRequest, animationRequestCombined;
 
         var windowHalfX = window.innerWidth / 2;
         var windowHalfY = window.innerHeight / 2;
 
         init();
-        animate();
+        animateDouble();
 
         function init() {
 
@@ -136,7 +143,6 @@
             /* Loader */
             var manager = new THREE.LoadingManager();
             manager.onProgress = function( item, loaded, total ) {
-                console.log( item, loaded, total );
                 if (loaded == 4) { // Quand 4 fichiers ont été chargés, le loader s'enlève
                     $('.loader').fadeOut( "slow", function() {
                         $('.hud').show();
@@ -203,8 +209,6 @@
 
             var light7 = new THREE.DirectionalLight( 0x1D3824, 0.5 );
             light7.position.set( 10, 30, 50 );
-            /*var helper = new THREE .DirectionalLightHelper( light7, 3);
-            scene2.add(helper);*/
             scene2.add( light7 );
 
             var light8 = new THREE.DirectionalLight( 0x4ABD6A, 0.5 );
@@ -257,7 +261,7 @@
             rendererSetup = new THREE.WebGLRenderer( { antialias: true});
             rendererSetup.setPixelRatio(window.devicePixelRatio);
             rendererSetup.setSize(containerSetup.offsetWidth , containerSetup.offsetHeight);
-            rendererSetup.setClearColor( new THREE.Color("hsl(0, 0%, 10%)") );
+            rendererSetup.setClearColor(new THREE.Color("hsl(0, 0%, 10%)"));
 
             containerMalloc.appendChild(rendererMalloc.domElement);
             containerSetup.appendChild(rendererSetup.domElement);
@@ -286,6 +290,23 @@
             cameraCombined.position.z = 300;
 
             sceneCombined = new THREE.Scene();
+
+            var lightCombined1 = new THREE.AmbientLight( 0xcccccc ); // soft white light
+            sceneCombined.add( lightCombined1 );
+
+            var lightCombined2 = new THREE.SpotLight( 0xffffff );
+            lightCombined2.position.set( 0, 100, 100 );
+            lightCombined2.castShadow = true;
+            lightCombined2.shadow.mapSize.width = 500;
+            lightCombined2.shadow.mapSize.height = 500;
+            lightCombined2.shadow.camera.near = 500;
+            lightCombined2.shadow.camera.far = 400;
+            lightCombined2.shadow.camera.fov = 30;
+            sceneCombined.add( lightCombined2 );
+
+            var lightCombined3 = new THREE.DirectionalLight( 0x999999 );
+            lightCombined3.position.set( 0, -100, -50 );
+            sceneCombined.add( lightCombined3 );
 
             mtlLoader = new THREE.MTLLoader( manager );
             mtlLoader.setBaseUrl('../../uploads/documents/');
@@ -324,13 +345,22 @@
             rendererCombined.setSize(containerCombined.offsetWidth , containerCombined.offsetHeight);
             rendererCombined.setClearColor( new THREE.Color("hsl(0, 0%, 10%)") );
 
+            controlsCombined = new THREE.OrbitControls(cameraCombined, rendererCombined.domElement);
+            controlsCombined.enableDamping = true;
+            controlsCombined.dampingFactor = 0.25;
+            controlsCombined.enableZoom = true;
+
             containerCombined.appendChild(rendererCombined.domElement);
         }
 
         function onWindowResize() {
             windowHalfX = window.innerWidth / 2;
             windowHalfY = window.innerHeight / 2;
-            camera.aspect = containerMalloc.offsetWidth / containerMalloc.offsetHeight;
+            if (containerMalloc.offsetWidth == 0) {
+                camera.aspect = containerSetup.offsetWidth / containerSetup.offsetHeight;
+            } else {
+                camera.aspect = containerMalloc.offsetWidth / containerMalloc.offsetHeight;
+            }
             camera.updateProjectionMatrix();
             rendererMalloc.setSize(containerMalloc.offsetWidth, containerMalloc.offsetHeight);
             rendererSetup.setSize(containerSetup.offsetWidth, containerSetup.offsetHeight);
@@ -340,9 +370,10 @@
             rendererCombined.setSize(containerCombined.offsetWidth, containerCombined.offsetHeight);
         }
 
-        function animate() {
+        // Start animations
+        function animateDouble() {
 
-            firstAnimationRequest = requestAnimationFrame(animate);
+            firstAnimationRequest = requestAnimationFrame(animateDouble);
             controls.update();
             controls2.update();
 
@@ -352,11 +383,26 @@
 
         function animateCombined() {
             animationRequestCombined = requestAnimationFrame(animateCombined);
-            controls.update();
-            controls2.update();
+            controlsCombined.update();
 
             renderCombined();
         }
+
+        // Stop animation
+        function stopDouble() {
+            if (firstAnimationRequest) {
+                window.cancelAnimationFrame(firstAnimationRequest);
+                firstAnimationRequest = undefined;
+            }
+        }
+
+        function stopCombined() {
+            if (animationRequestCombined) {
+                window.cancelAnimationFrame(animationRequestCombined);
+                animationRequestCombined = undefined;
+            }
+        }
+
 
         function firstRender() {
             rendererMalloc.render(scene, camera);
@@ -366,29 +412,70 @@
         function renderCombined() {
             rendererCombined.render(sceneCombined, cameraCombined);
         }
+
         $('#face').click(function() {
-            camera.position.x = -15;
-            camera.position.y = 92;
-            camera.position.z = 239;
-        });
-        $('#right').click(function() {
-            camera.position.x = -256;
-            camera.position.y = -5;
-            camera.position.z = -8;
-        });
-        $('#left').click(function() {
-            camera.position.x = 256;
-            camera.position.y = -5;
-            camera.position.z = -8;
-        });
-        $('#display_combined').click(function() {
-            cancelAnimationFrame( firstAnimationRequest );
-            $('#setup,#malloc').hide();
-            $('#combined').show();
-            onWindowResize();
-            requestAnimationFrame(animateCombined);
+
+                camera.position.x = -15;
+                camera.position.y = 92;
+                camera.position.z = 239;
+
+                cameraCombined.position.x = 0;
+                cameraCombined.position.y = 100;
+                cameraCombined.position.z = 282;
 
         });
+        $('#right').click(function() {
+
+                camera.position.x = -256;
+                camera.position.y = -5;
+                camera.position.z = -8;
+
+                cameraCombined.position.x = -299;
+                cameraCombined.position.y = -3;
+                cameraCombined.position.z = -20;
+
+        });
+        $('#left').click(function() {
+
+                camera.position.x = 256;
+                camera.position.y = -5;
+                camera.position.z = -8;
+
+                cameraCombined.position.x = 299;
+                cameraCombined.position.y = -3;
+                cameraCombined.position.z = -20;
+        });
+
+        $(document).on('input change', '#choice_view', function() {
+            var choice = $(this).val();
+            if (choice == 0) { // Choix 0 corréspond à l'affichage "avant"
+                // on cache la partie setup ("après")
+                // on augmente la taille de la partie avant,
+                // on relance l'animation et on indique que la taille à changée avec "onWindowResize"
+                $('#setup').hide();
+                $('#malloc').removeClass().addClass('no-padding col-md-10').show();
+                animateDouble();
+                onWindowResize();
+            } else if (choice == 1) { // Correspond à l'affichage "après"
+                $('#malloc').hide();
+                $('#setup').removeClass().addClass('no-padding col-md-10').show();
+                animateDouble();
+                onWindowResize();
+            } else if (choice == 2) { // Correspond à l'affichage "Avant + Après"
+                $('#combined').hide();
+                $('#setup').hide().removeClass().addClass('no-padding col-md-5').show();
+                $('#malloc').hide().removeClass().addClass('no-padding col-md-5').show();
+                animateDouble();
+                onWindowResize();
+            } else {
+                stopDouble();
+                $('#setup,#malloc').hide();
+                $('#combined').show();
+                onWindowResize();
+                animateCombined();
+            }
+        });
+
 
     </script>
 {% endblock %}
