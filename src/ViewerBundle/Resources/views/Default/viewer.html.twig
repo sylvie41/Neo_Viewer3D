@@ -5,9 +5,11 @@
 {% block body %}
 <div class="loader"><img style="width:100px" class="text-center img center-block img-responsive" src="{{ asset('bundles/viewer/img/loader.gif') }}"/></div>
         <div class="no-padding col-md-12 col-xs-12 col-lg-12">
-            <div class="col-md-5 col-xs-12 no-padding" id="malloc"></div>
-            <div class="col-md-5 col-xs-12 no-padding" id="setup"></div>
-            <div class="col-md-10 col-xs-12 no-padding" id="combined"></div>
+            <div class="left-part">
+                <div class="col-md-5 col-xs-12 no-padding" id="malloc"></div>
+                <div class="col-md-5 col-xs-12 no-padding" id="setup"></div>
+                <div class="col-md-10 col-xs-12 no-padding" id="combined"></div>
+            </div>
             <div class="col-md-2 col-xs-12 no-padding" id="infos">
 
                 <h1 class="text-center"><u>Infos</u></h1>
@@ -38,9 +40,9 @@
                 </ul>
             </div>
             <div class="hud">
-                <span id="left" class="glyphicon glyphicon-menu-left btn-hud"></span>
-                <span id="face" class="glyphicon glyphicon-menu-down btn-hud"></span>
-                <span id="right" class="glyphicon glyphicon-menu-right btn-hud"></span>
+                <div id="left" class="glyphicon glyphicon-menu-left btn-hud"></div>
+                <div id="face" class="glyphicon glyphicon-menu-down btn-hud"></div>
+                <div id="right" class="glyphicon glyphicon-menu-right btn-hud"></div>
             </div>
             <div class="hud2">
                 <input max="3" min="0" name="choice_view" id="choice_view" type="range" value="2">
@@ -93,17 +95,16 @@
         }
         .hud {
             position:fixed;
-            bottom:0;
+            width:40px;
             display:none;
         }
         .hud2 {
             position:fixed;
             bottom:0;
-            left:200px;
+            left:37vw;
         }
         .btn-hud {
             color:white;
-
             font-size:40px;
             cursor:pointer;
         }
@@ -368,6 +369,8 @@
             cameraCombined.aspect = containerCombined.offsetWidth / containerCombined.offsetHeight;
             cameraCombined.updateProjectionMatrix();
             rendererCombined.setSize(containerCombined.offsetWidth, containerCombined.offsetHeight);
+            var placementHud2 = $('.left-part').width() * 0.5 - $('#hud2').width();
+            $('#hud2').css('left', placementHud2+'px');
         }
 
         // Start animations
@@ -462,6 +465,7 @@
                 animateDouble();
                 onWindowResize();
             } else if (choice == 2) { // Correspond à l'affichage "Avant + Après"
+                stopCombined();
                 $('#combined').hide();
                 $('#setup').hide().removeClass().addClass('no-padding col-md-5').show();
                 $('#malloc').hide().removeClass().addClass('no-padding col-md-5').show();
