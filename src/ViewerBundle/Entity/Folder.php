@@ -228,22 +228,48 @@ class Folder
     /**
      * @var string
      */
-    private $mallocObj;
+    private $mallocmandObj;
+    /**
+     * @var string
+     */
+    private $mallocmaxObj;
+
+
 
     /**
      * @var string
      */
-    private $mallocMtl;
+    private $mallocmandMtl;
 
     /**
      * @var string
      */
-    private $setupObj;
+    private $mallocmaxMtl;
+
+
 
     /**
      * @var string
      */
-    private $setupMtl;
+    private $setupmandObj;
+
+    /**
+     * @var string
+     */
+    private $setupmaxObj;
+
+
+    /**
+     * @var string
+     */
+    private $setupmandMtl;
+
+    /**
+     * @var string
+     */
+    private $setupmaxMtl;
+
+
 
     /**
      * @var integer
@@ -262,99 +288,197 @@ class Folder
 
 
     /**
-     * Set mallocObj
+     * Set mallocmandObj
      *
-     * @param string $mallocObj
+     * @param string $mallocmandObj
      *
      * @return Folder
      */
-    public function setMallocObj($mallocObj)
+    public function setMallocmandObj($mallocmandObj)
     {
-        $this->mallocObj = $mallocObj;
+        $this->mallocmandObj = $mallocmandObj;
 
         return $this;
     }
 
     /**
-     * Get mallocObj
+     * Get mallocmandObj
      *
      * @return string
      */
-    public function getMallocObj()
+    public function getMallocmandObj()
     {
-        return $this->mallocObj;
+        return $this->mallocmandObj;
     }
 
     /**
-     * Set mallocMtl
+     * Set mallocmaxObj
      *
-     * @param string $mallocMtl
+     * @param string $mallocmaxObj
      *
      * @return Folder
      */
-    public function setMallocMtl($mallocMtl)
+    public function setMallocmaxObj($mallocmaxObj)
     {
-        $this->mallocMtl = $mallocMtl;
+        $this->mallocmaxObj = $mallocmaxObj;
 
         return $this;
     }
 
     /**
-     * Get mallocMtl
+     * Get mallocmaxObj
      *
      * @return string
      */
-    public function getMallocMtl()
+    public function getMallocmaxObj()
     {
-        return $this->mallocMtl;
+        return $this->mallocmaxObj;
     }
 
     /**
-     * Set setupObj
+     * Set mallocmandMtl
      *
-     * @param string $setupObj
+     * @param string $mallocmandMtl
      *
      * @return Folder
      */
-    public function setSetupObj($setupObj)
+    public function setMallocmandMtl($mallocmandMtl)
     {
-        $this->setupObj = $setupObj;
+        $this->mallocmandMtl = $mallocmandMtl;
 
         return $this;
     }
 
     /**
-     * Get setupObj
+     * Get mallocmandMtl
      *
      * @return string
      */
-    public function getSetupObj()
+    public function getMallocmandMtl()
     {
-        return $this->setupObj;
+        return $this->mallocmandMtl;
     }
 
+
     /**
-     * Set setupMtl
+     * Set mallocmaxMtl
      *
-     * @param string $setupMtl
+     * @param string $mallocmaxMtl
      *
      * @return Folder
      */
-    public function setSetupMtl($setupMtl)
+    public function setMallocmaxMtl($mallocmaxMtl)
     {
-        $this->setupMtl = $setupMtl;
+        $this->mallocmaxMtl = $mallocmaxMtl;
 
         return $this;
     }
 
     /**
-     * Get setupMtl
+     * Get mallocmaxMtl
      *
      * @return string
      */
-    public function getSetupMtl()
+    public function getMallocmaxMtl()
     {
-        return $this->setupMtl;
+        return $this->mallocmaxMtl;
+    }
+
+
+    /**
+     * Set setupmandObj
+     *
+     * @param string $setupmandObj
+     *
+     * @return Folder
+     */
+    public function setSetupmandObj($setupmandObj)
+    {
+        $this->setupmandObj = $setupmandObj;
+
+        return $this;
+    }
+
+    /**
+     * Get setupmandObj
+     *
+     * @return string
+     */
+    public function getSetupmandObj()
+    {
+        return $this->setupmandObj;
+    }
+
+    /**
+     * Set setupmaxObj
+     *
+     * @param string $setupmaxObj
+     *
+     * @return Folder
+     */
+    public function setSetupmaxObj($setupmaxObj)
+    {
+        $this->setupmaxObj = $setupmaxObj;
+
+        return $this;
+    }
+
+    /**
+     * Get setupmaxObj
+     *
+     * @return string
+     */
+    public function getSetupmaxObj()
+    {
+        return $this->setupmaxObj;
+    }
+
+    /**
+     * Set setupmandMtl
+     *
+     * @param string $setupmandMtl
+     *
+     * @return Folder
+     */
+    public function setSetupmandMtl($setupmandMtl)
+    {
+        $this->setupmandMtl = $setupmandMtl;
+
+        return $this;
+    }
+
+    /**
+     * Get setupmandMtl
+     *
+     * @return string
+     */
+    public function getSetupmandMtl()
+    {
+        return $this->setupmandMtl;
+    }
+
+    /**
+     * Set setupmaxMtl
+     *
+     * @param string $setupmaxMtl
+     *
+     * @return Folder
+     */
+    public function setSetupmaxMtl($setupmaxMtl)
+    {
+        $this->setupmaxMtl = $setupmaxMtl;
+
+        return $this;
+    }
+
+    /**
+     * Get setupmaxMtl
+     *
+     * @return string
+     */
+    public function getSetupmaxMtl()
+    {
+        return $this->setupmaxMtl;
     }
 
     /**

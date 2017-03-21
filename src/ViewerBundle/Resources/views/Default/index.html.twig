@@ -52,7 +52,7 @@
 						<!-- The fileinput-button span is used to style the file input field as button -->
 						<span class="btn btn-success fileinput-button">
 							<i class="glyphicon glyphicon-plus"></i>
-							<span id="btn-add">Ajouter les malloc...</span>
+							<span id="btn-add">Ajouter les mandibullaires malloc</span>
 						</span>
 						<button type="button" style="display:none;" class="btn1 btn btn-primary start btnfichier">
 							<i class="glyphicon glyphicon-upload"></i>
@@ -95,7 +95,9 @@
 					<p>Envoi en cours</p>
 				</div>
 				<button type="button" disabled class="btn center-block btn-default" id="next">Suivant</button>
-				<button style="display:none;" type="button" disabled class="btn center-block btn-default" id="validate">Valider</button>
+				<button style="display:none;" type="button" disabled class="btn center-block btn-default" id="next2">Suivant</button>
+				<button style="display:none;" type="button" disabled class="btn center-block btn-default" id="next3">Suivant</button>
+                <button style="display:none;" type="button" disabled class="btn center-block btn-default" id="validate">Valider</button>
 		</div>
 	</div>
 
@@ -145,6 +147,10 @@
 				if (count == 2 && reference != '' ) {
 					$('#next').prop( "disabled", false );
 				} else if (count == 4 && reference != '') {
+				    $('#next2').prop('disabled', false);
+				} else if (count == 6 && reference != '') {
+				    $('#next3').prop('disabled', false);
+				} else if (count == 8 && reference != '') {
 				    $('#validate').prop('disabled', false);
 				}
 
@@ -156,9 +162,15 @@
 				} else if (reference == '') {
 					$('#next').prop( "disabled", true );
 				} else if (count == 4 && reference != '') {
+					$('#next2').prop('disabled', false);
+				} else if (count == 6 && reference != '') {
+					$('#next3').prop('disabled', false);
+				} else if (count == 8 && reference != '') {
 					$('#validate').prop('disabled', false);
 				}
 			});
+
+
 			var estimationMin, estimationMax;
 			$('#nb-gt-s, #nb-gt-i').on('input', function() {
                 var nbrGtI = parseInt($('#nb-gt-i').val(), 10);
@@ -176,6 +188,8 @@
                 }
                 $('#estimation-traitement').val(estimationMin+' à '+estimationMax);
 			});
+
+
 			$('#next').click(function() {
 				var ref = $('#ref-patient').val();
 				var nom = $('#nom-patient').val();
@@ -194,17 +208,83 @@
 						$('.alert').removeClass();
 						$('.alert').addClass('text-center alert alert-success');
 						myDropzone.removeAllFiles();
-						$('.alert').text('Veuillez maintenant ajouter les setups');
-						$('#btn-add').text('Ajouter les setups');
+						$('.alert').text('Veuillez maintenant ajouter les mandibulaires setups');
+						$('#btn-add').text('Ajouter les mandibulaires setups');
 						$('.loading').hide();
 						$('#part1').fadeTo("slow", 1);
-						$('#title').text('Ajout de Setup');
+						$('#title').text('Ajout de mandibulaires setup');
 						$('#next').hide();
+						$('#next2').show();
+						$('#next2').data('folderId', data.folderId)
+					}
+				})
+			});
+
+
+			$('#next2').click(function() {
+			    var folderId = $('#next2').data('folderId');
+				var ref = $('#ref-patient').val();
+				var nom = $('#nom-patient').val();
+				var nbrGtI = $('#nb-gt-i').val();
+				var nbrGtS = $('#nb-gt-s').val();
+				var estimation = $('#estimation-traitement').val();
+
+				$.ajax({
+					url: Routing.generate('send_viewer_2', {'folder': folderId }),
+					data: { ref : ref, nom : nom, estimation : estimation, nbrGtI : nbrGtI, nbrGtS : nbrGtS },
+					beforeSend: function() {
+						$('#part1').fadeTo( "slow", 0.50 );
+						$('.loading').fadeIn( "slow" );
+					},
+					success: function( data ) {
+						$('.alert').removeClass();
+						$('.alert').addClass('text-center alert alert-success');
+						myDropzone.removeAllFiles();
+						$('.alert').text('Veuillez maintenant ajouter les maxilaires malloc');
+						$('#btn-add').text('Ajouter les maxilaires malloc');
+						$('.loading').hide();
+						$('#part1').fadeTo("slow", 1);
+						$('#title').text('Ajout de maxilaires malloc');
+						$('#next2').hide();
+						$('#next3').show();
+						$('#next3').data('folderId', data.folderId)
+					},
+				})
+			});
+
+
+			$('#next3').click(function() {
+			    var folderId = $('#next3').data('folderId');
+				var ref = $('#ref-patient').val();
+				var nom = $('#nom-patient').val();
+				var nbrGtI = $('#nb-gt-i').val();
+				var nbrGtS = $('#nb-gt-s').val();
+				var estimation = $('#estimation-traitement').val();
+
+				$.ajax({
+					url: Routing.generate('send_viewer_3', {'folder': folderId }),
+					data: { ref : ref, nom : nom, estimation : estimation, nbrGtI : nbrGtI, nbrGtS : nbrGtS },
+					beforeSend: function() {
+						$('#part1').fadeTo( "slow", 0.50 );
+						$('.loading').fadeIn( "slow" );
+					},
+					success: function( data ) {
+						$('.alert').removeClass();
+						$('.alert').addClass('text-center alert alert-success');
+						myDropzone.removeAllFiles();
+						$('.alert').text('Veuillez maintenant ajouter les maxilaires setup');
+						$('#btn-add').text('Ajouter les maxilaires setup');
+						$('.loading').hide();
+						$('#part1').fadeTo("slow", 1);
+						$('#title').text('Ajout de maxilaires setup');
+						$('#next3').hide();
 						$('#validate').show();
 						$('#validate').data('folderId', data.folderId)
 					},
 				})
 			});
+
+
 			$('#validate').click(function() {
 				var folderId = $('#validate').data('folderId');
 				var ref = $('#ref-patient').val();
@@ -213,7 +293,7 @@
 				var nbrGtS = $('#nb-gt-s').val();
 				var estimation = $('#estimation-traitement').val();
 				$.ajax({
-					url: Routing.generate('send_viewer_2', {'folder': folderId }),
+					url: Routing.generate('send_viewer_4', {'folder': folderId }),
 					data: { ref : ref, nom : nom, estimation : estimation, nbrGtI : nbrGtI, nbrGtS : nbrGtS },
 					success: function( data ) {
 						window.location.replace(Routing.generate('viewer_3D', {md5 : data.md5}))

@@ -4,26 +4,38 @@ gestion:
 
 viewer_homepage:
     path:     /
-    defaults: { _controller: ViewerBundle:Default:index }
+    defaults: { _controller: "ViewerBundle:Default:index" }
 
 viewer_3D:
     path:    /viewer/{md5}
-    defaults: { _controller: ViewerBundle:Default:viewer }
+    defaults: { _controller: "ViewerBundle:Default:viewer" }
     options:
         expose: true
 
 send_viewer_1:
-    path:    /send/viewer
-    defaults: { _controller: ViewerBundle:Default:send1 }
+    path:    /send/viewer/mallocmand
+    defaults: { _controller: "ViewerBundle:Default:send1" }
     options:
         expose: true
 
 send_viewer_2:
-    path:    /send/viewer/{folder}
-    defaults: { _controller: ViewerBundle:Default:send2 }
+    path:    /send/viewer/setupmand/{folder}
+    defaults: { _controller: "ViewerBundle:Default:send2" }
+    options:
+        expose: true
+
+send_viewer_3:
+    path:    /send/viewer/mallocmax/{folder}
+    defaults: { _controller: "ViewerBundle:Default:send3" }
+    options:
+        expose: true
+
+send_viewer_4:
+    path:    /send/viewer/setupmax/{folder}
+    defaults: { _controller: "ViewerBundle:Default:send4" }
     options:
         expose: true
 
 index_cabinet:
     path:     /indexCabinet
-    defaults: { _controller: ViewerBundle:Gestion:indexCabinet }
+    defaults: { _controller: "ViewerBundle:Gestion:indexCabinet" }
