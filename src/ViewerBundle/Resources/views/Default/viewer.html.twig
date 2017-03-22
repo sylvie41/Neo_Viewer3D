@@ -3,53 +3,61 @@
 {% block navbar %}
 {% endblock %}
 {% block body %}
-<div class="loader"><img style="width:100px" class="text-center img center-block img-responsive" src="{{ asset('bundles/viewer/img/loader.gif') }}"/></div>
-        <div class="no-padding col-md-12 col-xs-12 col-lg-12">
-            <div class="left-part">
-                <div class="col-md-5 col-xs-12 no-padding" id="malloc"></div>
-                <div class="col-md-5 col-xs-12 no-padding" id="setup"></div>
-                <div class="col-md-10 col-xs-12 no-padding" id="combined"></div>
-            </div>
-            <div class="col-md-2 col-xs-12 no-padding" id="infos">
+    <div class="loader"><img style="width:100px" class="text-center img center-block img-responsive" src="{{ asset('bundles/viewer/img/loader.gif') }}"/></div>
+    <div class="global no-padding col-md-12 col-xs-12 col-lg-12">
+        <div class="left-part">
+            <div class="col-md-5 col-xs-12 no-padding" id="malloc"></div>
+            <div class="col-md-5 col-xs-12 no-padding" id="setup"></div>
+            <div class="col-md-10 col-xs-12 no-padding" id="combined"></div>
+        </div>
+        <div class="col-md-2 col-xs-12 no-padding" id="infos">
 
-                <h1 class="text-center"><u>Infos</u></h1>
-                <ul class="list-group">
+            <h1 class="text-center" style="color: #2980b9"><strong>Infos</strong></h1>
+            <ul class="list-group">
 
-                    {% if folder.ref != '' %}
-                        <li class="text-center list-group-item">
-                            <b>Ref patient</b><br>
-                            {{ folder.ref }}
-                        </li>
-                    {% endif  %}
-                    {% if folder.nom != '' %}
-                        <li class="text-center list-group-item">
-                            <b>Nom patient</b><br>
-                            {{ folder.nom }}
-                        </li>
-                    {% endif  %}
-                    {% if folder.nbGtS!= '' %}
-                        <li class="text-center list-group-item">
-                            <b>Gouttières sup. nécéssaires</b><br>
-                            {{ folder.nbGtS }}
-                        </li>
-                    {% endif  %}
-                    {% if folder.nbGtI != '' %}<li class="text-center list-group-item"> <b>Gouttières inf. nécéssaires</b><br>
-                        {{ folder.nbGtI }}</li>{% endif  %}
-                    {% if folder.estimationTraitement != '' %}<li class="text-center list-group-item"> <b>Temps de traitement estimé</b><br>
-                        {{ folder.estimationTraitement }} Semaines</li>{% endif  %}
-                </ul>
+                {% if folder.ref != '' %}
+                    <li class="text-center list-group-item">
+                        <b>Ref patient</b><br>
+                        {{ folder.ref }}
+                    </li>
+                {% endif  %}
+                {% if folder.nom != '' %}
+                    <li class="text-center list-group-item">
+                        <b>Nom patient</b><br>
+                        {{ folder.nom }}
+                    </li>
+                {% endif  %}
+                {% if folder.nbGtS!= '' %}
+                    <li class="text-center list-group-item">
+                        <b>Gouttières sup. nécéssaires</b><br>
+                        {{ folder.nbGtS }}
+                    </li>
+                {% endif  %}
+                {% if folder.nbGtI != '' %}<li class="text-center list-group-item"> <b>Gouttières inf. nécéssaires</b><br>
+                    {{ folder.nbGtI }}</li>{% endif  %}
+                {% if folder.estimationTraitement != '' %}<li class="text-center list-group-item"> <b>Temps de traitement estimé</b><br>
+                    {{ folder.estimationTraitement }} Semaines</li>{% endif  %}
+            </ul>
+        </div>
+        <div class="hud">
+            <div class="container" style="margin-left: 20px">
+                <img class="btn-hud" id="right" style="height:51px; margin-left: 40px; margin-right:-4px; margin-top:21px;" src="{{ asset('bundles/viewer/img/coteA.png') }}">
+                <img class="btn-hud" id="face" style="height:50px; margin-right:-4px; margin-top:20px;" src="{{ asset('bundles/viewer/img/face.png') }}">
+                <img class="btn-hud" id="left" style="height:51px; margin-top:21px;" src="{{ asset('bundles/viewer/img/coteB.png') }}">
             </div>
-            <div class="hud">
-                <div id="left" class="glyphicon glyphicon-menu-left btn-hud"></div>
-                <div id="face" class="glyphicon glyphicon-menu-down btn-hud"></div>
-                <div id="right" class="glyphicon glyphicon-menu-right btn-hud"></div>
-            </div>
-            <div class="hud2">
-                <input max="3" min="0" name="choice_view" id="choice_view" type="range" value="2">
+            <div style="margin-left: 20px">
+                <img class="btn-hud" id="max" style="width:50px; margin-top:5px;" src="{{ asset('bundles/viewer/img/sup.png') }}"/>
+                <img class="btn-hud" id="double" style="width:50px; margin-top:-4px;" src="{{ asset('bundles/viewer/img/double.png') }}"/>
+                <img class="btn-hud" id="mand" style="width:50px; margin-top:-4px;" src="{{ asset('bundles/viewer/img/inf.png') }}"/>
             </div>
         </div>
+        <div class="hud2">
+            <form autocomplete="off"><input max="3" min="0" name="choice_view" id="choice_view" type="range" value="2"></form>
+        </div>
+    </div>
     </div>
 {% endblock %}
+
 {% block stylesheets %}
 
     <style>
@@ -60,6 +68,10 @@
             #infos {
                 display:none;
             }
+        }
+
+        .global{
+            background-color: #fff;
         }
 
         #setup, #malloc, #combined {
@@ -110,6 +122,7 @@
         }
     </style>
 {% endblock %}
+
 {% block javascript %}
     <script src="{{ asset('bundles/viewer/js/three.js') }}"></script>
     <script src="{{ asset('bundles/viewer/js/Detector.js') }}"></script>
@@ -123,11 +136,11 @@
             Detector.addGetWebGLMessage();
         }
 
-        var containerMalloc, containerSetup, containerCombined;
+        var containerMalloc, containerSetup;
 
-        var camera, cameraCombined, controls, controls2, controlsCombined, scene, scene2, sceneCombined, rendererMalloc, rendererSetup, rendererCombined;
+        var camera, controls, controls2, scene, scene2, rendererMalloc, rendererSetup;
         var lighting, ambient, keyLight, fillLight, backLight;
-        var firstAnimationRequest, animationRequestCombined;
+        var firstAnimationRequest;
 
         var windowHalfX = window.innerWidth / 2;
         var windowHalfY = window.innerHeight / 2;
@@ -139,24 +152,25 @@
 
             containerMalloc = document.getElementById('malloc');
             containerSetup = document.getElementById('setup');
-            containerCombined = document.getElementById('combined');
 
             /* Loader */
             var manager = new THREE.LoadingManager();
-            manager.onProgress = function( item, loaded, total ) {
-                if (loaded == 4) { // Quand 4 fichiers ont été chargés, le loader s'enlève
-                    $('.loader').fadeOut( "slow", function() {
+            manager.onProgress = function (item, loaded, total) {
+                console.log(item, loaded, total);
+                if (loaded == 8) { // Quand 8 fichiers ont été chargés, le loader s'enlève
+                    $('.loader').fadeOut("slow", function () {
                         $('.hud').show();
                     });
+                    position();
                 }
             };
-            var onProgress = function( xhr ) {
-                if ( xhr.lengthComputable ) {
+            var onProgress = function (xhr) {
+                if (xhr.lengthComputable) {
                     var percentComplete = xhr.loaded / xhr.total * 100;
-                    console.log( Math.round( percentComplete, 2 ) + '% downloaded' );
+                    console.log(Math.round(percentComplete, 2) + '% downloaded');
                 }
             };
-            var onError = function( xhr ) {
+            var onError = function (xhr) {
             };
 
             /* Cameras */
@@ -169,99 +183,114 @@
             scene = new THREE.Scene();
             scene2 = new THREE.Scene();
 
+            /* Light */
+
             lighting = false;
 
-            var light = new THREE.AmbientLight( 0xcccccc ); // soft white light
-            scene.add( light );
+            var light = new THREE.AmbientLight(0xcccccc); // soft white light
+            scene.add(light);
 
-            var light2 = new THREE.SpotLight( 0xffffff );
-            light2.position.set( 0, 100, 100 );
+            var light2 = new THREE.SpotLight(0xffffff);
+            light2.position.set(0, 100, 100);
             light2.castShadow = true;
             light2.shadow.mapSize.width = 500;
             light2.shadow.mapSize.height = 500;
             light2.shadow.camera.near = 500;
             light2.shadow.camera.far = 400;
             light2.shadow.camera.fov = 30;
-            scene.add( light2 );
+            scene.add(light2);
 
-            var light3 = new THREE.DirectionalLight( 0x999999 );
-            light3.position.set( 0, -100, -50 );
-            scene.add( light3 );
-
-
-            var light4 = new THREE.AmbientLight( 0xffffff ); // soft white light
-            scene2.add( light4 );
+            var light3 = new THREE.DirectionalLight(0x999999);
+            light3.position.set(0, -100, -50);
+            scene.add(light3);
 
 
+            var light4 = new THREE.AmbientLight(0xffffff); // soft white light
+            scene2.add(light4);
 
-            var light5 = new THREE.SpotLight( 0xffffff, 1, 186, 1, 0, 2);
-            light5.position.set( 0, 100, 100 );
+
+            var light5 = new THREE.SpotLight(0xffffff, 1, 186, 1, 0, 2);
+            light5.position.set(0, 100, 100);
             light5.castShadow = true;
             light5.shadow.mapSize.width = 500;
             light5.shadow.mapSize.height = 500;
             light5.shadow.camera.near = 500;
             light5.shadow.camera.far = 400;
             light5.shadow.camera.fov = 30;
-            scene2.add( light5 );
+            scene2.add(light5);
 
-            var light6 = new THREE.DirectionalLight( 0x1D3824, 0.5 );
-            light6.position.set( 0, -100, -50 );
-            scene2.add( light6 );
+            var light6 = new THREE.DirectionalLight(0x1D3824, 0.5);
+            light6.position.set(0, -100, -50);
+            scene2.add(light6);
 
-            var light7 = new THREE.DirectionalLight( 0x1D3824, 0.5 );
-            light7.position.set( 10, 30, 50 );
-            scene2.add( light7 );
+            var light7 = new THREE.DirectionalLight(0x1D3824, 0.5);
+            light7.position.set(10, 30, 50);
+            scene2.add(light7);
 
-            var light8 = new THREE.DirectionalLight( 0x4ABD6A, 0.5 );
-            light8.position.set( -50, 100, 50 );
-            scene2.add( light8 );
+            var light8 = new THREE.DirectionalLight(0x4ABD6A, 0.5);
+            light8.position.set(-50, 100, 50);
+            scene2.add(light8);
 
 
             /* Model */
 
-            var mtlLoader = new THREE.MTLLoader( manager );
+            var mtlLoader = new THREE.MTLLoader(manager);
             mtlLoader.setBaseUrl('../../uploads/documents/');
             mtlLoader.setPath('../../uploads/documents/');
-            mtlLoader.load('{{ folder.mallocMtl }}', function (materials) {
-
-
+            mtlLoader.load('{{ folder.mallocmaxMtl }}', function (materials) {
                 var objLoader = new THREE.OBJLoader();
                 objLoader.setMaterials(materials);
                 objLoader.setPath('../../uploads/documents/');
-                objLoader.load('{{ folder.mallocObj }}', function (object) {
-
+                objLoader.load('{{ folder.mallocmaxObj }}', function (object) {
+                    object.name = "mallocmax";
                     scene.add(object);
-
                 });
+            }, onProgress, onError);
 
-            },onProgress, onError);
-
-            mtlLoader.load('{{ folder.setupMtl }}', function (materials) {
-
-
+            mtlLoader.load('{{ folder.setupmaxMtl }}', function (materials) {
                 var objLoader = new THREE.OBJLoader();
                 objLoader.setMaterials(materials);
                 objLoader.setPath('../../uploads/documents/');
-                objLoader.load('{{ folder.setupObj }}', function (object) {
-
+                objLoader.load('{{ folder.setupmaxObj }}', function (object) {
+                    object.name = 'setupmax';
                     scene2.add(object);
-
-                },onProgress, onError);
-
+                }, onProgress, onError);
             });
 
+
+            mtlLoader.load('{{ folder.mallocmandMtl }}', function (materials) {
+                var objLoader = new THREE.OBJLoader();
+                objLoader.setMaterials(materials);
+                objLoader.setPath('../../uploads/documents/');
+                objLoader.load('{{ folder.mallocmandObj }}', function (object) {
+                    object.name = 'mallocmand';
+                    object.visible = false;
+                    scene.add(object);
+                }, onProgress, onError);
+            });
+
+            mtlLoader.load('{{ folder.setupmandMtl }}', function (materials) {
+                var objLoader = new THREE.OBJLoader();
+                objLoader.setMaterials(materials);
+                objLoader.setPath('../../uploads/documents/');
+                objLoader.load('{{ folder.setupmandObj }}', function (object) {
+                    object.name = 'setupmand';
+                    object.visible = false;
+                    scene2.add(object);
+                }, onProgress, onError);
+            });
             /* Renderer */
 
             // Display des malloc //
-            rendererMalloc = new THREE.WebGLRenderer({ antialias: true});
-            rendererMalloc.setSize(containerMalloc.offsetWidth , containerMalloc.offsetHeight);
-            rendererMalloc.setPixelRatio( window.devicePixelRatio );
+            rendererMalloc = new THREE.WebGLRenderer({antialias: true});
+            rendererMalloc.setSize(containerMalloc.offsetWidth, containerMalloc.offsetHeight);
+            rendererMalloc.setPixelRatio(window.devicePixelRatio);
             rendererMalloc.setClearColor(new THREE.Color("hsl(0, 0%, 10%)"));
 
             // Display des setup //
-            rendererSetup = new THREE.WebGLRenderer( { antialias: true});
+            rendererSetup = new THREE.WebGLRenderer({antialias: true});
             rendererSetup.setPixelRatio(window.devicePixelRatio);
-            rendererSetup.setSize(containerSetup.offsetWidth , containerSetup.offsetHeight);
+            rendererSetup.setSize(containerSetup.offsetWidth, containerSetup.offsetHeight);
             rendererSetup.setClearColor(new THREE.Color("hsl(0, 0%, 10%)"));
 
             containerMalloc.appendChild(rendererMalloc.domElement);
@@ -283,77 +312,7 @@
             /* Event */
 
             window.addEventListener('resize', onWindowResize, false);
-
-
-            /* Display combined View */
-
-            cameraCombined = new THREE.PerspectiveCamera(20, containerCombined.offsetWidth / containerCombined.offsetHeight,1, 10000);
-            cameraCombined.position.z = 300;
-
-            sceneCombined = new THREE.Scene();
-
-            var lightCombined1 = new THREE.AmbientLight( 0xcccccc ); // soft white light
-            sceneCombined.add( lightCombined1 );
-
-            var lightCombined2 = new THREE.SpotLight( 0xffffff );
-            lightCombined2.position.set( 0, 100, 100 );
-            lightCombined2.castShadow = true;
-            lightCombined2.shadow.mapSize.width = 500;
-            lightCombined2.shadow.mapSize.height = 500;
-            lightCombined2.shadow.camera.near = 500;
-            lightCombined2.shadow.camera.far = 400;
-            lightCombined2.shadow.camera.fov = 30;
-            sceneCombined.add( lightCombined2 );
-
-            var lightCombined3 = new THREE.DirectionalLight( 0x999999 );
-            lightCombined3.position.set( 0, -100, -50 );
-            sceneCombined.add( lightCombined3 );
-
-            mtlLoader = new THREE.MTLLoader( manager );
-            mtlLoader.setBaseUrl('../../uploads/documents/');
-            mtlLoader.setPath('../../uploads/documents/');
-            mtlLoader.load('{{ folder.mallocMtl }}', function (materials) {
-
-
-                var objLoader = new THREE.OBJLoader();
-                objLoader.setMaterials(materials);
-                objLoader.setPath('../../uploads/documents/');
-                objLoader.load('{{ folder.mallocObj }}', function (object) {
-
-                    sceneCombined.add(object);
-
-                });
-
-            },onProgress, onError);
-
-            mtlLoader.load('{{ folder.setupMtl }}', function (materials) {
-
-
-                var objLoader = new THREE.OBJLoader();
-                objLoader.setMaterials(materials);
-                objLoader.setPath('../../uploads/documents/');
-                objLoader.load('{{ folder.setupObj }}', function (object) {
-
-                    sceneCombined.add(object);
-
-                },onProgress, onError);
-
-            });
-
-            // Display de la vue avec malloc + setup
-            rendererCombined = new THREE.WebGLRenderer( { antialias: true});
-            rendererCombined.setPixelRatio(window.devicePixelRatio);
-            rendererCombined.setSize(containerCombined.offsetWidth , containerCombined.offsetHeight);
-            rendererCombined.setClearColor( new THREE.Color("hsl(0, 0%, 10%)") );
-
-            controlsCombined = new THREE.OrbitControls(cameraCombined, rendererCombined.domElement);
-            controlsCombined.enableDamping = true;
-            controlsCombined.dampingFactor = 0.25;
-            controlsCombined.enableZoom = true;
-
-            containerCombined.appendChild(rendererCombined.domElement);
         }
-
         function onWindowResize() {
             windowHalfX = window.innerWidth / 2;
             windowHalfY = window.innerHeight / 2;
@@ -366,11 +325,9 @@
             rendererMalloc.setSize(containerMalloc.offsetWidth, containerMalloc.offsetHeight);
             rendererSetup.setSize(containerSetup.offsetWidth, containerSetup.offsetHeight);
 
-            cameraCombined.aspect = containerCombined.offsetWidth / containerCombined.offsetHeight;
-            cameraCombined.updateProjectionMatrix();
-            rendererCombined.setSize(containerCombined.offsetWidth, containerCombined.offsetHeight);
+
             var placementHud2 = $('.left-part').width() * 0.5 - $('#hud2').width();
-            $('#hud2').css('left', placementHud2+'px');
+            $('#hud2').css('left', placementHud2 + 'px');
         }
 
         // Start animations
@@ -384,12 +341,6 @@
 
         }
 
-        function animateCombined() {
-            animationRequestCombined = requestAnimationFrame(animateCombined);
-            controlsCombined.update();
-
-            renderCombined();
-        }
 
         // Stop animation
         function stopDouble() {
@@ -399,86 +350,122 @@
             }
         }
 
-        function stopCombined() {
-            if (animationRequestCombined) {
-                window.cancelAnimationFrame(animationRequestCombined);
-                animationRequestCombined = undefined;
-            }
-        }
-
 
         function firstRender() {
             rendererMalloc.render(scene, camera);
             rendererSetup.render(scene2, camera);
         }
 
-        function renderCombined() {
-            rendererCombined.render(sceneCombined, cameraCombined);
+
+        $('#face').click(function () {
+            camera.position.x = -15;
+            camera.position.y = 92;
+            camera.position.z = 239;
+        });
+
+        $('#right').click(function () {
+            camera.position.x = -256;
+            camera.position.y = -5;
+            camera.position.z = -8;
+        });
+
+        $('#left').click(function () {
+            camera.position.x = 256;
+            camera.position.y = -5;
+            camera.position.z = -8;
+        });
+
+        function position() {
+            var actualPosition = 'maxilaire';
+            var mallocmax = scene.getObjectByName("mallocmax");
+            var setupmax = scene2.getObjectByName("setupmax");
+            var mallocmand = scene.getObjectByName("mallocmand");
+            var setupmand = scene2.getObjectByName("setupmand");
+            $('#max').click(function () {
+                mallocmand.visible = false;
+                setupmand.visible = false;
+                mallocmax.visible = true;
+                setupmax.visible = true;
+                actualPosition = 'maxilaire';
+            });
+
+            $('#mand').click(function () {
+                mallocmand.visible = true;
+                setupmand.visible = true;
+                mallocmax.visible = false;
+                setupmax.visible = false;
+                actualPosition = 'mandibulaire';
+            });
+
+            $('#double').click(function () {
+                mallocmand.visible = true;
+                setupmand.visible = true;
+                mallocmax.visible = true;
+                setupmax.visible = true;
+                actualPosition = 'double';
+            });
+
+            $(document).on('input change', '#choice_view', function () {
+                var choice = $(this).val();
+                var selectedObjet = scene2.getObjectByName("mallocmax");
+
+
+
+                if (choice == 0) { // Choix 0 corréspond à l'affichage "avant"
+                    // on cache la partie setup ("après")
+                    // on augmente la taille de la partie avant,
+                    // on relance l'animation et on indique que la taille à changée avec "onWindowResize"
+                    $('#setup').hide();
+                    $('#malloc').removeClass().addClass('no-padding col-md-10').show();
+                    scene2.remove(mallocmax);
+                    scene2.remove(mallocmand);
+                    scene.add(mallocmax);
+                    scene.add(mallocmand);
+                    onWindowResize();
+                } else if (choice == 1) { // Correspond à l'affichage "après"
+                    $('#malloc').hide();
+                    $('#setup').removeClass().addClass('no-padding col-md-10').show();
+                    scene2.remove(selectedObjet);
+                    scene2.remove(mallocmax);
+                    scene2.remove(mallocmand);
+                    scene.add(mallocmax);
+                    scene.add(mallocmand);
+                    onWindowResize();
+                } else if (choice == 2) { // Correspond à l'affichage "Avant + Après"
+                    $('#setup').hide().removeClass().addClass('no-padding col-md-5').show();
+                    $('#malloc').hide().removeClass().addClass('no-padding col-md-5').show();
+                    scene2.remove(selectedObjet);
+                    scene2.remove(mallocmax);
+                    scene2.remove(mallocmand);
+                    scene.add(mallocmax);
+                    scene.add(mallocmand);
+                    onWindowResize();
+                } else {
+                    $('#malloc').hide();
+                    $('#setup').removeClass().addClass('no-padding col-md-10').show();
+                    scene2.add(mallocmax);
+                    scene2.add(mallocmand);
+                    if (actualPosition == 'maxilaire') {
+                        mallocmax.visible = true;
+                        setupmax.visible = true;
+                        mallocmand.visible = false;
+                        setupmand.visible = false;
+                    } else if (actualPosition == 'mandibulaire') {
+                        mallocmax.visible = false;
+                        setupmax.visible = false;
+                        mallocmand.visible = true;
+                        setupmand.visible = true;
+                    } else {
+                        mallocmax.visible = true;
+                        setupmax.visible = true;
+                        mallocmand.visible = true;
+                        setupmand.visible = true;
+                    }
+                    onWindowResize();
+
+                }
+            });
         }
-
-        $('#face').click(function() {
-
-                camera.position.x = -15;
-                camera.position.y = 92;
-                camera.position.z = 239;
-
-                cameraCombined.position.x = 0;
-                cameraCombined.position.y = 100;
-                cameraCombined.position.z = 282;
-
-        });
-        $('#right').click(function() {
-
-                camera.position.x = -256;
-                camera.position.y = -5;
-                camera.position.z = -8;
-
-                cameraCombined.position.x = -299;
-                cameraCombined.position.y = -3;
-                cameraCombined.position.z = -20;
-
-        });
-        $('#left').click(function() {
-
-                camera.position.x = 256;
-                camera.position.y = -5;
-                camera.position.z = -8;
-
-                cameraCombined.position.x = 299;
-                cameraCombined.position.y = -3;
-                cameraCombined.position.z = -20;
-        });
-
-        $(document).on('input change', '#choice_view', function() {
-            var choice = $(this).val();
-            if (choice == 0) { // Choix 0 corréspond à l'affichage "avant"
-                // on cache la partie setup ("après")
-                // on augmente la taille de la partie avant,
-                // on relance l'animation et on indique que la taille à changée avec "onWindowResize"
-                $('#setup').hide();
-                $('#malloc').removeClass().addClass('no-padding col-md-10').show();
-                animateDouble();
-                onWindowResize();
-            } else if (choice == 1) { // Correspond à l'affichage "après"
-                $('#malloc').hide();
-                $('#setup').removeClass().addClass('no-padding col-md-10').show();
-                animateDouble();
-                onWindowResize();
-            } else if (choice == 2) { // Correspond à l'affichage "Avant + Après"
-                stopCombined();
-                $('#combined').hide();
-                $('#setup').hide().removeClass().addClass('no-padding col-md-5').show();
-                $('#malloc').hide().removeClass().addClass('no-padding col-md-5').show();
-                animateDouble();
-                onWindowResize();
-            } else {
-                stopDouble();
-                $('#setup,#malloc').hide();
-                $('#combined').show();
-                onWindowResize();
-                animateCombined();
-            }
-        });
 
 
     </script>
