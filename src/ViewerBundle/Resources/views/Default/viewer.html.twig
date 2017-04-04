@@ -76,6 +76,7 @@
 
         #setup, #malloc, #combined {
             height:100vh;
+            background: linear-gradient(to top, royalblue, white);
         }
         body {
             overflow: hidden;
@@ -282,16 +283,17 @@
             /* Renderer */
 
             // Display des malloc //
-            rendererMalloc = new THREE.WebGLRenderer({antialias: true});
+            rendererMalloc = new THREE.WebGLRenderer({antialias: true, alpha: true});
             rendererMalloc.setSize(containerMalloc.offsetWidth, containerMalloc.offsetHeight);
             rendererMalloc.setPixelRatio(window.devicePixelRatio);
-            rendererMalloc.setClearColor(new THREE.Color("hsl(0, 0%, 10%)"));
 
             // Display des setup //
-            rendererSetup = new THREE.WebGLRenderer({antialias: true});
+            rendererSetup = new THREE.WebGLRenderer({antialias: true, alpha: true});
             rendererSetup.setPixelRatio(window.devicePixelRatio);
             rendererSetup.setSize(containerSetup.offsetWidth, containerSetup.offsetHeight);
+/*
             rendererSetup.setClearColor(new THREE.Color("hsl(0, 0%, 10%)"));
+*/
 
             containerMalloc.appendChild(rendererMalloc.domElement);
             containerSetup.appendChild(rendererSetup.domElement);
