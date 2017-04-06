@@ -24,6 +24,12 @@
 							{{ form_widget(form.nom, { 'attr': {'class': 'form-control'}, 'id': 'nom-patient' }) }}
 						</div>
 
+						<div class="col-md-12 form-group">
+					        {{ form_errors(form.commentaire) }}
+        					{{ form_label(form.commentaire, 'Commentaire', { 'label_attr': {'class': 'text-center'} }) }}
+					        {{ form_widget(form.commentaire, { 'attr': {'class': 'form-control'}, 'id': 'commentaire' }) }}
+                        </div>
+
 						<div class="col-md-6 form-group">
 							{{ form_errors(form.nbGtS) }}
 							{{ form_label(form.nbGtS, 'Nombre Gouttières Supérieur', { 'label_attr': {'class': 'text-center'} }) }}
@@ -50,7 +56,7 @@
 				<div id="part1">
 					<div class="actions row text-center">
 						<!-- The fileinput-button span is used to style the file input field as button -->
-						<span class="btn btn-success fileinput-button">
+						<span class="btn btnAjout fileinput-button">
 							<i class="glyphicon glyphicon-plus"></i>
 							<span id="btn-add">Ajouter les mandibullaires malloc</span>
 						</span>
@@ -195,11 +201,12 @@
 				var nom = $('#nom-patient').val();
 				var nbrGtI = $('#nb-gt-i').val();
 				var nbrGtS = $('#nb-gt-s').val();
+				var commentaire = $('#commentaire').val();
 				var estimation = $('#estimation-traitement').val();
 
 				$.ajax({
 					url: Routing.generate('send_viewer_1'),
-					data: { ref : ref, nom : nom, estimation : estimation, nbrGtI : nbrGtI, nbrGtS : nbrGtS },
+					data: { ref : ref, nom : nom, estimation : estimation, nbrGtI : nbrGtI, nbrGtS : nbrGtS, commentaire : commentaire },
 					beforeSend: function() {
 						$('#part1').fadeTo( "slow", 0.50 );
 						$('.loading').fadeIn( "slow" );
@@ -227,11 +234,12 @@
 				var nom = $('#nom-patient').val();
 				var nbrGtI = $('#nb-gt-i').val();
 				var nbrGtS = $('#nb-gt-s').val();
-				var estimation = $('#estimation-traitement').val();
+				var commentaire = $('#commentaire').val();
+                var estimation = $('#estimation-traitement').val();
 
 				$.ajax({
 					url: Routing.generate('send_viewer_2', {'folder': folderId }),
-					data: { ref : ref, nom : nom, estimation : estimation, nbrGtI : nbrGtI, nbrGtS : nbrGtS },
+					data: { ref : ref, nom : nom, estimation : estimation, nbrGtI : nbrGtI, nbrGtS : nbrGtS, commentaire : commentaire },
 					beforeSend: function() {
 						$('#part1').fadeTo( "slow", 0.50 );
 						$('.loading').fadeIn( "slow" );
@@ -259,11 +267,12 @@
 				var nom = $('#nom-patient').val();
 				var nbrGtI = $('#nb-gt-i').val();
 				var nbrGtS = $('#nb-gt-s').val();
-				var estimation = $('#estimation-traitement').val();
+				var commentaire = $('#commentaire').val();
+                var estimation = $('#estimation-traitement').val();
 
 				$.ajax({
 					url: Routing.generate('send_viewer_3', {'folder': folderId }),
-					data: { ref : ref, nom : nom, estimation : estimation, nbrGtI : nbrGtI, nbrGtS : nbrGtS },
+					data: { ref : ref, nom : nom, estimation : estimation, nbrGtI : nbrGtI, nbrGtS : nbrGtS, commentaire : commentaire },
 					beforeSend: function() {
 						$('#part1').fadeTo( "slow", 0.50 );
 						$('.loading').fadeIn( "slow" );
@@ -291,10 +300,11 @@
 				var nom = $('#nom-patient').val();
 				var nbrGtI = $('#nb-gt-i').val();
 				var nbrGtS = $('#nb-gt-s').val();
-				var estimation = $('#estimation-traitement').val();
+				var commentaire = $('#commentaire').val();
+                var estimation = $('#estimation-traitement').val();
 				$.ajax({
 					url: Routing.generate('send_viewer_4', {'folder': folderId }),
-					data: { ref : ref, nom : nom, estimation : estimation, nbrGtI : nbrGtI, nbrGtS : nbrGtS },
+					data: { ref : ref, nom : nom, estimation : estimation, nbrGtI : nbrGtI, nbrGtS : nbrGtS, commentaire : commentaire },
 					success: function( data ) {
 						window.location.replace(Routing.generate('viewer_3D', {md5 : data.md5}))
 					},

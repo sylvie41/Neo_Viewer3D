@@ -32,6 +32,11 @@ class Folder
      */
     private $path2;
 
+    /**
+     * @var string
+     */
+    private $commentaire;
+
 
     /**
      * Get id
@@ -580,5 +585,29 @@ class Folder
     public function getAccepted()
     {
         return $this->accepted;
+    }
+
+
+    /**
+     * Set commentaire
+     *
+     * @param string $commentaire
+     * @return Folder
+     */
+    public function setCommentaire($commentaire)
+    {
+        $this->commentaire = $commentaire;
+
+        return $this;
+    }
+
+    /**
+     * Get commentaire
+     *
+     * @return string
+     */
+    public function getCommentaire()
+    {
+        return $this->commentaire;
     }
 }

@@ -65,6 +65,8 @@ ViewerBundle\Entity\Folder:
         accepted:
             type: boolean
             nullable: true
+        commentaire:
+            type: text
 
 
     lifecycleCallbacks: {  }
