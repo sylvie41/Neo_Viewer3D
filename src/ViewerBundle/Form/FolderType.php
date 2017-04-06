@@ -15,6 +15,7 @@ class FolderType extends AbstractType
     {
         $builder->add('ref')
             ->add('nom')
+            ->add('commentaire')
             ->add('nbGtS')
             ->add('nbGtI')
             ->add('estimationTraitement');

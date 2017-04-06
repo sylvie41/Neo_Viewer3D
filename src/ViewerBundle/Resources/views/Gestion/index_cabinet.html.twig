@@ -11,6 +11,7 @@
             <tr class="categorie">
                 <th class="text-center">Référence Patient</th>
                 <th class="text-center">Nom Patient</th>
+                <th class="text-center">Commentaire</th>
                 <th class="text-center">Nombre de gouttières sup.</th>
                 <th class="text-center">Nombre de gouttières inf.</th>
                 <th class="text-center">Durée estimée</th>
@@ -23,6 +24,7 @@
                 <tr>
                     <td>{% if folder.ref is not null %} {{ folder.ref }} {% endif %}</td>
                     <td>{% if folder.nom is not null %} {{ folder.nom }}{% endif %}</td>
+                    <td>{% if folder.commentaire is not null %} {{ folder.commentaire }}{% endif %}</td>
                     <td>{% if folder.nbGtS is not null %} {{ folder.nbGtS }}{% endif %}</td>
                     <td>{% if folder.nbGtI is not null %} {{ folder.nbGtI }}{% endif %}</td>
                     <td>{% if folder.estimationTraitement is not null %} {{ folder.estimationTraitement }} semaines{% endif %}</td>

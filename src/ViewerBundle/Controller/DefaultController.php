@@ -75,6 +75,7 @@ class DefaultController extends Controller
         $nom = $request->query->get('nom');
         $nbrGtS = $request->query->get('nbrGtS');
         $nbrGtI = $request->query->get('nbrGtI');
+        $commentaire = $request->query->get('commentaire');
         $estimation = $request->query->get('estimation');
 
         // create folder
@@ -83,6 +84,7 @@ class DefaultController extends Controller
         $folder->setNom($nom);
         $folder->setNbGtS($nbrGtS);
         $folder->setNbGtI($nbrGtI);
+        $folder->setCommentaire($commentaire);
         $folder->setEstimationTraitement($estimation);
         $folder->setMd5(md5($ref));
 
@@ -129,6 +131,7 @@ class DefaultController extends Controller
         $nom = $request->query->get('nom');
         $nbrGtS = $request->query->get('nbrGtS');
         $nbrGtI = $request->query->get('nbrGtI');
+        $commentaire = $request->query->get('commentaire');
         $estimation = $request->query->get('estimation');
 
         // update folder
@@ -136,6 +139,7 @@ class DefaultController extends Controller
         $folder->setNom($nom);
         $folder->setNbGtS($nbrGtS);
         $folder->setNbGtI($nbrGtI);
+        $folder->setCommentaire($commentaire);
         $folder->setEstimationTraitement($estimation);
         $folder->setMd5(md5($ref.$folder->getId()));
 
@@ -183,6 +187,7 @@ class DefaultController extends Controller
         $nom = $request->query->get('nom');
         $nbrGtS = $request->query->get('nbrGtS');
         $nbrGtI = $request->query->get('nbrGtI');
+        $commentaire = $request->query->get('commentaire');
         $estimation = $request->query->get('estimation');
 
         // update folder
@@ -190,6 +195,7 @@ class DefaultController extends Controller
         $folder->setNom($nom);
         $folder->setNbGtS($nbrGtS);
         $folder->setNbGtI($nbrGtI);
+        $folder->setCommentaire($commentaire);
         $folder->setEstimationTraitement($estimation);
         $folder->setMd5(md5($ref.$folder->getId()));
 
@@ -238,6 +244,7 @@ class DefaultController extends Controller
         $nom = $request->query->get('nom');
         $nbrGtS = $request->query->get('nbrGtS');
         $nbrGtI = $request->query->get('nbrGtI');
+        $commentaire = $request->query->get('commentaire');
         $estimation = $request->query->get('estimation');
 
         // update folder
@@ -245,6 +252,7 @@ class DefaultController extends Controller
         $folder->setNom($nom);
         $folder->setNbGtS($nbrGtS);
         $folder->setNbGtI($nbrGtI);
+        $folder->setCommentaire($commentaire);
         $folder->setEstimationTraitement($estimation);
         $folder->setMd5(md5($ref.$folder->getId()));
 

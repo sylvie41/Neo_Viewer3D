@@ -3,40 +3,56 @@
 {% block navbar %}
 {% endblock %}
 {% block body %}
-    <div class="loader"><img style="width:100px" class="text-center img center-block img-responsive" src="{{ asset('bundles/viewer/img/loader.gif') }}"/></div>
+    <div class="loader">
+        <img style="width:100px" class="text-center img center-block img-responsive" src="{{ asset('bundles/viewer/img/loader.gif') }}"/>
+    </div>
     <div class="global no-padding col-md-12 col-xs-12 col-lg-12">
         <div class="left-part">
             <div class="col-md-5 col-xs-12 no-padding" id="malloc"></div>
             <div class="col-md-5 col-xs-12 no-padding" id="setup"></div>
             <div class="col-md-10 col-xs-12 no-padding" id="combined"></div>
         </div>
+
+
         <div class="col-md-2 col-xs-12 no-padding" id="infos">
-
-            <h1 class="text-center" style="color: #2980b9"><strong>Infos</strong></h1>
-            <ul class="list-group">
-
+            <h2 class="text-center" style="margin-top: 20px"><a class="titleViewerNoir">INFOS</a><a class="titleViewerBlanc">PATIENT</a> </h2>
+            <ul class="list-group infosBlock">
                 {% if folder.ref != '' %}
-                    <li class="text-center list-group-item">
-                        <b>Ref patient</b><br>
-                        {{ folder.ref }}
+                    <li class="text-center list-group-item infosViewer">
+                        <p class="infosTitleViewer">REF. PATIENT</p>
+                        <p class="infosTextViewer">{{ folder.ref }}</p>
                     </li>
                 {% endif  %}
                 {% if folder.nom != '' %}
-                    <li class="text-center list-group-item">
-                        <b>Nom patient</b><br>
-                        {{ folder.nom }}
+                    <li class="text-center list-group-item infosViewer">
+                        <p class="infosTitleViewer">NOM PATIENT</p>
+                        <p class="infosTextViewer">{{ folder.nom }}</p>
                     </li>
                 {% endif  %}
+                {% if folder.commentaire != '' %}
+                    <li class="text-center list-group-item infosViewer">
+                        <p class="infosTitleViewer">COMMENTAIRE</p>
+                        <p class="infosTextViewer">{{ folder.commentaire }}</p>
+                    </li>
+                {% endif %}
                 {% if folder.nbGtS!= '' %}
-                    <li class="text-center list-group-item">
-                        <b>Gouttières sup. nécéssaires</b><br>
-                        {{ folder.nbGtS }}
+                    <li class="text-center list-group-item infosViewer">
+                        <p class="infosTitleViewer">GOUTTIÈRES SUP. NÉCÉSSAIRES</p>
+                        <p class="infosTextViewer">{{ folder.nbGtS }} gouttière(s)</p>
                     </li>
                 {% endif  %}
-                {% if folder.nbGtI != '' %}<li class="text-center list-group-item"> <b>Gouttières inf. nécéssaires</b><br>
-                    {{ folder.nbGtI }}</li>{% endif  %}
-                {% if folder.estimationTraitement != '' %}<li class="text-center list-group-item"> <b>Temps de traitement estimé</b><br>
-                    {{ folder.estimationTraitement }} Semaines</li>{% endif  %}
+                {% if folder.nbGtI != '' %}
+                    <li class="text-center list-group-item infosViewer">
+                        <p class="infosTitleViewer">GOUTTIÈRES INF. NÉCÉSSAIRES</p>
+                        <p class="infosTextViewer">{{ folder.nbGtI }} gouttière(s)</p>
+                    </li>
+                {% endif  %}
+                {% if folder.estimationTraitement != '' %}
+                    <li class="text-center list-group-item infosViewer">
+                        <p class="infosTitleViewer">TEMPS DE TRAITEMENT ESTIMÉ</p>
+                        <p class="infosTextViewer">{{ folder.estimationTraitement }} Semaines</p>
+                    </li>
+                {% endif  %}
             </ul>
         </div>
         <div class="hud">
@@ -55,11 +71,9 @@
             <form autocomplete="off"><input max="3" min="0" name="choice_view" id="choice_view" type="range" value="2"></form>
         </div>
     </div>
-    </div>
 {% endblock %}
 
 {% block stylesheets %}
-
     <style>
         @media screen and (min-width: 200px) and (max-width: 700px) {
             #setup, #malloc {
@@ -76,7 +90,7 @@
 
         #setup, #malloc, #combined {
             height:100vh;
-            background: linear-gradient(to top, royalblue, white);
+            background: linear-gradient(to top, #2980B9, #31C5F4);
         }
         body {
             overflow: hidden;
