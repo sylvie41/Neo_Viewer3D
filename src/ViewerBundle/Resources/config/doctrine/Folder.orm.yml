@@ -17,19 +17,35 @@ ViewerBundle\Entity\Folder:
             type: string
             length: 255
             nullable: true
-        mallocObj:
+        mallocmandObj:
             type: string
             length: 255
             nullable: true
-        mallocMtl:
+        mallocmaxObj:
             type: string
             length: 255
             nullable: true
-        setupObj:
+        mallocmandMtl:
             type: string
             length: 255
             nullable: true
-        setupMtl:
+        mallocmaxMtl:
+            type: string
+            length: 255
+            nullable: true
+        setupmandObj:
+            type: string
+            length: 255
+            nullable: true
+        setupmaxObj:
+            type: string
+            length: 255
+            nullable: true
+        setupmandMtl:
+            type: string
+            length: 255
+            nullable: true
+        setupmaxMtl:
             type: string
             length: 255
             nullable: true
