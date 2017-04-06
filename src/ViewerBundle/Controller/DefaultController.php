@@ -37,11 +37,11 @@ class DefaultController extends Controller
             $form = $this->createForm('ViewerBundle\Form\FolderType', $folder);
 
 
-            foreach ($folders as $folder) {
+            /*foreach ($folders as $folder) {
                 if ($folder->getSetupObj() == null or $folder->getSetupMtl() == null) {
                     $em->remove($folder);
                 }
-            }
+            }*/
             $em->flush();
             $this->runCommand('oneup:uploader:clear-orphans');
             return $this->render('ViewerBundle:Default:index.html.twig', array(
@@ -101,12 +101,12 @@ class DefaultController extends Controller
         foreach ($files as $file) {
 
             // rename file
-            $newFileName = $folderId.'-malloc-'.$ref.'.'.$file->getExtension();
+            $newFileName = $folderId.'-mallocmand-'.$ref.'.'.$file->getExtension();
             $fs->rename($file->getRealPath(), $file->getPath().'/'.$newFileName);
             if ($file->getExtension() == 'obj') {
-                $folder->setMallocObj($newFileName);
+                $folder->setMallocmandObj($newFileName);
             } elseif ($file->getExtension() == 'mtl') {
-                $folder->setMallocMtl($newFileName);
+                $folder->setMallocmandMtl($newFileName);
             }
 
         }
@@ -120,6 +120,7 @@ class DefaultController extends Controller
 
         return $response;
     }
+
     public function send2Action(Request $request, Folder $folder)
     {
         $em = $this->getDoctrine()->getManager();
@@ -153,12 +154,12 @@ class DefaultController extends Controller
         foreach ($files as $file) {
 
             // rename file
-            $newFileName = $folderId.'-setup-'.$ref.'.'.$file->getExtension();
+            $newFileName = $folderId.'-setupmand-'.$ref.'.'.$file->getExtension();
             $fs->rename($file->getRealPath(), $file->getPath().'/'.$newFileName);
             if ($file->getExtension() == 'obj') {
-                $folder->setSetupObj($newFileName);
+                $folder->setSetupmandObj($newFileName);
             } elseif ($file->getExtension() == 'mtl') {
-                $folder->setSetupMtl($newFileName);
+                $folder->setSetupmandMtl($newFileName);
             }
 
         }
@@ -168,6 +169,116 @@ class DefaultController extends Controller
         $response = new JsonResponse();
         $response->setData(array(
             'md5' => $folder->getMd5(),
+            'folderId' => $folder->getId(),
+        ));
+
+        return $response;
+    }
+
+    public function send3Action(Request $request, Folder $folder)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $ref = $request->query->get('ref');
+        $nom = $request->query->get('nom');
+        $nbrGtS = $request->query->get('nbrGtS');
+        $nbrGtI = $request->query->get('nbrGtI');
+        $estimation = $request->query->get('estimation');
+
+        // update folder
+        $folder->setRef($ref);
+        $folder->setNom($nom);
+        $folder->setNbGtS($nbrGtS);
+        $folder->setNbGtI($nbrGtI);
+        $folder->setEstimationTraitement($estimation);
+        $folder->setMd5(md5($ref.$folder->getId()));
+
+        $em->persist($folder);
+        $em->flush();
+
+        $folderId = $folder->getId();
+        $fs = new Filesystem();
+
+        // get files
+        $manager = $this->get('oneup_uploader.orphanage_manager')->get('documents');
+        $files = $manager->getFiles();
+        // upload orphanaged files
+        $files = $manager->uploadFiles();
+
+        foreach ($files as $file) {
+
+            // rename file
+            $newFileName = $folderId.'-mallocmax-'.$ref.'.'.$file->getExtension();
+            $fs->rename($file->getRealPath(), $file->getPath().'/'.$newFileName);
+            if ($file->getExtension() == 'obj') {
+                $folder->setMallocmaxObj($newFileName);
+            } elseif ($file->getExtension() == 'mtl') {
+                $folder->setMallocmaxMtl($newFileName);
+            }
+
+        }
+        $em->persist($folder);
+        $em->flush();
+
+        $response = new JsonResponse();
+        $response->setData(array(
+            'md5' => $folder->getMd5(),
+            'folderId' => $folder->getId(),
+        ));
+
+        return $response;
+    }
+
+
+    public function send4Action(Request $request, Folder $folder)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $ref = $request->query->get('ref');
+        $nom = $request->query->get('nom');
+        $nbrGtS = $request->query->get('nbrGtS');
+        $nbrGtI = $request->query->get('nbrGtI');
+        $estimation = $request->query->get('estimation');
+
+        // update folder
+        $folder->setRef($ref);
+        $folder->setNom($nom);
+        $folder->setNbGtS($nbrGtS);
+        $folder->setNbGtI($nbrGtI);
+        $folder->setEstimationTraitement($estimation);
+        $folder->setMd5(md5($ref.$folder->getId()));
+
+        $em->persist($folder);
+        $em->flush();
+
+        $folderId = $folder->getId();
+        $fs = new Filesystem();
+
+        // get files
+        $manager = $this->get('oneup_uploader.orphanage_manager')->get('documents');
+        $files = $manager->getFiles();
+        // upload orphanaged files
+        $files = $manager->uploadFiles();
+
+        foreach ($files as $file) {
+
+            // rename file
+            $newFileName = $folderId.'-setupmax-'.$ref.'.'.$file->getExtension();
+            $fs->rename($file->getRealPath(), $file->getPath().'/'.$newFileName);
+            if ($file->getExtension() == 'obj') {
+                $folder->setSetupmaxObj($newFileName);
+            } elseif ($file->getExtension() == 'mtl') {
+                $folder->setSetupmaxMtl($newFileName);
+            }
+
+        }
+        $em->persist($folder);
+        $em->flush();
+
+        $response = new JsonResponse();
+        $response->setData(array(
+            'md5' => $folder->getMd5(),
+            'folderId' => $folder->getId(),
         ));
 
         return $response;
