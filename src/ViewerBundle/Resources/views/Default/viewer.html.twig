@@ -56,15 +56,15 @@
             </ul>
         </div>
         <div class="hud">
-            <div class="container" style="margin-left: 20px">
-                <img class="btn-hud" id="right" style="height:51px; margin-left: 40px; margin-right:-4px; margin-top:21px;" src="{{ asset('bundles/viewer/img/coteA.png') }}">
-                <img class="btn-hud" id="face" style="height:50px; margin-right:-4px; margin-top:20px;" src="{{ asset('bundles/viewer/img/face.png') }}">
-                <img class="btn-hud" id="left" style="height:51px; margin-top:21px;" src="{{ asset('bundles/viewer/img/coteB.png') }}">
+            <div class="container faces">
+                <img class="btn-hud left" id="left" src="{{ asset('bundles/viewer/img/coteA.png') }}">
+                <img class="btn-hud face" id="face" src="{{ asset('bundles/viewer/img/face.png') }}">
+                <img class="btn-hud right" id="right" src="{{ asset('bundles/viewer/img/coteB.png') }}">
             </div>
-            <div style="margin-left: 20px">
-                <img class="btn-hud" id="max" style="width:50px; margin-top:5px;" src="{{ asset('bundles/viewer/img/sup.png') }}"/>
-                <img class="btn-hud" id="double" style="width:50px; margin-top:-4px;" src="{{ asset('bundles/viewer/img/double.png') }}"/>
-                <img class="btn-hud" id="mand" style="width:50px; margin-top:-4px;" src="{{ asset('bundles/viewer/img/inf.png') }}"/>
+            <div class="maxMand">
+                <img class="btn-hud max" id="max" src="{{ asset('bundles/viewer/img/sup.png') }}"/>
+                <img class="btn-hud double" id="double" src="{{ asset('bundles/viewer/img/double.png') }}"/>
+                <img class="btn-hud mand" id="mand" src="{{ asset('bundles/viewer/img/inf.png') }}"/>
             </div>
         </div>
         <div class="hud2">
@@ -86,6 +86,7 @@
 
         .global{
             background-color: #fff;
+            position: relative;
         }
 
         #setup, #malloc, #combined {

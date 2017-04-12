@@ -235,3 +235,63 @@ body{
     background-color:  #178A58;
 }
 
+/*---------*/
+
+.faces{
+    position: fixed;
+    left:20px;
+    bottom:30px;
+}
+
+.left{
+    height:55px;
+    margin-left:40px;
+    margin-right:-5px;
+    margin-top:21px;
+}
+
+.face{
+    height:55px;
+    margin-right:-5px;
+    margin-top:20px;
+}
+
+.right{
+    height:55px;
+    margin-top:21px;
+}
+
+/*---------*/
+
+.max{
+    position: fixed;
+    width:50px;
+    bottom:166px;
+    left:20px;
+}
+
+.double{
+    position: fixed;
+    width:50px;
+    bottom:129px;
+    left:20px;
+}
+
+.mand{
+    position: fixed;
+    width:50px;
+    bottom:90px;
+    left:20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
