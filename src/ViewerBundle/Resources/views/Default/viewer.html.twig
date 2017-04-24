@@ -146,6 +146,7 @@
     <script src="{{ asset('bundles/viewer/js/OrbitControls.js') }}"></script>
     <script src="{{ asset('bundles/viewer/js/OBJLoader.js') }}"></script>
     <script src="{{ asset('bundles/viewer/js/MTLLoader.js') }}"></script>
+    <script src="{{ asset('bundles/viewer/js/COLLADALoader.js') }}"></script>
 
     <script>
 
@@ -264,6 +265,7 @@
                 });
             }, onProgress, onError);
 
+
             mtlLoader.load('{{ folder.setupmaxMtl }}', function (materials) {
                 var objLoader = new THREE.OBJLoader();
                 objLoader.setMaterials(materials);
@@ -296,6 +298,20 @@
                     scene2.add(object);
                 }, onProgress, onError);
             });
+
+            var colladaLoader = new THREE.ColladaLoader(manager);
+            colladaLoader.setBaseUrl('../../uploads/documents/');
+            colladaLoader.setPath('../../uploads/documents/');
+            colladaLoader.load('{{ folder.mallocmandMtl }}', function ( collada ) {
+                    scene.add( collada.scene );
+                }),
+                objLoader.load('{{ folder.mallocmaxObj }}', function ( xhr ) {
+                    console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
+                }), onProgress, onError;
+
+
+
+
             /* Renderer */
 
             // Display des malloc //
